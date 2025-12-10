@@ -114,9 +114,34 @@
     }
 
     section {
-      padding: 100px 20px;
+      padding: 60px 20px;
       min-height: 100vh;
       height: auto; /* allow growing past 100vh */
+    }
+    
+    @media (min-width: 640px) {
+      section {
+        padding: 80px 20px;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      section {
+        padding: 100px 20px;
+      }
+    }
+    
+    /* Mobile Menu Animation */
+    #mobileMenuBtn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    #mobileMenuBtn.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    #mobileMenuBtn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
     }
 
 
@@ -169,15 +194,15 @@
 
   <!-- Navbar -->
   <nav class="fixed top-0 w-full z-50 glass-effect">
-    <div class="max-w-7xl mx-auto px-6 py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
       <div class="flex items-center justify-between">
         <!-- Logo -->
         <div class="flex items-center space-x-3">
-          <div class="w-20 h-10 p-1 overflow-hidden">
+          <div class="w-16 h-8 sm:w-20 sm:h-10 p-1 overflow-hidden">
             <img src="Logo.png" alt="JK Logo" class="w-full h-full object-contain"/>
           </div>
         </div>
-        <!-- Menu -->
+        <!-- Desktop Menu -->
         <ul class="hidden md:flex space-x-8 text-gray-300 font-medium">
           <li><a href="#home" class="nav-item hover:text-white transition-colors pb-1">Home</a></li>
           <li><a href="#about" class="nav-item hover:text-white transition-colors pb-1">About</a></li>
@@ -186,36 +211,53 @@
           <li><a href="#certifications" class="nav-item hover:text-white transition-colors pb-1">Certifications</a></li>
           <li><a href="#contact" class="nav-item hover:text-white transition-colors pb-1">Contact</a></li>
         </ul>
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden w-10 h-10 flex flex-col items-center justify-center space-y-1.5 text-gray-300 hover:text-white transition-colors">
+          <span class="block w-6 h-0.5 bg-current transition-all duration-300"></span>
+          <span class="block w-6 h-0.5 bg-current transition-all duration-300"></span>
+          <span class="block w-6 h-0.5 bg-current transition-all duration-300"></span>
+        </button>
+      </div>
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+        <ul class="flex flex-col space-y-4 text-gray-300 font-medium">
+          <li><a href="#home" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Home</a></li>
+          <li><a href="#about" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">About</a></li>
+          <li><a href="#projects" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Projects</a></li>
+          <li><a href="#skills" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Skills</a></li>
+          <li><a href="#certifications" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Certifications</a></li>
+          <li><a href="#contact" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Contact</a></li>
+        </ul>
       </div>
     </div>
   </nav>
 
   <!-- Main Content -->
-  <main class="min-h-screen flex items-center justify-center pt-20">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-16">
+  <main class="min-h-screen flex items-center justify-center pt-16 sm:pt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-8 sm:gap-16">
       <!-- Left Section -->
-      <section class="flex-1 text-center lg:text-left" id="home">
-        <div class="mb-8">
-          <p class="text-lg text-purple-400 font-medium mb-4">Hello, I'm</p>
-          <h1 class="text-6xl lg:text-8xl font-black leading-none mb-6">
+      <section class="flex-1 text-center lg:text-left w-full" id="home">
+        <div class="mb-6 sm:mb-8">
+          <p class="text-base sm:text-lg text-purple-400 font-medium mb-3 sm:mb-4">Hello, I'm</p>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-tight sm:leading-none mb-4 sm:mb-6">
             <span class="text-gradient">Japhet</span><br>
             <span class="text-white typing-animation">Kundiman</span>
           </h1>
-          <div class="text-xl lg:text-2xl font-light text-gray-400 mb-2">
+          <div class="text-lg sm:text-xl lg:text-2xl font-light text-gray-400 mb-2">
             <span id="typed-text">IT Student & Developer</span>
           </div>
         </div>
         
-        <p class="text-gray-400 text-lg leading-relaxed mb-12 max-w-xl">
+        <p class="text-gray-400 text-base sm:text-lg leading-relaxed mb-8 sm:mb-12 max-w-xl mx-auto lg:mx-0">
           Passionate about crafting digital experiences through code. I transform ideas into reality using cutting-edge technologies, with a focus on innovation and user-centric design.
         </p>
         
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 mb-12">
-          <button class="px-8 py-4 gradient-bg rounded-full font-semibold hover-lift glow-effect">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12">
+          <button onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})" class="px-6 sm:px-8 py-3 sm:py-4 gradient-bg rounded-full font-semibold hover-lift glow-effect text-sm sm:text-base">
             View My Work
           </button>
-          <button onclick="downloadResume()" class="px-8 py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all">
+          <button onclick="downloadResume()" class="px-6 sm:px-8 py-3 sm:py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all text-sm sm:text-base">
             Download Resume
           </button>
         </div>
@@ -251,31 +293,33 @@
       </section>
       
       <!-- Right Section -->
-      <section class="flex-1 relative">
+      <section class="flex-1 relative w-full mt-8 lg:mt-0">
         <div class="relative">
-          <!-- Orbiting Skills -->
-          <div class="skill-orb w-20 h-20" style="animation-delay: 0s;">
-            <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-sm font-semibold">
-              JS
+          <!-- Orbiting Skills - Hidden on mobile for better performance -->
+          <div class="hidden sm:block">
+            <div class="skill-orb w-20 h-20" style="animation-delay: 0s;">
+              <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-sm font-semibold">
+                JS
+              </div>
             </div>
-          </div>
-          <div class="skill-orb w-16 h-16" style="animation-delay: 5s; animation-duration: 15s;">
-            <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-xs font-semibold">
-              HTML
+            <div class="skill-orb w-16 h-16" style="animation-delay: 5s; animation-duration: 15s;">
+              <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-xs font-semibold">
+                HTML
+              </div>
             </div>
-          </div>
-          <div class="skill-orb w-12 h-12" style="animation-delay: 10s; animation-duration: 25s;">
-            <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-xs font-semibold">
-              CSS
+            <div class="skill-orb w-12 h-12" style="animation-delay: 10s; animation-duration: 25s;">
+              <div class="w-full h-full glass-effect rounded-full flex items-center justify-center text-xs font-semibold">
+                CSS
+              </div>
             </div>
           </div>
           
           <!-- Main Profile Card -->
-          <div class="relative bg-gradient-to-br from-purple-600/20 to-blue-600/20 p-8 rounded-3xl glass-effect hover-lift floating-animation glow-effect max-w-md mx-auto">
+          <div class="relative bg-gradient-to-br from-purple-600/20 to-blue-600/20 p-6 sm:p-8 rounded-2xl sm:rounded-3xl glass-effect hover-lift floating-animation glow-effect max-w-md mx-auto">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-blue-600/10 rounded-3xl"></div>
             <div class="relative z-10">
               <!-- Profile Image -->
-              <div class="w-48 h-60 mx-auto mb-6 rounded-2xl overflow-hidden relative group">
+              <div class="w-40 h-52 sm:w-48 sm:h-60 mx-auto mb-4 sm:mb-6 rounded-xl sm:rounded-2xl overflow-hidden relative group">
                 <div class="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 <img 
                   src="Profile.JPG" 
@@ -294,17 +338,17 @@
               </div>
               
               <!-- Stats -->
-              <div class="grid grid-cols-3 gap-4 text-center">
-                <div class="glass-effect rounded-xl p-3">
-                  <div class="text-2xl font-bold text-gradient">3</div>
+              <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+                <div class="glass-effect rounded-lg sm:rounded-xl p-2 sm:p-3">
+                  <div class="text-xl sm:text-2xl font-bold text-gradient">3</div>
                   <div class="text-xs text-gray-400">Projects</div>
                 </div>
-                <div class="glass-effect rounded-xl p-3">
-                  <div class="text-2xl font-bold text-gradient">4</div>
+                <div class="glass-effect rounded-lg sm:rounded-xl p-2 sm:p-3">
+                  <div class="text-xl sm:text-2xl font-bold text-gradient">4</div>
                   <div class="text-xs text-gray-400">Years Exp</div>
                 </div>
-                <div class="glass-effect rounded-xl p-3">
-                  <div class="text-2xl font-bold text-gradient">14</div>
+                <div class="glass-effect rounded-lg sm:rounded-xl p-2 sm:p-3">
+                  <div class="text-xl sm:text-2xl font-bold text-gradient">14</div>
                   <div class="text-xs text-gray-400">IT Certificates</div>
                 </div>
               </div>
@@ -324,15 +368,15 @@
       <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="max-w-7xl mx-auto relative z-10">
+    <div class="max-w-7xl mx-auto relative z-10 px-4 sm:px-6">
       <!-- Section Header -->
-      <div class="text-center mb-20">
-        <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-6 py-2 mb-6 border border-white/10">
+      <div class="text-center mb-12 sm:mb-16 lg:mb-20">
+        <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6 border border-white/10">
           <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
-          <span class="text-sm text-gray-300">About Me</span>
+          <span class="text-xs sm:text-sm text-gray-300">About Me</span>
         </div>
-        <h2 class="text-6xl font-bold text-gradient mb-6">My Story</h2>
-        <p class="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">My Story</h2>
+        <p class="text-gray-400 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed px-4">
           A passionate IT student and developer on a mission to create meaningful digital experiences through innovative technology solutions
         </p>
       </div>
@@ -575,10 +619,10 @@
     </div>
   </section>
   <!-- Projects Section -->
-  <section id="projects" class="py-20 bg-gray-900 text-white">
-    <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-12 text-center">Projects</h2>
-      <div class="grid md:grid-cols-3 gap-8">
+  <section id="projects" class="py-12 sm:py-16 lg:py-20 bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center">Projects</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 
         <!-- Project Card 1 -->
         <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
@@ -616,8 +660,8 @@
 
   <!-- Video Modals -->
   <!-- UM Org Connect Video Modal -->
-  <div id="umOrgVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-    <div class="relative max-w-4xl w-full mx-4">
+  <div id="umOrgVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="relative max-w-4xl w-full mx-auto my-4">
       <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-3xl blur-2xl"></div>
       <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
         <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 p-6 border-b border-white/10">
@@ -640,8 +684,8 @@
             </button>
           </div>
         </div>
-        <div class="p-6">
-          <div class="aspect-video bg-gray-900 rounded-xl overflow-hidden">
+        <div class="p-4 sm:p-6">
+          <div class="aspect-video bg-gray-900 rounded-lg sm:rounded-xl overflow-hidden">
             <video controls class="w-full h-full" poster="UmOrg.png">
               <source src="umorg-demo.mp4" type="video/mp4">
               <source src="umorg-demo.webm" type="video/webm">
@@ -654,8 +698,8 @@
   </div>
 
   <!-- Attendify Video Modal -->
-  <div id="attendifyVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-    <div class="relative max-w-4xl w-full mx-4">
+  <div id="attendifyVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="relative max-w-4xl w-full mx-auto my-4">
       <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-3xl blur-2xl"></div>
       <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
         <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 border-b border-white/10">
@@ -692,8 +736,8 @@
   </div>
 
   <!-- NCIP-EAP Video Modal -->
-  <div id="ncipVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-    <div class="relative max-w-4xl w-full mx-4">
+  <div id="ncipVideo" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+    <div class="relative max-w-4xl w-full mx-auto my-4">
       <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl blur-2xl"></div>
       <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
         <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-6 border-b border-white/10">
@@ -737,30 +781,30 @@
       <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
     </div>
     
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
       <!-- Section Header -->
-      <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold text-gradient mb-4">Technical Skills</h2>
-        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+      <div class="text-center mb-12 sm:mb-16">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gradient mb-4">Technical Skills</h2>
+        <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto px-4">
           A comprehensive overview of my technical expertise and the tools I use to bring ideas to life
         </p>
       </div>
 
       <!-- Skills Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         
         <!-- Frontend Skills -->
         <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-          <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
-            <div class="mb-6">
-              <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center">
-                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="relative bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
+            <div class="mb-4 sm:mb-6">
+              <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
             </div>
-            <h3 class="text-2xl font-bold text-white mb-4">Frontend Development</h3>
+            <h3 class="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">Frontend Development</h3>
             <div class="space-y-3">
               <div class="text-gray-300">HTML5 / CSS3</div>
               <div class="text-gray-300">JavaScript</div>
@@ -874,8 +918,8 @@
     </div>
   </section>
   <!-- Modal Template -->
-  <div id="frontendModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-    <div class="bg-gray-900 rounded-2xl shadow-lg p-8 w-96 relative">
+  <div id="frontendModal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+    <div class="bg-gray-900 rounded-2xl shadow-lg p-6 sm:p-8 w-full max-w-sm sm:max-w-md relative">
       <button onclick="closeModal('frontendModal')" class="absolute top-3 right-3 text-gray-400 hover:text-white">✖</button>
       <h3 class="text-2xl font-bold mb-6 text-blue-400">Frontend Skills</h3>
       <!-- Progress Bars -->
@@ -1024,25 +1068,25 @@
           <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
           <span class="text-sm text-gray-300">Achievements</span>
         </div>
-        <h2 class="text-6xl font-bold text-gradient mb-6">Certifications & Badges</h2>
-        <p class="text-gray-400 text-xl max-w-3xl mx-auto leading-relaxed">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">Certifications & Badges</h2>
+        <p class="text-gray-400 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed px-4">
           Professional certifications and achievements that validate my expertise and commitment to continuous learning
         </p>
       </div>
 
       <!-- Organization Cards Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
         
         <!-- Cisco Academy -->
         <div onclick="openModal('ciscoModal')" class="group cursor-pointer relative">
           <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-          <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
+          <div class="relative bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
             <div class="text-center">
-              <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <img src="cisco.png" alt="Cisco Academy" class="w-16 h-16 object-contain">
+              <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl sm:rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <img src="cisco.png" alt="Cisco Academy" class="w-12 h-12 sm:w-16 sm:h-16 object-contain">
               </div>
-              <h3 class="text-2xl font-bold text-white mb-2">Cisco Academy</h3>
-              <p class="text-blue-400 text-sm mb-4">3 Certifications / 3 Badges</p>
+              <h3 class="text-xl sm:text-2xl font-bold text-white mb-2">Cisco Academy</h3>
+              <p class="text-blue-400 text-xs sm:text-sm mb-4">3 Certifications / 3 Badges</p>
               <div class="flex items-center justify-center gap-2 text-blue-400 group-hover:text-white transition-colors">
                 <span class="text-sm font-medium">View Certificates</span>
                 <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1152,8 +1196,8 @@
   </section>
 
 <!-- Cisco Modal -->
-<div id="ciscoModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-  <div class="relative max-w-6xl w-full mx-4">
+  <div id="ciscoModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+  <div class="relative max-w-6xl w-full mx-auto my-4">
     <!-- Background Blur Effect -->
     <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 rounded-3xl blur-2xl"></div>
     
@@ -1308,8 +1352,8 @@
 </div>
 
 <!-- Coursebank Modal -->
-<div id="coursebankModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-  <div class="relative max-w-6xl w-full mx-4">
+<div id="coursebankModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+  <div class="relative max-w-6xl w-full mx-auto my-4">
     <!-- Background Blur Effect -->
     <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-3xl blur-2xl"></div>
     
@@ -1336,8 +1380,8 @@
       </div>
 
       <!-- Certificate Grid -->
-      <div class="p-8">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="p-4 sm:p-6 lg:p-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <!-- Certificate 1 -->
           <div onclick="viewCertificate('2.png')" class="group cursor-pointer relative">
             <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -1404,8 +1448,8 @@
 </div>
 
 <!-- Coursera Modal -->
-<div id="courseraModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-  <div class="relative max-w-6xl w-full mx-4">
+<div id="courseraModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+  <div class="relative max-w-6xl w-full mx-auto my-4">
     <!-- Background Blur Effect -->
     <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-3xl blur-2xl"></div>
     
@@ -1432,8 +1476,8 @@
       </div>
 
       <!-- Certificate Grid -->
-      <div class="p-8">
-        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="p-4 sm:p-6 lg:p-8">
+        <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
           <!-- Certificate 1 -->
           <div onclick="viewCertificate('5.png')" class="group cursor-pointer relative">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -1480,8 +1524,8 @@
 </div>
 
 <!-- Tesda Modal -->
-<div id="tesdaModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-  <div class="relative max-w-6xl w-full mx-4">
+<div id="tesdaModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+  <div class="relative max-w-6xl w-full mx-auto my-4">
     <!-- Background Blur Effect -->
     <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 rounded-3xl blur-2xl"></div>
     
@@ -1508,8 +1552,8 @@
       </div>
 
       <!-- Certificate Grid -->
-      <div class="p-8">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="p-4 sm:p-6 lg:p-8">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <!-- Certificate 1 -->
           <div onclick="viewCertificate('9.png')" class="group cursor-pointer relative">
             <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -1616,8 +1660,8 @@
 </div>
 
 <!-- Great Learning Modal -->
-<div id="greatLearningModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm">
-  <div class="relative max-w-6xl w-full mx-4">
+<div id="greatLearningModal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 backdrop-blur-sm p-4 overflow-y-auto">
+  <div class="relative max-w-6xl w-full mx-auto my-4">
     <!-- Background Blur Effect -->
     <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 rounded-3xl blur-2xl"></div>
     
@@ -1644,7 +1688,7 @@
       </div>
 
       <!-- Certificate Grid -->
-      <div class="p-8">
+      <div class="p-4 sm:p-6 lg:p-8">
         <div class="flex justify-center">
           <div class="max-w-md w-full">
             <!-- Certificate -->
@@ -1674,32 +1718,32 @@
 </div>
 
 <!-- Full View Certificate Modal -->
-<div id="certificateView" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[60]">
-  <button onclick="closeModal('certificateView')" class="absolute top-6 right-6 text-white text-3xl">&times;</button>
-  <img id="certificateImg" src="" class="max-w-4xl max-h-[90vh] rounded-lg shadow-lg">
+<div id="certificateView" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[60] p-4">
+  <button onclick="closeModal('certificateView')" class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white text-2xl sm:text-3xl z-10">&times;</button>
+  <img id="certificateImg" src="" class="max-w-full sm:max-w-4xl max-h-[90vh] rounded-lg shadow-lg object-contain">
 </div>
 
 <!-- Contact Section -->
 <section id="contact" class="py-20 bg-gradient-to-b from-gray-900 to-black text-white">
-  <div class="max-w-6xl mx-auto px-6 text-center">
-    <h2 class="text-4xl font-bold mb-10">Get in Touch</h2>
-    <p class="text-lg text-gray-300 mb-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-10">Get in Touch</h2>
+    <p class="text-base sm:text-lg text-gray-300 mb-8 sm:mb-12 px-4">
       Have a project in mind, want to collaborate, or just say hi?  
       Fill out the form below or connect with me on socials.
     </p>
 
     <!-- Contact Form -->
-    <form id="contactForm" onsubmit="handleContactForm(event)" class="max-w-3xl mx-auto grid gap-6">
-      <div class="grid md:grid-cols-2 gap-6">
+    <form id="contactForm" onsubmit="handleContactForm(event)" class="max-w-3xl mx-auto grid gap-4 sm:gap-6">
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
         <input type="text" id="contactName" name="name" placeholder="Your Name" required
-          class="p-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base">
         <input type="email" id="contactEmail" name="email" placeholder="Your Email" required
-          class="p-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base">
       </div>
       <textarea id="contactMessage" name="message" rows="5" placeholder="Your Message" required
-        class="p-4 rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+        class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base resize-none"></textarea>
       <button type="submit"
-        class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 transition rounded-xl font-semibold">
+        class="w-full py-3 sm:py-4 bg-indigo-600 hover:bg-indigo-700 transition rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base">
         Send Message
       </button>
     </form>
@@ -1731,8 +1775,8 @@
     <div class="absolute top-0 left-0 w-full h-full" style="background-image: radial-gradient(circle at 25% 25%, #667eea 0%, transparent 50%), radial-gradient(circle at 75% 75%, #764ba2 0%, transparent 50%);"></div>
   </div>
   
-  <div class="max-w-7xl mx-auto px-6 relative z-10">
-    <div class="grid md:grid-cols-4 gap-8 mb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6 sm:mb-8">
       <!-- Brand Section -->
       <div class="md:col-span-2">
         <div class="flex items-center space-x-3 mb-4">
@@ -1912,6 +1956,26 @@
         video.currentTime = 0;
       });
     }
+    
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      menu.classList.toggle('hidden');
+      btn.classList.toggle('active');
+    }
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('mobileMenu');
+      const btn = document.getElementById('mobileMenuBtn');
+      const nav = document.querySelector('nav');
+      
+      if (!nav.contains(event.target) && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+        btn.classList.remove('active');
+      }
+    });
     
     // Download Resume Function
     function downloadResume() {
