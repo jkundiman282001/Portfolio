@@ -147,7 +147,7 @@
 
   </style>
 </head>
-<body class="min-h-screen bg-gray-950 text-white relative">
+  <body class="min-h-screen bg-gray-950 text-white relative">
   <!-- Animated Background Particles -->
   <div class="fixed inset-0 pointer-events-none">
     <div class="particle w-2 h-2" style="left: 10%; animation-delay: 0s; animation-duration: 20s;"></div>
@@ -743,227 +743,102 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         
         <!-- Frontend Skills -->
-        <div onclick="openModal('frontendModal')" class="group cursor-pointer relative">
+        <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-blue-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-blue-400">90%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Frontend Development</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">HTML5 / CSS3</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-full h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">JavaScript</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">React</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-3/5 h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-blue-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">View Details</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">HTML5 / CSS3</div>
+              <div class="text-gray-300">JavaScript</div>
+              <div class="text-gray-300">React</div>
             </div>
           </div>
         </div>
 
         <!-- Backend Skills -->
-        <div onclick="openModal('backendModal')" class="group cursor-pointer relative">
+        <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-green-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-green-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-green-400">85%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Backend Development</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">PHP</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-5/6 h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Laravel</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-3/5 h-full bg-gradient-to-r from-red-500 to-pink-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">REST APIs</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-green-300 to-emerald-400 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-green-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">View Details</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">PHP</div>
+              <div class="text-gray-300">Laravel</div>
+              <div class="text-gray-300">REST APIs</div>
             </div>
           </div>
         </div>
 
         <!-- Database Skills -->
-        <div onclick="openModal('databaseModal')" class="group cursor-pointer relative">
+        <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-yellow-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-yellow-400">80%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Database Management</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">MySQL</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-5/6 h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">phpMyAdmin</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Database Design</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-3/4 h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-yellow-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">View Details</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">MySQL</div>
+              <div class="text-gray-300">phpMyAdmin</div>
+              <div class="text-gray-300">Database Design</div>
             </div>
           </div>
         </div>
 
         <!-- Mobile Development -->
-        <div onclick="openModal('mobileModal')" class="group cursor-pointer relative">
+        <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-red-500/20 to-pink-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-red-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-red-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-red-400">75%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Mobile Development</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Android (Java/Kotlin)</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-5/6 h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Flutter</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Unity</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-3/4 h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-red-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">View Details</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">Android (Java/Kotlin)</div>
+              <div class="text-gray-300">Flutter</div>
+              <div class="text-gray-300">Unity</div>
             </div>
           </div>
         </div>
 
         <!-- Tools & Technologies -->
-        <div onclick="openModal('toolsModal')" class="group cursor-pointer relative">
+        <div class="group relative">
           <div class="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-purple-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-purple-400">85%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Tools & Technologies</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Git & GitHub</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-5/6 h-full bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Figma</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">VS Code</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-3/4 h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-purple-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">View Details</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">Git & GitHub</div>
+              <div class="text-gray-300">Figma</div>
+              <div class="text-gray-300">VS Code</div>
             </div>
           </div>
         </div>
@@ -972,43 +847,18 @@
         <div class="group cursor-pointer relative">
           <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
           <div class="relative bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyan-500/20">
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6">
               <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-2xl flex items-center justify-center">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
               </div>
-              <div class="text-right">
-                <div class="text-2xl font-bold text-cyan-400">90%</div>
-                <div class="text-sm text-gray-400">Proficiency</div>
-              </div>
             </div>
             <h3 class="text-2xl font-bold text-white mb-4">Soft Skills</h3>
             <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Problem Solving</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-full h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Team Collaboration</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-5/6 h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"></div>
-                </div>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-gray-300">Continuous Learning</span>
-                <div class="w-16 h-2 bg-gray-700 rounded-full">
-                  <div class="w-4/5 h-full bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"></div>
-                </div>
-              </div>
-            </div>
-            <div class="mt-6 flex items-center text-cyan-400 group-hover:text-white transition-colors">
-              <span class="text-sm font-medium">Always Improving</span>
-              <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
+              <div class="text-gray-300">Problem Solving</div>
+              <div class="text-gray-300">Team Collaboration</div>
+              <div class="text-gray-300">Continuous Learning</div>
             </div>
           </div>
         </div>
