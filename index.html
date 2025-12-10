@@ -208,7 +208,7 @@
           <button class="px-8 py-4 gradient-bg rounded-full font-semibold hover-lift glow-effect">
             View My Work
           </button>
-          <button class="px-8 py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all">
+          <button onclick="downloadResume()" class="px-8 py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all">
             Download Resume
           </button>
         </div>
@@ -1922,5 +1922,19 @@
         video.pause();
         video.currentTime = 0;
       });
+    }
+    
+    // Download Resume Function
+    function downloadResume() {
+      // Create a temporary anchor element
+      const link = document.createElement('a');
+      // Set the href to your resume file path (update this to your actual resume filename)
+      link.href = 'CAED Resume Intern.pdf'; // Change 'resume.pdf' to your actual resume filename
+      // Set the download attribute with the desired filename
+      link.download = 'Japhet_Kundiman_Resume.pdf'; // Change this to your desired download filename
+      // Append to body, click, and remove
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   </script>
