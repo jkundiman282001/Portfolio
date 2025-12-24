@@ -13,9 +13,13 @@
       box-sizing: border-box;
     }
     
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
       font-family: 'Inter', sans-serif;
-      /* Removed overflow: hidden to allow scrolling */
+      overflow-x: hidden;
     }
     
     .gradient-bg {
@@ -25,6 +29,7 @@
     .glass-effect {
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
     
@@ -49,12 +54,12 @@
     }
     
     .hover-lift {
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
     
     .hover-lift:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(102, 126, 234, 0.25);
     }
     
     .particle {
@@ -84,6 +89,7 @@
     .nav-item {
       position: relative;
       overflow: hidden;
+      transition: all 0.3s ease;
     }
     
     .nav-item::after {
@@ -101,6 +107,11 @@
       width: 100%;
     }
     
+    .nav-item:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    
     .skill-orb {
       position: absolute;
       border-radius: 50%;
@@ -116,7 +127,8 @@
     section {
       padding: 60px 20px;
       min-height: 100vh;
-      height: auto; /* allow growing past 100vh */
+      height: auto;
+      position: relative;
     }
     
     @media (min-width: 640px) {
@@ -144,30 +156,274 @@
       transform: rotate(-45deg) translate(7px, -6px);
     }
 
-
-    /* Custom Scrollbar (Webkit browsers) */
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
-      width: 10px;              /* scrollbar width */
+      width: 12px;
     }
 
     ::-webkit-scrollbar-track {
-      background: #0f172a;      /* dark track background */
+      background: #0f172a;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #38bdf8;      /* cyan scroll thumb */
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       border-radius: 10px;
-      border: 2px solid #0f172a; /* gives spacing effect */
+      border: 2px solid #0f172a;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #0ea5e9;      /* darker cyan on hover */
+      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
     }
 
-    /* Firefox scrollbar */
     * {
       scrollbar-width: thin;
-      scrollbar-color: #38bdf8 #0f172a;
+      scrollbar-color: #667eea #0f172a;
+    }
+
+    /* Scroll Reveal Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .slide-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .slide-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Enhanced Project Card Hover */
+    .project-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
+    }
+
+    .project-card img {
+      transition: transform 0.5s ease;
+    }
+
+    .project-card:hover img {
+      transform: scale(1.1);
+    }
+
+    /* Skill Card Animations */
+    .skill-card {
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    .skill-card:hover {
+      transform: translateY(-8px) rotate(2deg);
+    }
+
+    /* Button Ripple Effect */
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ripple::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .ripple:active::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Loading Animation */
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+
+    .shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      background-size: 1000px 100%;
+      animation: shimmer 2s infinite;
+    }
+
+    /* Gradient Text Animation */
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .animated-gradient {
+      background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #4facfe);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    /* Navbar Scroll Effect */
+    nav {
+      transition: all 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Smooth Section Transitions */
+    section {
+      transition: opacity 0.3s ease;
+    }
+
+    /* Enhanced Form Inputs */
+    input:focus, textarea:focus {
+      transform: scale(1.02);
+      transition: transform 0.2s ease;
+    }
+
+    /* Pulse Animation */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8); }
+    }
+
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    /* Stagger Animation Delay */
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+    .stagger-6 { transition-delay: 0.6s; }
+
+    /* Responsive Typography */
+    @media (max-width: 640px) {
+      h1 { font-size: 2.5rem !important; }
+      h2 { font-size: 2rem !important; }
+      h3 { font-size: 1.5rem !important; }
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    /* Enhanced Mobile Menu */
+    #mobileMenu {
+      transition: all 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    #mobileMenu.show {
+      max-height: 500px;
+    }
+
+    /* Certificate Modal Enhancements */
+    .certificate-card {
+      transition: all 0.3s ease;
+    }
+
+    .certificate-card:hover {
+      transform: scale(1.05) rotate(1deg);
+    }
+
+    /* Progress Bar Animation */
+    @keyframes progress {
+      from { width: 0%; }
+    }
+
+    .progress-bar {
+      animation: progress 1.5s ease-out forwards;
     }
 
   </style>
@@ -221,12 +477,12 @@
       <!-- Mobile Menu -->
       <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
         <ul class="flex flex-col space-y-4 text-gray-300 font-medium">
-          <li><a href="#home" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Home</a></li>
-          <li><a href="#about" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">About</a></li>
-          <li><a href="#projects" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Projects</a></li>
-          <li><a href="#skills" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Skills</a></li>
-          <li><a href="#certifications" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Certifications</a></li>
-          <li><a href="#contact" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block">Contact</a></li>
+          <li><a href="#home" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-1">Home</a></li>
+          <li><a href="#about" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-2">About</a></li>
+          <li><a href="#projects" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-3">Projects</a></li>
+          <li><a href="#skills" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-4">Skills</a></li>
+          <li><a href="#certifications" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-5">Certifications</a></li>
+          <li><a href="#contact" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-6">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -236,14 +492,14 @@
   <main class="min-h-screen flex items-center justify-center pt-16 sm:pt-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center gap-8 sm:gap-16">
       <!-- Left Section -->
-      <section class="flex-1 text-center lg:text-left w-full" id="home">
+      <section class="flex-1 text-center lg:text-left w-full fade-in" id="home">
         <div class="mb-6 sm:mb-8">
-          <p class="text-base sm:text-lg text-purple-400 font-medium mb-3 sm:mb-4">Hello, I'm</p>
+          <p class="text-base sm:text-lg text-purple-400 font-medium mb-3 sm:mb-4 slide-in-left">Hello, I'm</p>
           <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-tight sm:leading-none mb-4 sm:mb-6">
-            <span class="text-gradient">Japhet</span><br>
+            <span class="text-gradient animated-gradient">Japhet</span><br>
             <span class="text-white typing-animation">Kundiman</span>
           </h1>
-          <div class="text-lg sm:text-xl lg:text-2xl font-light text-gray-400 mb-2">
+          <div class="text-lg sm:text-xl lg:text-2xl font-light text-gray-400 mb-2 slide-in-right">
             <span id="typed-text">IT Student & Developer</span>
           </div>
         </div>
@@ -253,11 +509,11 @@
         </p>
         
         <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12">
-          <button onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})" class="px-6 sm:px-8 py-3 sm:py-4 gradient-bg rounded-full font-semibold hover-lift glow-effect text-sm sm:text-base">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 fade-in stagger-1">
+          <button onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})" class="ripple px-6 sm:px-8 py-3 sm:py-4 gradient-bg rounded-full font-semibold hover-lift glow-effect text-sm sm:text-base transition-all hover:scale-105">
             View My Work
           </button>
-          <button onclick="downloadResume()" class="px-6 sm:px-8 py-3 sm:py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all text-sm sm:text-base">
+          <button onclick="downloadResume()" class="ripple px-6 sm:px-8 py-3 sm:py-4 border border-purple-500 rounded-full font-semibold hover:bg-purple-500/10 transition-all text-sm sm:text-base hover:scale-105 hover:border-purple-400">
             Download Resume
           </button>
         </div>
@@ -370,7 +626,7 @@
 
     <div class="max-w-7xl mx-auto relative z-10 px-4 sm:px-6">
       <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16 lg:mb-20">
+      <div class="text-center mb-12 sm:mb-16 lg:mb-20 fade-in">
         <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6 border border-white/10">
           <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
           <span class="text-xs sm:text-sm text-gray-300">About Me</span>
@@ -621,38 +877,99 @@
     </div>
   </section>
   <!-- Projects Section -->
-  <section id="projects" class="py-12 sm:py-16 lg:py-20 bg-gray-900 text-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <h2 class="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center">Projects</h2>
+  <section id="projects" class="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+      <div class="absolute top-20 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 left-10 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div class="text-center mb-12 sm:mb-16 fade-in">
+        <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6 border border-white/10">
+          <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+          <span class="text-xs sm:text-sm text-gray-300">My Work</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">Featured Projects</h2>
+        <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
+          Showcasing innovative solutions and creative problem-solving through technology
+        </p>
+      </div>
+      
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
 
         <!-- Project Card 1 -->
-        <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
-          <img src="UmOrg.png" alt="Project 1" class="w-full h-48 object-cover">
+        <div class="project-card bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-lg overflow-hidden border border-white/10 hover:border-purple-400/30 group">
+          <div class="relative overflow-hidden">
+            <img src="UmOrg.png" alt="UM Org Connect" class="w-full h-48 sm:h-56 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onclick="openVideoModal('umOrgVideo')" class="w-full px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg font-semibold hover:scale-105 transition-transform">
+                Watch Demo
+              </button>
+            </div>
+          </div>
           <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">UM Org Connect</h3>
-            <p class="text-gray-400 mb-4">An event management system with QR attendance, budgeting, and document submission features.</p>
-            <a href="#" onclick="openVideoModal('umOrgVideo')" class="text-blue-400 hover:underline cursor-pointer">View Project →</a>
+            <h3 class="text-xl sm:text-2xl font-bold mb-2 text-white group-hover:text-purple-400 transition-colors">UM Org Connect</h3>
+            <p class="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed">An event management system with QR attendance, budgeting, and document submission features.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">PHP</span>
+              <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">MySQL</span>
+              <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">QR Code</span>
+            </div>
+            <a href="#" onclick="openVideoModal('umOrgVideo')" class="text-purple-400 hover:text-white font-medium flex items-center gap-2 group-hover:gap-3 transition-all cursor-pointer">
+              View Project <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
 
         <!-- Project Card 2 -->
-        <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
-          <img src="Attendify.png" alt="Project 2" class="w-full h-48 object-cover">
+        <div class="project-card bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-lg overflow-hidden border border-white/10 hover:border-green-400/30 group">
+          <div class="relative overflow-hidden">
+            <img src="Attendify.png" alt="Attendify" class="w-full h-48 sm:h-56 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onclick="openVideoModal('attendifyVideo')" class="w-full px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg font-semibold hover:scale-105 transition-transform">
+                Watch Demo
+              </button>
+            </div>
+          </div>
           <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">Attendify</h3>
-            <p class="text-gray-400 mb-4">A classroom attendance tracker using QR codes, built with PHP and MySQL.</p>
-            <a href="#" onclick="openVideoModal('attendifyVideo')" class="text-blue-400 hover:underline cursor-pointer">View Project →</a>
+            <h3 class="text-xl sm:text-2xl font-bold mb-2 text-white group-hover:text-green-400 transition-colors">Attendify</h3>
+            <p class="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed">A classroom attendance tracker using QR codes, built with PHP and MySQL.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">PHP</span>
+              <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs">MySQL</span>
+              <span class="px-2 py-1 bg-teal-500/20 text-teal-400 rounded text-xs">QR Scanner</span>
+            </div>
+            <a href="#" onclick="openVideoModal('attendifyVideo')" class="text-green-400 hover:text-white font-medium flex items-center gap-2 group-hover:gap-3 transition-all cursor-pointer">
+              View Project <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
 
         <!-- Project Card 3 -->
-        <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
-          <img src="Ncip.png" alt="Project 3" class="w-full h-48 object-cover">
+        <div class="project-card bg-white/5 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-lg overflow-hidden border border-white/10 hover:border-cyan-400/30 group">
+          <div class="relative overflow-hidden">
+            <img src="Ncip.png" alt="NCIP-EAP" class="w-full h-48 sm:h-56 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onclick="openVideoModal('ncipVideo')" class="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg font-semibold hover:scale-105 transition-transform">
+                Watch Demo
+              </button>
+            </div>
+          </div>
           <div class="p-6">
-            <h3 class="text-2xl font-semibold mb-2">NCIP-EAP</h3>
-            <p class="text-gray-400 mb-4">A scholar portal for the IP Scholars and a management system for the NCIP.</p>
-            <a href="#" onclick="openVideoModal('ncipVideo')" class="text-blue-400 hover:underline cursor-pointer">View Project →</a>
+            <h3 class="text-xl sm:text-2xl font-bold mb-2 text-white group-hover:text-cyan-400 transition-colors">NCIP-EAP</h3>
+            <p class="text-gray-400 mb-4 text-sm sm:text-base leading-relaxed">A scholar portal for the IP Scholars and a management system for the NCIP.</p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs">Web Portal</span>
+              <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">Management</span>
+              <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">Database</span>
+            </div>
+            <a href="#" onclick="openVideoModal('ncipVideo')" class="text-cyan-400 hover:text-white font-medium flex items-center gap-2 group-hover:gap-3 transition-all cursor-pointer">
+              View Project <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
 
@@ -785,7 +1102,11 @@
     
     <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
       <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16">
+      <div class="text-center mb-12 sm:mb-16 fade-in">
+        <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6 border border-white/10">
+          <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+          <span class="text-xs sm:text-sm text-gray-300">Expertise</span>
+        </div>
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gradient mb-4">Technical Skills</h2>
         <p class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto px-4">
           A comprehensive overview of my technical expertise and the tools I use to bring ideas to life
@@ -1065,7 +1386,7 @@
 
     <div class="max-w-7xl mx-auto px-6 relative z-10">
       <!-- Section Header -->
-      <div class="text-center mb-20">
+      <div class="text-center mb-20 fade-in">
         <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-6 py-2 mb-6 border border-white/10">
           <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
           <span class="text-sm text-gray-300">Achievements</span>
@@ -1726,45 +2047,68 @@
 </div>
 
 <!-- Contact Section -->
-<section id="contact" class="py-20 bg-gradient-to-b from-gray-900 to-black text-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
-    <h2 class="text-3xl sm:text-4xl font-bold mb-6 sm:mb-10">Get in Touch</h2>
-    <p class="text-base sm:text-lg text-gray-300 mb-8 sm:mb-12 px-4">
-      Have a project in mind, want to collaborate, or just say hi?  
-      Fill out the form below or connect with me on socials.
-    </p>
+<section id="contact" class="py-20 bg-gradient-to-b from-black via-gray-900 to-black text-white relative overflow-hidden">
+  <!-- Background Elements -->
+  <div class="absolute inset-0">
+    <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 right-10 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+  </div>
+  
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
+    <div class="fade-in">
+      <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6 border border-white/10">
+        <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+        <span class="text-xs sm:text-sm text-gray-300">Let's Connect</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-4 sm:mb-6">Get in Touch</h2>
+      <p class="text-base sm:text-lg text-gray-300 mb-8 sm:mb-12 px-4 max-w-2xl mx-auto">
+        Have a project in mind, want to collaborate, or just say hi?  
+        Fill out the form below or connect with me on socials.
+      </p>
+    </div>
 
     <!-- Contact Form -->
-    <form id="contactForm" onsubmit="handleContactForm(event)" class="max-w-3xl mx-auto grid gap-4 sm:gap-6">
+    <form id="contactForm" onsubmit="handleContactForm(event)" class="max-w-3xl mx-auto grid gap-4 sm:gap-6 fade-in">
       <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
         <input type="text" id="contactName" name="name" placeholder="Your Name" required
-          class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base">
+          class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base transition-all hover:bg-white/10">
         <input type="email" id="contactEmail" name="email" placeholder="Your Email" required
-          class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base">
+          class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base transition-all hover:bg-white/10">
       </div>
-      <textarea id="contactMessage" name="message" rows="5" placeholder="Your Message" required
-        class="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm sm:text-base resize-none"></textarea>
-      <button type="submit"
-        class="w-full py-3 sm:py-4 bg-indigo-600 hover:bg-indigo-700 transition rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base">
+      <textarea id="contactMessage" name="message" rows="6" placeholder="Your Message" required
+        class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base resize-none transition-all hover:bg-white/10"></textarea>
+      <button type="submit" class="ripple w-full py-4 sm:py-5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 transition-all rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105">
         Send Message
       </button>
     </form>
     
     <!-- Success Message (hidden by default) -->
-    <div id="contactSuccess" class="hidden max-w-3xl mx-auto mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-xl text-green-400 text-center">
-      <p>Thank you for your message! I'll get back to you soon.</p>
+    <div id="contactSuccess" class="hidden max-w-3xl mx-auto mt-6 p-6 bg-green-500/20 border border-green-500/30 rounded-2xl text-green-400 text-center backdrop-blur-sm fade-in">
+      <div class="flex items-center justify-center gap-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <p class="font-medium">Thank you for your message! I'll get back to you soon.</p>
+      </div>
     </div>
 
     <!-- Social Links -->
-    <div class="mt-12 flex justify-center space-x-6">
-      <a href="mailto:your@email.com" class="text-gray-400 hover:text-indigo-400 text-2xl">
-        <i class="fas fa-envelope"></i>
+    <div class="mt-12 sm:mt-16 flex justify-center space-x-6 fade-in">
+      <a href="mailto:japhetkundiman11@gmail.com" class="w-12 h-12 sm:w-14 sm:h-14 glass-effect rounded-full flex items-center justify-center hover-lift group">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect width="20" height="16" x="2" y="4" rx="2"/>
+          <path d="M22 6 12 13 2 6"/>
+        </svg>
       </a>
-      <a href="https://github.com/yourusername" target="_blank" class="text-gray-400 hover:text-indigo-400 text-2xl">
-        <i class="fab fa-github"></i>
+      <a href="https://github.com" target="_blank" class="w-12 h-12 sm:w-14 sm:h-14 glass-effect rounded-full flex items-center justify-center hover-lift group">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.49 2.87 8.3 6.84 9.64.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.1-1.5-1.1-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05A9.38 9.38 0 0112 6.84c.85.004 1.71.12 2.51.35 1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.07.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.58.69.48A10.01 10.01 0 0022 12.26C22 6.58 17.52 2 12 2z"/>
+        </svg>
       </a>
-      <a href="https://linkedin.com/in/yourusername" target="_blank" class="text-gray-400 hover:text-indigo-400 text-2xl">
-        <i class="fab fa-linkedin"></i>
+      <a href="https://linkedin.com" target="_blank" class="w-12 h-12 sm:w-14 sm:h-14 glass-effect rounded-full flex items-center justify-center hover-lift group">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.28c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 11.28h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.89v1.36h.04c.4-.75 1.38-1.54 2.84-1.54 3.04 0 3.6 2 3.6 4.59v5.59z"/>
+        </svg>
       </a>
     </div>
   </div>
@@ -1879,8 +2223,10 @@
     let isDeleting = false;
     
     function typeText() {
-      const currentText = texts[textIndex];
       const typedElement = document.getElementById('typed-text');
+      if (!typedElement) return;
+      
+      const currentText = texts[textIndex];
       
       if (isDeleting) {
         typedElement.textContent = currentText.substring(0, charIndex - 1);
@@ -1904,30 +2250,112 @@
     setTimeout(typeText, 1000);
     
     // Smooth scroll for nav links
-    document.querySelectorAll('nav a').forEach(anchor => {
+    document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         const targetSection = document.getElementById(targetId);
 
         if (targetSection) {
-          targetSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
+          const offsetTop = targetSection.offsetTop - 80;
+          window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
           });
+        }
+        
+        // Close mobile menu if open
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+          mobileBtn.classList.remove('active');
         }
       });
     });
     
+    // Navbar scroll effect
+    let lastScroll = 0;
+    const navbar = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+      
+      lastScroll = currentScroll;
+    });
+    
+    // Scroll reveal animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
     // Add mouse parallax effect
     document.addEventListener('mousemove', (e) => {
       const layers = document.querySelectorAll('.parallax');
-      const x = (e.clientX / window.innerWidth - 0.5) * 30; // adjust movement sensitivity
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
       const y = (e.clientY / window.innerHeight - 0.5) * 30;
 
       layers.forEach((layer, index) => {
-        const speed = (index + 1) * 5; // different speed for each layer
+        const speed = (index + 1) * 5;
         layer.style.transform = `translate(${x / speed}px, ${y / speed}px)`;
+      });
+    });
+    
+    // Back to top button
+    const backToTopBtn = document.createElement('div');
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.innerHTML = '<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>';
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    document.body.appendChild(backToTopBtn);
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+    
+    // Add animation classes to elements on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      // Add fade-in to sections
+      document.querySelectorAll('section > div').forEach((section, index) => {
+        if (index > 0) { // Skip first section
+          section.classList.add('fade-in');
+        }
+      });
+      
+      // Add stagger animations to project cards
+      document.querySelectorAll('#projects .bg-gray-800').forEach((card, index) => {
+        card.classList.add('project-card', 'fade-in', `stagger-${(index % 6) + 1}`);
+      });
+      
+      // Add animations to skill cards
+      document.querySelectorAll('#skills .group').forEach((card, index) => {
+        card.classList.add('skill-card', 'scale-in', `stagger-${(index % 6) + 1}`);
       });
     });
     function openModal(id) {
@@ -1964,6 +2392,7 @@
       const menu = document.getElementById('mobileMenu');
       const btn = document.getElementById('mobileMenuBtn');
       menu.classList.toggle('hidden');
+      menu.classList.toggle('show');
       btn.classList.toggle('active');
     }
     
