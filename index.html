@@ -2413,7 +2413,7 @@
             </div>
             <div>
               <h2 class="text-3xl font-bold text-white">Hacker Rank Certifications</h2>
-              <p class="text-cyan-400 text-sm">2 Professional Certifications</p>
+              <p class="text-cyan-400 text-sm">3 Professional Certifications</p>
             </div>
           </div>
           <button onclick="closeModal('hackerRankModal')" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors group">
@@ -2426,7 +2426,7 @@
 
       <!-- Certificate Grid -->
       <div class="p-4 sm:p-6 lg:p-8">
-        <div class="grid sm:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
           <!-- Certificate -->
           <div onclick="viewCertificate('15.png')" class="group cursor-pointer relative">
             <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
@@ -2446,6 +2446,27 @@
               </div>
             </div>
           </div>
+          
+          <!-- New Certificate Card (Middle) -->
+          <div onclick="viewCertificate('17.png')" class="group cursor-pointer relative">
+            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
+            <div class="relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/20">
+              <div class="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                <div class="text-gray-500 italic text-sm">Certificate Image</div>
+              </div>
+              <div class="p-6">
+                <h3 class="font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">New Certificate</h3>
+                <p class="text-gray-400 text-sm mb-4">Description of Certificate</p>
+                <div class="flex items-center gap-2 text-cyan-400 group-hover:text-white transition-colors">
+                  <span class="text-sm font-medium">View Certificate</span>
+                  <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div onclick="viewCertificate('16.png')" class="group cursor-pointer relative">
             <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl blur-lg group-hover:blur-xl transition-all duration-300"></div>
             <div class="relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-cyan-400/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/20">
