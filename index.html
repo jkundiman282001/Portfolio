@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Note: For production, consider installing Tailwind CSS via npm and using PostCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -18,9 +18,52 @@
       scroll-behavior: smooth;
     }
     
+    :root {
+      --bg-main: #090d14;
+      --bg-panel: rgba(10, 16, 28, 0.86);
+      --bg-panel-strong: rgba(16, 24, 38, 0.94);
+      --line-soft: rgba(123, 224, 255, 0.18);
+      --line-strong: rgba(123, 224, 255, 0.5);
+      --accent-red: #ff4d37;
+      --accent-cyan: #79efff;
+      --accent-yellow: #ffd65c;
+      --text-main: #f4f7fb;
+      --text-muted: #97a6bd;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Rajdhani', sans-serif;
       overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(255, 77, 55, 0.2), transparent 26%),
+        radial-gradient(circle at top right, rgba(121, 239, 255, 0.18), transparent 28%),
+        linear-gradient(180deg, #0b111d 0%, #05070c 48%, #0b121d 100%);
+      color: var(--text-main);
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(121, 239, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(121, 239, 255, 0.05) 1px, transparent 1px);
+      background-size: 100px 100px;
+      mask-image: radial-gradient(circle at center, black 20%, transparent 85%);
+      opacity: 0.25;
+      z-index: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6, .font-black, .font-bold {
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    p, span, a, button, input, textarea {
+      letter-spacing: 0.02em;
     }
     
     .gradient-bg {
@@ -167,18 +210,18 @@
     }
 
     ::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(180deg, var(--accent-red) 0%, var(--accent-cyan) 100%);
       border-radius: 10px;
       border: 2px solid #0f172a;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+      background: linear-gradient(180deg, var(--accent-yellow) 0%, var(--accent-red) 100%);
     }
 
     * {
       scrollbar-width: thin;
-      scrollbar-color: #667eea #0f172a;
+      scrollbar-color: var(--accent-red) #0f172a;
     }
 
     /* Scroll Reveal Animations */
@@ -688,6 +731,296 @@
       opacity: 1;
     }
 
+    .glass-effect,
+    .modern-card,
+    .about-card,
+    .project-card,
+    .stat-card,
+    #contactForm input,
+    #contactForm textarea,
+    #contactForm button,
+    #mobileMenu,
+    footer,
+    [id$="Modal"] .relative.bg-white\/5,
+    #certificateView img {
+      border-radius: 0;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+
+    nav {
+      background: linear-gradient(180deg, rgba(7, 11, 18, 0.9), rgba(8, 13, 23, 0.72));
+      border-bottom: 1px solid rgba(121, 239, 255, 0.22);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    nav.scrolled {
+      background: rgba(7, 11, 18, 0.94);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      border-bottom-color: rgba(121, 239, 255, 0.28);
+    }
+
+    .nav-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(244, 247, 251, 0.82);
+    }
+
+    .nav-item::after {
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-red), var(--accent-cyan));
+    }
+
+    .nav-item:hover {
+      color: var(--accent-cyan);
+      text-shadow: 0 0 18px rgba(121, 239, 255, 0.35);
+    }
+
+    .text-gradient,
+    .animated-gradient {
+      background: linear-gradient(90deg, var(--accent-yellow) 0%, #ffffff 42%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-bg-pattern {
+      background-image:
+        linear-gradient(135deg, rgba(255, 77, 55, 0.14), transparent 30%),
+        linear-gradient(315deg, rgba(121, 239, 255, 0.14), transparent 32%),
+        linear-gradient(180deg, rgba(255, 214, 92, 0.06), transparent 44%);
+    }
+
+    section,
+    main {
+      position: relative;
+      isolation: isolate;
+    }
+
+    section::before,
+    main::before {
+      content: '';
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(121, 239, 255, 0.08);
+      pointer-events: none;
+      clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+      z-index: 0;
+    }
+
+    .hero-button-primary,
+    .hero-button-secondary,
+    #contactForm button {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 0;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+
+    .hero-button-primary,
+    #contactForm button {
+      background: linear-gradient(135deg, var(--accent-red), #ff7a32);
+      border: 1px solid rgba(255, 214, 92, 0.32);
+      box-shadow: 0 14px 32px rgba(255, 77, 55, 0.2);
+    }
+
+    .hero-button-secondary {
+      background: linear-gradient(180deg, rgba(10, 18, 30, 0.92), rgba(8, 13, 23, 0.92));
+      border: 1px solid rgba(121, 239, 255, 0.34);
+      box-shadow: inset 0 0 0 1px rgba(121, 239, 255, 0.1);
+    }
+
+    .hero-button-secondary:hover,
+    .hero-button-primary:hover,
+    #contactForm button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.4);
+    }
+
+    .modern-card,
+    .about-card,
+    .project-card,
+    .stat-card,
+    .glass-effect,
+    #mobileMenu,
+    footer,
+    #contactForm input,
+    #contactForm textarea,
+    [id$="Modal"] .relative.bg-white\/5 {
+      background:
+        linear-gradient(180deg, rgba(16, 24, 38, 0.96), rgba(8, 13, 23, 0.92));
+      border: 1px solid var(--line-soft);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+        0 18px 36px rgba(0, 0, 0, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modern-card::after,
+    .about-card::after,
+    .project-card::after,
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent, rgba(121, 239, 255, 0.06), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+
+    .modern-card:hover::after,
+    .about-card:hover::after,
+    .project-card:hover::after,
+    .stat-card:hover::after {
+      transform: translateX(100%);
+    }
+
+    .stat-number {
+      background: linear-gradient(90deg, var(--accent-yellow), #fff3b4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .social-icon,
+    .back-to-top {
+      border-radius: 0;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .back-to-top {
+      background: linear-gradient(180deg, var(--accent-red) 0%, #ff7a32 100%);
+      box-shadow: 0 10px 28px rgba(255, 77, 55, 0.28);
+    }
+
+    .typing-animation {
+      border-right-color: var(--accent-cyan);
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .text-gray-400,
+    .text-gray-300 {
+      color: var(--text-muted) !important;
+    }
+
+    .hud-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-main);
+      background: rgba(9, 15, 27, 0.82);
+      border: 1px solid rgba(121, 239, 255, 0.24);
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    }
+
+    .hud-dot {
+      width: 0.65rem;
+      height: 0.65rem;
+      background: linear-gradient(135deg, var(--accent-red), var(--accent-yellow));
+      box-shadow: 0 0 14px rgba(255, 77, 55, 0.5);
+      transform: rotate(45deg);
+    }
+
+    .hero-frame {
+      padding: 1.25rem;
+      border: 1px solid rgba(121, 239, 255, 0.18);
+      background: linear-gradient(180deg, rgba(8, 14, 24, 0.55), rgba(8, 14, 24, 0.18));
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+    }
+
+    .hero-quickstat {
+      background: rgba(10, 18, 30, 0.78);
+      border: 1px solid rgba(121, 239, 255, 0.2);
+      padding: 0.9rem 1rem;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .hero-quickstat strong {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.7rem;
+      line-height: 1;
+      color: var(--accent-yellow);
+    }
+
+    .hero-quickstat span {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    .profile-shell {
+      position: relative;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(255, 77, 55, 0.18), rgba(121, 239, 255, 0.18));
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    }
+
+    .section-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.65rem 1rem;
+      margin-bottom: 1rem;
+      background: rgba(255, 77, 55, 0.12);
+      border: 1px solid rgba(255, 77, 55, 0.26);
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+
+    .section-banner::before {
+      content: '';
+      width: 0.65rem;
+      height: 0.65rem;
+      background: var(--accent-yellow);
+      transform: rotate(45deg);
+      box-shadow: 0 0 12px rgba(255, 214, 92, 0.45);
+    }
+
+    #projects .project-card:hover,
+    #skills .group > .relative:hover,
+    #certifications .group > .relative:hover,
+    .about-card:hover {
+      border-color: rgba(121, 239, 255, 0.45) !important;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.34);
+    }
+
+    #contactForm input:focus,
+    #contactForm textarea:focus {
+      outline: none;
+      border-color: rgba(121, 239, 255, 0.5);
+      box-shadow: 0 0 0 2px rgba(121, 239, 255, 0.16);
+    }
+
+    footer {
+      border-top: 1px solid rgba(121, 239, 255, 0.16);
+    }
+
+    @media (max-width: 768px) {
+      section::before,
+      main::before {
+        inset: 12px;
+      }
+
+      .hero-frame {
+        padding: 1rem;
+      }
+    }
+
   </style>
   <!-- EmailJS SDK -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -715,9 +1048,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
       <div class="flex items-center justify-between">
         <!-- Logo -->
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-4">
           <div class="w-16 h-8 sm:w-20 sm:h-10 p-1 overflow-hidden">
             <img src="Logo.png" alt="JK Logo" class="w-full h-full object-contain"/>
+          </div>
+          <div class="hidden md:block">
+            <div class="text-xs tracking-[0.35em] text-cyan-300 uppercase">Portfolio Interface</div>
+            <div class="text-lg text-white font-bold leading-none">Japhet Kundiman</div>
           </div>
         </div>
         <!-- Desktop Menu -->
@@ -737,7 +1074,7 @@
         </button>
       </div>
       <!-- Mobile Menu -->
-      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4">
+      <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 px-4 py-4">
         <ul class="flex flex-col space-y-4 text-gray-300 font-medium">
           <li><a href="#home" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-1">Home</a></li>
           <li><a href="#about" onclick="toggleMobileMenu()" class="nav-item hover:text-white transition-colors pb-1 block fade-in stagger-2">About</a></li>
@@ -751,7 +1088,7 @@
   </nav>
 
   <!-- Main Content - Modern Hero Section -->
-  <main class="min-h-screen flex items-center justify-center pt-20 sm:pt-24 relative overflow-hidden hero-bg-pattern" id="home">
+  <main class="min-h-screen flex items-center justify-center pt-24 sm:pt-28 relative overflow-hidden hero-bg-pattern" id="home">
     <!-- Animated Background Blobs -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -764,21 +1101,24 @@
         
         <!-- Left Section - Content -->
         <div class="text-center lg:text-left space-y-8 fade-in">
-          <!-- Greeting -->
-          <div class="slide-up-animation" style="animation-delay: 0.1s;">
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-6">
-              <div class="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-pulse"></div>
-              <span class="text-sm text-gray-300 font-medium">Hello, I'm</span>
+          <div class="slide-up-animation flex flex-wrap gap-3 justify-center lg:justify-start" style="animation-delay: 0.1s;">
+            <div class="hud-chip">
+              <span class="hud-dot"></span>
+              Featured Candidate
+            </div>
+            <div class="hud-chip">
+              UI Style: Hero Shooter
             </div>
           </div>
 
           <!-- Name -->
           <div class="slide-up-animation" style="animation-delay: 0.2s;">
-            <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-4">
+            <div class="section-banner mx-auto lg:mx-0 w-fit">Mission Overview</div>
+            <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black leading-[0.92] mb-4">
               <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 hero-text-shadow animated-gradient">
                 Japhet
               </span>
-              <span class="block text-white typing-animation mt-2">
+              <span class="block text-white typing-animation mt-1">
                 Kundiman
               </span>
             </h1>
@@ -786,8 +1126,8 @@
 
           <!-- Role -->
           <div class="slide-up-animation" style="animation-delay: 0.3s;">
-            <div class="text-xl sm:text-2xl lg:text-3xl font-light mb-6">
-              <span class="text-gray-300">I'm a </span>
+            <div class="text-2xl sm:text-3xl lg:text-4xl font-light mb-6">
+              <span class="text-gray-300">Deploying as </span>
               <span id="typed-text" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 font-semibold">
                 IT Student & Developer
               </span>
@@ -796,21 +1136,42 @@
 
           <!-- Description -->
           <div class="slide-up-animation" style="animation-delay: 0.4s;">
-            <p class="text-gray-400 text-base sm:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-              Passionate about crafting <span class="text-purple-400 font-medium">digital experiences</span> through code. 
-              I transform ideas into reality using <span class="text-blue-400 font-medium">cutting-edge technologies</span>, 
-              with a focus on innovation and user-centric design.
-            </p>
+            <div class="hero-frame max-w-2xl mx-auto lg:mx-0">
+              <p class="text-gray-400 text-lg sm:text-xl leading-relaxed mb-6">
+                Building sharp, high-impact digital experiences with a focus on
+                <span class="text-yellow-300 font-medium">frontend presence</span>,
+                <span class="text-cyan-300 font-medium">full-stack execution</span>,
+                and clean systems that hold up under pressure.
+              </p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="hero-quickstat">
+                  <strong>03</strong>
+                  <span>Core Projects</span>
+                </div>
+                <div class="hero-quickstat">
+                  <strong>14</strong>
+                  <span>Certifications</span>
+                </div>
+                <div class="hero-quickstat">
+                  <strong>04+</strong>
+                  <span>Years Learning</span>
+                </div>
+                <div class="hero-quickstat">
+                  <strong>24/7</strong>
+                  <span>Build Mode</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- CTA Buttons -->
           <div class="flex flex-col sm:flex-row gap-4 mb-8 slide-up-animation" style="animation-delay: 0.5s;">
             <button 
               onclick="document.getElementById('projects').scrollIntoView({behavior: 'smooth'})" 
-              class="hero-button-primary px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl relative overflow-hidden group"
+              class="hero-button-primary px-8 py-4 font-semibold text-white transition-all duration-300 relative overflow-hidden group"
             >
               <span class="relative z-10 flex items-center justify-center gap-2">
-                View My Work
+                Enter Projects
                 <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
@@ -818,7 +1179,7 @@
             </button>
             <button 
               onclick="downloadResume()" 
-              class="hero-button-secondary px-8 py-4 rounded-full font-semibold text-white hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+              class="hero-button-secondary px-8 py-4 font-semibold text-white transition-all duration-300 relative overflow-hidden group"
             >
               <span class="relative z-10 flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -856,24 +1217,29 @@
             <!-- Orbiting Tech Badges -->
             <div class="hidden lg:block absolute inset-0">
               <div class="orbiting-element w-20 h-20 skill-orb" style="animation-delay: 0s; top: 10%; left: -10%;">
-                <div class="w-full h-full flex items-center justify-center text-sm font-bold text-purple-400">JS</div>
+                <div class="w-full h-full flex items-center justify-center text-sm font-bold text-cyan-300">JS</div>
               </div>
               <div class="orbiting-element w-16 h-16 skill-orb" style="animation-delay: 3s; animation-duration: 18s; top: 80%; right: -5%;">
-                <div class="w-full h-full flex items-center justify-center text-xs font-bold text-blue-400">PHP</div>
+                <div class="w-full h-full flex items-center justify-center text-xs font-bold text-yellow-300">PHP</div>
               </div>
               <div class="orbiting-element w-14 h-14 skill-orb" style="animation-delay: 6s; animation-duration: 22s; top: 50%; left: -15%;">
-                <div class="w-full h-full flex items-center justify-center text-xs font-bold text-pink-400">CSS</div>
+                <div class="w-full h-full flex items-center justify-center text-xs font-bold text-red-300">CSS</div>
               </div>
             </div>
 
             <!-- Main Profile Card -->
-            <div class="relative modern-card rounded-3xl p-8 max-w-md mx-auto float-gentle glow-pulse">
-              <!-- Gradient Border Effect -->
-              <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 blur-xl opacity-50"></div>
-              
-              <div class="relative z-10">
+            <div class="profile-shell">
+              <div class="relative modern-card p-8 max-w-md mx-auto float-gentle glow-pulse">
+                <div class="relative z-10">
+                  <div class="flex items-center justify-between mb-6">
+                    <div>
+                      <div class="text-xs tracking-[0.3em] text-cyan-300 uppercase">Player Card</div>
+                      <div class="text-2xl font-bold text-white">Frontline Builder</div>
+                    </div>
+                    <div class="hud-chip !py-2 !px-3 text-xs">Online</div>
+                  </div>
                 <!-- Profile Image -->
-                <div class="profile-image-wrapper w-48 h-64 mx-auto mb-6 rounded-2xl overflow-hidden">
+                <div class="profile-image-wrapper w-48 h-64 mx-auto mb-6 overflow-hidden">
                   <img 
                     src="Profile.JPG" 
                     alt="Japhet Kundiman" 
@@ -883,26 +1249,27 @@
                 
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-3 gap-3">
-                  <div class="stat-card rounded-xl p-4 text-center">
+                  <div class="stat-card p-4 text-center">
                     <div class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-1">3</div>
-                    <div class="text-xs text-gray-400 font-medium">Projects</div>
+                    <div class="text-xs text-gray-400 font-medium">Missions</div>
                   </div>
-                  <div class="stat-card rounded-xl p-4 text-center">
+                  <div class="stat-card p-4 text-center">
                     <div class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-1">4+</div>
-                    <div class="text-xs text-gray-400 font-medium">Years</div>
+                    <div class="text-xs text-gray-400 font-medium">Seasons</div>
                   </div>
-                  <div class="stat-card rounded-xl p-4 text-center">
+                  <div class="stat-card p-4 text-center">
                     <div class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-1">14</div>
-                    <div class="text-xs text-gray-400 font-medium">Certs</div>
+                    <div class="text-xs text-gray-400 font-medium">Badges</div>
                   </div>
                 </div>
 
                 <!-- Status Badge -->
-                <div class="mt-6 flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/30">
+                <div class="mt-6 flex items-center justify-center gap-2 px-4 py-3 bg-green-500/10 border border-green-500/30" style="clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));">
                   <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span class="text-xs text-green-400 font-medium">Available for opportunities</span>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
