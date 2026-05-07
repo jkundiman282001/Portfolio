@@ -7,1166 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    :root {
-      --ink: #0a0a0a;
-      --paper: #f0ede6;
-      --acid: #c8f135;
-      --rust: #e8451a;
-      --slate: #1a1a1a;
-      --mist: #8a8a8a;
-      --divider: rgba(255,255,255,0.08);
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'DM Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--ink);
-      color: var(--paper);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    /* ── CURSOR ── */
-    #cursor {
-      position: fixed;
-      width: 12px; height: 12px;
-      background: var(--acid);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.15s ease, opacity 0.2s;
-      mix-blend-mode: difference;
-    }
-    #cursor-ring {
-      position: fixed;
-      width: 40px; height: 40px;
-      border: 1px solid rgba(200,241,53,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, border-color 0.3s;
-    }
-    body:has(a:hover) #cursor-ring,
-    body:has(button:hover) #cursor-ring { width: 60px; height: 60px; border-color: var(--acid); }
-
-    /* ── NOISE GRAIN ── */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9990;
-      opacity: 0.35;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 3rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      mix-blend-mode: normal;
-      transition: background 0.4s, backdrop-filter 0.4s;
-    }
-    nav.scrolled {
-      background: rgba(10,10,10,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--divider);
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      letter-spacing: 0.04em;
-      color: var(--paper);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--acid); }
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mist);
-      text-decoration: none;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: var(--acid);
-      transition: width 0.3s;
-    }
-    .nav-links a:hover { color: var(--paper); }
-    .nav-links a:hover::after { width: 100%; }
-
-    .nav-cta {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink);
-      background: var(--acid);
-      border: none;
-      padding: 0.6rem 1.4rem;
-      cursor: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--rust); }
-
-    /* Hamburger */
-    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: none; padding: 4px; }
-    .hamburger span { display: block; width: 26px; height: 1.5px; background: var(--paper); transition: all 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--ink);
-      z-index: 99;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--font-display);
-      font-size: 4rem;
-      color: var(--paper);
-      text-decoration: none;
-      transition: color 0.2s, letter-spacing 0.2s;
-    }
-    .mobile-menu a:hover { color: var(--acid); letter-spacing: 0.1em; }
-
-    /* ── HERO ── */
-    #home {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 3rem 5rem 3rem;
-      position: relative;
-      z-index: 2;
-    }
-    .hero-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--mist);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      width: 40px; height: 1px;
-      background: var(--mist);
-    }
-    .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 10vw, 11rem);
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      margin-bottom: 2.5rem;
-    }
-    .hero-name .accent { color: var(--acid); }
-    .hero-role {
-      font-size: 1rem;
-      color: var(--mist);
-      font-weight: 300;
-      max-width: 380px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
-    }
-    .hero-role span { color: var(--paper); font-weight: 400; }
-    .hero-actions { display: flex; gap: 1rem; align-items: center; }
-    .btn-primary {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: var(--acid);
-      color: var(--ink);
-      border: none;
-      padding: 1rem 2.2rem;
-      cursor: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      font-weight: 500;
-    }
-    .btn-primary:hover { transform: translate(-3px,-3px); box-shadow: 5px 5px 0 var(--rust); }
-    .btn-secondary {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: transparent;
-      color: var(--paper);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 1rem 2.2rem;
-      cursor: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .btn-secondary:hover { border-color: var(--paper); background: rgba(255,255,255,0.04); }
-
-    .hero-right {
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-right img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-      filter: grayscale(20%) contrast(1.1);
-      transition: filter 0.4s;
-    }
-    .hero-right:hover img { filter: grayscale(0%) contrast(1.05); }
-    .hero-right-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to right, var(--ink) 0%, transparent 40%);
-      pointer-events: none;
-    }
-    .hero-stats {
-      position: absolute;
-      bottom: 3rem;
-      right: 3rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .hero-stat {
-      text-align: right;
-    }
-    .hero-stat strong {
-      display: block;
-      font-family: var(--font-display);
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--acid);
-    }
-    .hero-stat span {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mist);
-    }
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--mist);
-      animation: float 2s ease-in-out infinite;
-    }
-    .hero-scroll svg { width: 20px; height: 20px; stroke: var(--mist); }
-    @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-6px); }
-    }
-    .hero-typed-wrapper {
-      display: inline;
-    }
-    #typed-text {
-      color: var(--acid);
-      border-right: 2px solid var(--acid);
-      padding-right: 2px;
-      animation: blink 0.8s step-end infinite;
-    }
-    @keyframes blink { 0%, 100% { border-color: var(--acid); } 50% { border-color: transparent; } }
-
-    /* ── MARQUEE ── */
-    .marquee-band {
-      border-top: 1px solid var(--divider);
-      border-bottom: 1px solid var(--divider);
-      overflow: hidden;
-      padding: 1rem 0;
-      background: rgba(255,255,255,0.02);
-    }
-    .marquee-track {
-      display: flex;
-      gap: 3rem;
-      animation: marquee 20s linear infinite;
-      white-space: nowrap;
-    }
-    .marquee-track span {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      letter-spacing: 0.1em;
-      color: var(--mist);
-      flex-shrink: 0;
-    }
-    .marquee-track span.dot { color: var(--acid); font-size: 0.8rem; }
-    @keyframes marquee {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-
-    /* ── SECTION SHARED ── */
-    section { padding: 8rem 3rem; }
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--mist);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .section-label::before {
-      content: '';
-      width: 30px; height: 1px;
-      background: var(--mist);
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 6vw, 6rem);
-      line-height: 0.95;
-      letter-spacing: -0.01em;
-      margin-bottom: 4rem;
-    }
-    .section-title em { font-style: italic; color: var(--mist); }
-
-    /* ── ABOUT ── */
-    #about { background: var(--slate); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 6rem;
-      align-items: start;
-    }
-    .about-bio {
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: rgba(240,237,230,0.75);
-      font-weight: 300;
-    }
-    .about-bio strong { color: var(--paper); font-weight: 500; }
-    .about-bio p + p { margin-top: 1.5rem; }
-
-    .about-details { display: flex; flex-direction: column; gap: 0; }
-    .about-detail-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      border-bottom: 1px solid var(--divider);
-      padding: 1.5rem 0;
-    }
-    .about-detail-row:first-child { border-top: 1px solid var(--divider); }
-    .detail-key {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--mist);
-    }
-    .detail-val {
-      font-size: 0.9rem;
-      color: var(--paper);
-      font-weight: 300;
-    }
-
-    .education-timeline { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
-    .edu-item {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1.5rem;
-      padding: 2rem 0;
-      border-bottom: 1px solid var(--divider);
-      align-items: start;
-    }
-    .edu-item:first-child { border-top: 1px solid var(--divider); }
-    .edu-year {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      color: var(--mist);
-      padding-top: 4px;
-      min-width: 80px;
-    }
-    .edu-name { font-weight: 500; margin-bottom: 0.3rem; }
-    .edu-school { font-size: 0.85rem; color: var(--mist); font-weight: 300; }
-
-    /* ── PROJECTS ── */
-    #projects { background: var(--ink); }
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--divider); }
-    .project-item {
-      background: var(--ink);
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-      cursor: none;
-      transition: background 0.3s;
-      group: true;
-    }
-    .project-item:hover { background: var(--slate); }
-    .project-item::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 0;
-      background: var(--acid);
-      transition: height 0.4s cubic-bezier(0.23,1,0.32,1);
-    }
-    .project-item:hover::before { height: 100%; }
-    .project-num {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      color: var(--mist);
-      margin-bottom: 1.5rem;
-    }
-    .project-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      margin-bottom: 1.5rem;
-      filter: grayscale(40%);
-      transition: filter 0.4s, transform 0.4s;
-    }
-    .project-item:hover .project-thumb { filter: grayscale(0%); transform: scale(1.02); }
-    .project-name {
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      letter-spacing: 0.02em;
-      margin-bottom: 0.75rem;
-      transition: color 0.2s;
-    }
-    .project-item:hover .project-name { color: var(--acid); }
-    .project-desc {
-      font-size: 0.88rem;
-      color: var(--mist);
-      line-height: 1.7;
-      font-weight: 300;
-      margin-bottom: 1.5rem;
-    }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .tag {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.75rem;
-      border: 1px solid var(--divider);
-      color: var(--mist);
-    }
-    .project-link {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--acid);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: gap 0.2s;
-    }
-    .project-link:hover { gap: 1rem; }
-    .project-link svg { width: 14px; height: 14px; stroke: currentColor; }
-
-    /* ── SKILLS ── */
-    #skills { background: var(--slate); }
-    .skills-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
-    .skill-category { margin-bottom: 3rem; }
-    .skill-cat-name {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--mist);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--divider);
-    }
-    .skill-bar-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      margin-bottom: 1.2rem;
-    }
-    .skill-bar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-    .skill-bar-name { font-size: 0.9rem; font-weight: 400; }
-    .skill-bar-pct {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--mist);
-    }
-    .skill-bar-track {
-      height: 2px;
-      background: var(--divider);
-      width: 100%;
-      overflow: hidden;
-    }
-    .skill-bar-fill {
-      height: 100%;
-      background: var(--acid);
-      width: 0%;
-      transition: width 1.2s cubic-bezier(0.23,1,0.32,1);
-    }
-    .skill-tag-cloud { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-    .skill-tag {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.5rem 1rem;
-      border: 1px solid var(--divider);
-      color: var(--paper);
-      cursor: none;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-    .skill-tag:hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
-
-    /* ── CERTIFICATIONS SLIDESHOW ── */
-    #certifications { background: var(--ink); }
-
-    .cert-slideshow-wrap {
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Track info bar */
-    .cert-track-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--divider);
-    }
-    .cert-total-badge {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--mist);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .cert-total-badge strong {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      color: var(--acid);
-      letter-spacing: 0;
-      line-height: 1;
-    }
-    .cert-slide-controls {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .cert-ctrl-btn {
-      width: 44px; height: 44px;
-      background: none;
-      border: 1px solid var(--divider);
-      color: var(--mist);
-      display: flex; align-items: center; justify-content: center;
-      cursor: none;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-    .cert-ctrl-btn:hover { border-color: var(--acid); color: var(--acid); }
-    .cert-ctrl-btn svg { width: 18px; height: 18px; stroke: currentColor; }
-    .cert-slide-counter {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      color: var(--mist);
-      min-width: 50px;
-      text-align: center;
-    }
-    .cert-autoplay-btn {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px solid var(--divider);
-      color: var(--mist);
-      padding: 0 1rem;
-      height: 44px;
-      cursor: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .cert-autoplay-btn:hover,
-    .cert-autoplay-btn.playing { border-color: var(--acid); color: var(--acid); }
-
-    /* Main slide stage */
-    .cert-stage {
-      position: relative;
-      overflow: hidden;
-    }
-    .cert-slides-viewport {
-      display: flex;
-      transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
-      will-change: transform;
-    }
-    .cert-slide {
-      flex: 0 0 100%;
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 0;
-      min-height: 480px;
-      border: 1px solid var(--divider);
-    }
-
-    /* Left panel: org info */
-    .cert-slide-info {
-      padding: 3.5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border-right: 1px solid var(--divider);
-      position: relative;
-      overflow: hidden;
-    }
-    .cert-slide-info::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 0;
-      background: var(--acid);
-      transition: height 0.5s cubic-bezier(0.23,1,0.32,1);
-    }
-    .cert-slide.active .cert-slide-info::before { height: 100%; }
-
-    .cert-slide-org-logo {
-      width: 56px; height: 56px;
-      object-fit: contain;
-      filter: grayscale(60%);
-      transition: filter 0.4s;
-      margin-bottom: 2rem;
-    }
-    .cert-slide.active .cert-slide-org-logo { filter: grayscale(0%); }
-
-    .cert-slide-org-name {
-      font-family: var(--font-display);
-      font-size: 2.8rem;
-      line-height: 0.95;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.75rem;
-    }
-    .cert-slide-org-count {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 2.5rem;
-    }
-    .cert-slide-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      flex: 1;
-    }
-    .cert-slide-list li {
-      font-size: 0.82rem;
-      color: rgba(240,237,230,0.65);
-      font-weight: 300;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      line-height: 1.4;
-    }
-    .cert-slide-list li::before {
-      content: '—';
-      color: var(--acid);
-      flex-shrink: 0;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-    }
-    .cert-slide-cta {
-      margin-top: 2.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px solid var(--divider);
-      color: var(--mist);
-      padding: 0.75rem 1.5rem;
-      cursor: none;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-      align-self: flex-start;
-    }
-    .cert-slide-cta:hover { border-color: var(--acid); color: var(--ink); background: var(--acid); }
-
-    /* Right panel: cert thumbnails grid */
-    .cert-slide-gallery {
-      padding: 2.5rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-      align-content: start;
-      background: var(--slate);
-    }
-    .cert-thumb {
-      position: relative;
-      aspect-ratio: 4/3;
-      overflow: hidden;
-      cursor: none;
-      border: 1px solid transparent;
-      transition: border-color 0.2s;
-    }
-    .cert-thumb:hover { border-color: var(--acid); }
-    .cert-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(30%);
-      transition: filter 0.3s, transform 0.4s;
-    }
-    .cert-thumb:hover img { filter: grayscale(0%); transform: scale(1.05); }
-    .cert-thumb-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,0.7);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .cert-thumb:hover .cert-thumb-overlay { opacity: 1; }
-    .cert-thumb-overlay span {
-      font-family: var(--font-mono);
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--acid);
-    }
-
-    /* For slides with only 1-2 certs (span wider) */
-    .cert-slide-gallery.few-certs {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .cert-slide-gallery.one-cert {
-      grid-template-columns: 1fr;
-    }
-
-    /* Progress dots */
-    .cert-dots {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      margin-top: 2rem;
-    }
-    .cert-dot {
-      height: 2px;
-      background: var(--divider);
-      transition: width 0.3s, background 0.3s;
-      cursor: none;
-    }
-    .cert-dot.active {
-      background: var(--acid);
-    }
-
-    /* Progress bar */
-    .cert-progress-bar {
-      height: 1px;
-      background: var(--divider);
-      margin-top: 0.5rem;
-      overflow: hidden;
-    }
-    .cert-progress-fill {
-      height: 100%;
-      background: var(--acid);
-      width: 0%;
-      transition: width linear;
-    }
-
-    @media (max-width: 1024px) {
-      .cert-slide { grid-template-columns: 1fr; min-height: auto; }
-      .cert-slide-info { border-right: none; border-bottom: 1px solid var(--divider); }
-      .cert-slide-gallery { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .cert-slide-info { padding: 2rem; }
-      .cert-slide-gallery { grid-template-columns: repeat(2, 1fr); padding: 1.5rem; }
-      .cert-slide-org-name { font-size: 2rem; }
-      .cert-track-bar { flex-wrap: wrap; gap: 1rem; }
-    }
-
-    /* ── CONTACT ── */
-    #contact { background: var(--slate); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; }
-    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
-    .contact-email {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2.5rem);
-      color: var(--acid);
-      text-decoration: none;
-      line-height: 1;
-      display: block;
-      transition: letter-spacing 0.3s;
-    }
-    .contact-email:hover { letter-spacing: 0.04em; }
-    .contact-socials { display: flex; gap: 1rem; margin-top: 1rem; }
-    .social-btn {
-      width: 44px; height: 44px;
-      border: 1px solid var(--divider);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--mist);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-      cursor: none;
-    }
-    .social-btn:hover { border-color: var(--acid); color: var(--ink); background: var(--acid); }
-    .social-btn svg { width: 18px; height: 18px; }
-
-    .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
-    .form-field { display: flex; flex-direction: column; gap: 0.4rem; }
-    .form-label {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--mist);
-    }
-    .form-input {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--divider);
-      color: var(--paper);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      font-weight: 300;
-      padding: 0.75rem 0;
-      outline: none;
-      transition: border-color 0.2s;
-      cursor: none;
-    }
-    .form-input:focus { border-color: var(--acid); }
-    .form-input::placeholder { color: var(--mist); font-weight: 300; }
-    textarea.form-input { resize: none; min-height: 120px; font-family: var(--font-body); }
-    .form-submit {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: var(--acid);
-      color: var(--ink);
-      border: none;
-      padding: 1.1rem 2.5rem;
-      cursor: none;
-      align-self: flex-start;
-      font-weight: 500;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .form-submit:hover { transform: translate(-3px,-3px); box-shadow: 5px 5px 0 var(--rust); }
-    #contactSuccess {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      color: var(--acid);
-      padding: 1rem;
-      border: 1px solid var(--acid);
-      display: none;
-    }
-    #contactSuccess.show { display: block; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--ink);
-      border-top: 1px solid var(--divider);
-      padding: 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    footer .foot-brand {
-      font-family: var(--font-display);
-      font-size: 1.4rem;
-      color: var(--mist);
-    }
-    footer .foot-brand span { color: var(--acid); }
-    footer .foot-meta {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mist);
-    }
-    .available-dot {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.15em;
-      color: #4ade80;
-      text-transform: uppercase;
-    }
-    .available-dot::before {
-      content: '';
-      width: 6px; height: 6px;
-      background: #4ade80;
-      border-radius: 50%;
-      animation: pulse-green 2s infinite;
-    }
-    @keyframes pulse-green { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-    /* ── MODAL ── */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      backdrop-filter: blur(10px);
-    }
-    .modal.open { display: flex; }
-    .modal-inner {
-      background: var(--slate);
-      border: 1px solid var(--divider);
-      max-width: 900px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-    .modal-header {
-      padding: 2rem 2.5rem;
-      border-bottom: 1px solid var(--divider);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-title { font-family: var(--font-display); font-size: 2rem; }
-    .modal-sub { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--acid); text-transform: uppercase; }
-    .modal-close {
-      background: none;
-      border: none;
-      color: var(--mist);
-      cursor: none;
-      font-size: 1.5rem;
-      width: 40px; height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s, background 0.2s;
-    }
-    .modal-close:hover { color: var(--paper); background: rgba(255,255,255,0.06); }
-    .modal-body { padding: 2.5rem; }
-    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-    .cert-card {
-      border: 1px solid var(--divider);
-      overflow: hidden;
-      cursor: none;
-      transition: border-color 0.2s;
-    }
-    .cert-card:hover { border-color: var(--acid); }
-    .cert-card img { width: 100%; display: block; aspect-ratio: 4/3; object-fit: cover; }
-    .cert-card-info { padding: 0.75rem 1rem; }
-    .cert-card-name { font-size: 0.8rem; font-weight: 500; margin-bottom: 0.2rem; }
-    .cert-card-type { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--mist); text-transform: uppercase; }
-
-    /* Image viewer */
-    .img-viewer {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.98);
-      z-index: 300;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-    }
-    .img-viewer.open { display: flex; }
-    .img-viewer img { max-width: 100%; max-height: 90vh; object-fit: contain; }
-    .img-viewer-close {
-      position: absolute;
-      top: 2rem; right: 2rem;
-      background: none;
-      border: 1px solid var(--divider);
-      color: var(--paper);
-      font-size: 1rem;
-      width: 44px; height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: none;
-      transition: background 0.2s;
-    }
-    .img-viewer-close:hover { background: rgba(255,255,255,0.1); }
-
-    /* Video modal */
-    .video-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.97);
-      z-index: 200;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 1.5rem;
-      padding: 2rem;
-    }
-    .video-modal.open { display: flex; }
-    .video-modal-title { font-family: var(--font-display); font-size: 1.5rem; }
-    .video-modal video { max-width: 900px; width: 100%; border: 1px solid var(--divider); }
-    .video-placeholder {
-      max-width: 900px;
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: 1px solid var(--divider);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: var(--slate);
-      gap: 1rem;
-    }
-    .video-placeholder svg { width: 48px; height: 48px; stroke: var(--mist); }
-    .video-placeholder p { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--mist); text-transform: uppercase; }
-    .video-modal-close {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      background: none;
-      border: 1px solid var(--divider);
-      color: var(--mist);
-      padding: 0.6rem 1.5rem;
-      cursor: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .video-modal-close:hover { border-color: var(--paper); color: var(--paper); }
-
-    /* ── BACK TO TOP ── */
-    .back-to-top {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      width: 44px; height: 44px;
-      background: var(--acid);
-      border: none;
-      cursor: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.3s, transform 0.3s;
-      z-index: 90;
-    }
-    .back-to-top.show { opacity: 1; transform: translateY(0); }
-    .back-to-top svg { width: 18px; height: 18px; stroke: var(--ink); }
-
-    /* ── ANIMATIONS ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal-left.visible { opacity: 1; transform: translateX(0); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      section { padding: 5rem 2rem; }
-      nav { padding: 1.2rem 2rem; }
-      .hero-left { padding: 0 2rem 4rem; }
-      #home { grid-template-columns: 1fr; }
-      .hero-right { height: 50vh; }
-      .hero-right-overlay { background: linear-gradient(to top, var(--ink) 0%, transparent 60%); }
-      .hero-stats { display: none; }
-      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .skills-layout { grid-template-columns: 1fr; gap: 3rem; }
-      .cert-orgs { grid-template-columns: repeat(3, 1fr); }
-      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      footer { flex-direction: column; gap: 1.5rem; text-align: center; }
-    }
-    @media (max-width: 768px) {
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-      .hero-name { font-size: clamp(3.5rem, 14vw, 6rem); }
-      section { padding: 4rem 1.5rem; }
-      nav { padding: 1rem 1.5rem; }
-      .section-title { font-size: clamp(2.5rem, 9vw, 4rem); }
-      .about-detail-row { grid-template-columns: 1fr; gap: 0.3rem; }
-      footer { padding: 2rem 1.5rem; }
-    }
-
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--ink); }
-    ::-webkit-scrollbar-thumb { background: var(--mist); }
-    ::-webkit-scrollbar-thumb:hover { background: var(--acid); }
-
-    /* ── HERO BG LINES ── */
-    .hero-grid-bg {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 80px 80px;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* ── COUNTER ── */
-    .count-up { display: inline-block; }
-  </style>
+  <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
 
@@ -1226,7 +67,7 @@
     </div>
   </div>
   <div class="hero-right">
-    <img src="Profile.JPG" alt="Japhet Kundiman">
+    <img src="assets/images/profile/Profile.JPG" alt="Japhet Kundiman">
     <div class="hero-right-overlay"></div>
     <div class="hero-stats">
       <div class="hero-stat">
@@ -1343,7 +184,7 @@
     <!-- Project 1 -->
     <div class="project-item reveal">
       <div class="project-num">01 / 03</div>
-      <img src="UmOrg.png" alt="UM Org Connect" class="project-thumb">
+      <img src="assets/images/projects/UmOrg.png" alt="UM Org Connect" class="project-thumb">
       <div class="project-name">UM Org Connect</div>
       <p class="project-desc">An event management system with QR attendance, budgeting modules, and document submission workflows for student organizations.</p>
       <div class="project-tags">
@@ -1360,7 +201,7 @@
     <!-- Project 2 -->
     <div class="project-item reveal" style="transition-delay:0.1s">
       <div class="project-num">02 / 03</div>
-      <img src="Attendify.png" alt="Attendify" class="project-thumb">
+      <img src="assets/images/projects/Attendify.png" alt="Attendify" class="project-thumb">
       <div class="project-name">Attendify</div>
       <p class="project-desc">A QR-based classroom attendance tracker that streamlines teacher workflows and provides real-time attendance reports.</p>
       <div class="project-tags">
@@ -1377,7 +218,7 @@
     <!-- Project 3 -->
     <div class="project-item reveal" style="transition-delay:0.2s">
       <div class="project-num">03 / 03</div>
-      <img src="Ncip.png" alt="NCIP-EAP" class="project-thumb">
+      <img src="assets/images/projects/Ncip.png" alt="NCIP-EAP" class="project-thumb">
       <div class="project-name">NCIP-EAP</div>
       <p class="project-desc">A scholar portal and management system for NCIP IP scholars — combining applicant tracking, document management, and administrator dashboards.</p>
       <div class="project-tags">
@@ -1537,7 +378,7 @@
         <div class="cert-slide active" data-modal="ciscoModal">
           <div class="cert-slide-info">
             <div>
-              <img src="cisco.png" alt="Cisco" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/cisco.png" alt="Cisco" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Cisco Academy</div>
               <div class="cert-slide-org-count">3 Certs · 3 Badges</div>
               <ul class="cert-slide-list">
@@ -1549,28 +390,28 @@
             <button class="cert-slide-cta" onclick="openModal('ciscoModal')">View All Credentials →</button>
           </div>
           <div class="cert-slide-gallery">
-            <div class="cert-thumb" onclick="viewCertificate('1.png')">
-              <img src="1.png" alt="Cyber Threat Management">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/1.png')">
+              <img src="assets/images/certifications/1.png" alt="Cyber Threat Management">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('7.png')">
-              <img src="7.png" alt="Intro to Cybersecurity">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/7.png')">
+              <img src="assets/images/certifications/7.png" alt="Intro to Cybersecurity">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('8.png')">
-              <img src="8.png" alt="Network Defence">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/8.png')">
+              <img src="assets/images/certifications/8.png" alt="Network Defence">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('cyber.png')">
-              <img src="cyber.png" alt="Badge">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/cyber.png')">
+              <img src="assets/images/certifications/cyber.png" alt="Badge">
               <div class="cert-thumb-overlay"><span>Badge</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('intro.png')">
-              <img src="intro.png" alt="Badge">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/intro.png')">
+              <img src="assets/images/certifications/intro.png" alt="Badge">
               <div class="cert-thumb-overlay"><span>Badge</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('network.png')">
-              <img src="network.png" alt="Badge">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/network.png')">
+              <img src="assets/images/certifications/network.png" alt="Badge">
               <div class="cert-thumb-overlay"><span>Badge</span></div>
             </div>
           </div>
@@ -1580,7 +421,7 @@
         <div class="cert-slide" data-modal="coursebankModal">
           <div class="cert-slide-info">
             <div>
-              <img src="coursebank.jpg" alt="Coursebank" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/coursebank.jpg" alt="Coursebank" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Coursebank</div>
               <div class="cert-slide-org-count">3 Certifications</div>
               <ul class="cert-slide-list">
@@ -1592,16 +433,16 @@
             <button class="cert-slide-cta" onclick="openModal('coursebankModal')">View All Credentials →</button>
           </div>
           <div class="cert-slide-gallery">
-            <div class="cert-thumb" onclick="viewCertificate('2.png')">
-              <img src="2.png" alt="Presentation Slides">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/2.png')">
+              <img src="assets/images/certifications/2.png" alt="Presentation Slides">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('3.png')">
-              <img src="3.png" alt="Microsoft Productivity">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/3.png')">
+              <img src="assets/images/certifications/3.png" alt="Microsoft Productivity">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('4.png')">
-              <img src="4.png" alt="Google Workspace">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/4.png')">
+              <img src="assets/images/certifications/4.png" alt="Google Workspace">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1611,7 +452,7 @@
         <div class="cert-slide" data-modal="tesdaModal">
           <div class="cert-slide-info">
             <div>
-              <img src="tesda.png" alt="Tesda" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/tesda.png" alt="Tesda" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Tesda</div>
               <div class="cert-slide-org-count">5 Certifications</div>
               <ul class="cert-slide-list">
@@ -1625,24 +466,24 @@
             <button class="cert-slide-cta" onclick="openModal('tesdaModal')">View All Credentials →</button>
           </div>
           <div class="cert-slide-gallery">
-            <div class="cert-thumb" onclick="viewCertificate('9.png')">
-              <img src="9.png" alt="Installing Systems">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/9.png')">
+              <img src="assets/images/certifications/9.png" alt="Installing Systems">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('10.png')">
-              <img src="10.png" alt="CSS">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/10.png')">
+              <img src="assets/images/certifications/10.png" alt="CSS">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('11.png')">
-              <img src="11.png" alt="Maintaining Systems">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/11.png')">
+              <img src="assets/images/certifications/11.png" alt="Maintaining Systems">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('12.png')">
-              <img src="12.png" alt="Networks">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/12.png')">
+              <img src="assets/images/certifications/12.png" alt="Networks">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('13.png')">
-              <img src="13.png" alt="Servers">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/13.png')">
+              <img src="assets/images/certifications/13.png" alt="Servers">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1652,7 +493,7 @@
         <div class="cert-slide" data-modal="greatLearningModal">
           <div class="cert-slide-info">
             <div>
-              <img src="great_learning.jpg" alt="Great Learning" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/great_learning.jpg" alt="Great Learning" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Great Learning</div>
               <div class="cert-slide-org-count">1 Certification</div>
               <ul class="cert-slide-list">
@@ -1662,8 +503,8 @@
             <button class="cert-slide-cta" onclick="openModal('greatLearningModal')">View Credential →</button>
           </div>
           <div class="cert-slide-gallery one-cert">
-            <div class="cert-thumb" onclick="viewCertificate('14.png')">
-              <img src="14.png" alt="Figma for Beginners">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/14.png')">
+              <img src="assets/images/certifications/14.png" alt="Figma for Beginners">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1673,7 +514,7 @@
         <div class="cert-slide" data-modal="hackerRankModal">
           <div class="cert-slide-info">
             <div>
-              <img src="hackerrank.png" alt="HackerRank" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/hackerrank.png" alt="HackerRank" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">HackerRank</div>
               <div class="cert-slide-org-count">2 Certifications</div>
               <ul class="cert-slide-list">
@@ -1684,12 +525,12 @@
             <button class="cert-slide-cta" onclick="openModal('hackerRankModal')">View All Credentials →</button>
           </div>
           <div class="cert-slide-gallery few-certs">
-            <div class="cert-thumb" onclick="viewCertificate('15.png')">
-              <img src="15.png" alt="Java Basic">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/15.png')">
+              <img src="assets/images/certifications/15.png" alt="Java Basic">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('16.png')">
-              <img src="16.png" alt="SQL Basic">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/16.png')">
+              <img src="assets/images/certifications/16.png" alt="SQL Basic">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1699,7 +540,7 @@
         <div class="cert-slide" data-modal="itsModal">
           <div class="cert-slide-info">
             <div>
-              <img src="ITS.png" alt="IT Specialist" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/ITS.png" alt="IT Specialist" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">IT Specialist</div>
               <div class="cert-slide-org-count">1 Paid Certification</div>
               <ul class="cert-slide-list">
@@ -1709,8 +550,8 @@
             <button class="cert-slide-cta" onclick="openModal('itsModal')">View Credential →</button>
           </div>
           <div class="cert-slide-gallery one-cert">
-            <div class="cert-thumb" onclick="viewCertificate('17.png')">
-              <img src="17.png" alt="IT Specialist — HTML & CSS">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/17.png')">
+              <img src="assets/images/certifications/17.png" alt="IT Specialist — HTML & CSS">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1720,7 +561,7 @@
         <div class="cert-slide" data-modal="courseraModal">
           <div class="cert-slide-info">
             <div>
-              <img src="coursera.png" alt="Coursera" class="cert-slide-org-logo">
+              <img src="assets/images/certifications/coursera.png" alt="Coursera" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Coursera</div>
               <div class="cert-slide-org-count">2 Certifications</div>
               <ul class="cert-slide-list">
@@ -1731,12 +572,12 @@
             <button class="cert-slide-cta" onclick="openModal('courseraModal')">View All Credentials →</button>
           </div>
           <div class="cert-slide-gallery few-certs">
-            <div class="cert-thumb" onclick="viewCertificate('5.png')">
-              <img src="5.png" alt="Foundations: Data, Data, Everywhere">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/5.png')">
+              <img src="assets/images/certifications/5.png" alt="Foundations: Data, Data, Everywhere">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
-            <div class="cert-thumb" onclick="viewCertificate('6.png')">
-              <img src="6.png" alt="Foundations of User Experience (UX) Design">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/6.png')">
+              <img src="assets/images/certifications/6.png" alt="Foundations of User Experience (UX) Design">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1820,28 +661,28 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid">
-        <div class="cert-card" onclick="viewCertificate('1.png')">
-          <img src="1.png" alt="Cert">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/1.png')">
+          <img src="assets/images/certifications/1.png" alt="Cert">
           <div class="cert-card-info"><div class="cert-card-name">Cyber Threat Management</div><div class="cert-card-type">Professional Certificate</div></div>
         </div>
-        <div class="cert-card" onclick="viewCertificate('7.png')">
-          <img src="7.png" alt="Cert">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/7.png')">
+          <img src="assets/images/certifications/7.png" alt="Cert">
           <div class="cert-card-info"><div class="cert-card-name">Introduction to Cybersecurity</div><div class="cert-card-type">Foundation Certificate</div></div>
         </div>
-        <div class="cert-card" onclick="viewCertificate('8.png')">
-          <img src="8.png" alt="Cert">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/8.png')">
+          <img src="assets/images/certifications/8.png" alt="Cert">
           <div class="cert-card-info"><div class="cert-card-name">Network Defence</div><div class="cert-card-type">Specialized Certificate</div></div>
         </div>
-        <div class="cert-card" onclick="viewCertificate('cyber.png')">
-          <img src="cyber.png" alt="Badge">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/cyber.png')">
+          <img src="assets/images/certifications/cyber.png" alt="Badge">
           <div class="cert-card-info"><div class="cert-card-name">Cyber Threat Management</div><div class="cert-card-type">Digital Badge</div></div>
         </div>
-        <div class="cert-card" onclick="viewCertificate('intro.png')">
-          <img src="intro.png" alt="Badge">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/intro.png')">
+          <img src="assets/images/certifications/intro.png" alt="Badge">
           <div class="cert-card-info"><div class="cert-card-name">Intro to Cybersecurity</div><div class="cert-card-type">Digital Badge</div></div>
         </div>
-        <div class="cert-card" onclick="viewCertificate('network.png')">
-          <img src="network.png" alt="Badge">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/network.png')">
+          <img src="assets/images/certifications/network.png" alt="Badge">
           <div class="cert-card-info"><div class="cert-card-name">Network Defence</div><div class="cert-card-type">Digital Badge</div></div>
         </div>
       </div>
@@ -1858,9 +699,9 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid">
-        <div class="cert-card" onclick="viewCertificate('2.png')"><img src="2.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Designing Presentation Slides</div><div class="cert-card-type">Design Certificate</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('3.png')"><img src="3.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Microsoft Productivity Tools</div><div class="cert-card-type">Productivity</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('4.png')"><img src="4.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Navigating Google Workspace</div><div class="cert-card-type">Workspace</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/2.png')"><img src="assets/images/certifications/2.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Designing Presentation Slides</div><div class="cert-card-type">Design Certificate</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/3.png')"><img src="assets/images/certifications/3.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Microsoft Productivity Tools</div><div class="cert-card-type">Productivity</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/4.png')"><img src="assets/images/certifications/4.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Navigating Google Workspace</div><div class="cert-card-type">Workspace</div></div></div>
       </div>
     </div>
   </div>
@@ -1875,11 +716,11 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid">
-        <div class="cert-card" onclick="viewCertificate('9.png')"><img src="9.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Installing & Configuring Systems</div><div class="cert-card-type">System Administration</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('10.png')"><img src="10.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to CSS</div><div class="cert-card-type">Web Development</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('11.png')"><img src="11.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Maintaining Computer Systems</div><div class="cert-card-type">Network Administration</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('12.png')"><img src="12.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Setting Up Networks</div><div class="cert-card-type">Network Configuration</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('13.png')"><img src="13.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Setting Up Servers</div><div class="cert-card-type">Server Administration</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/9.png')"><img src="assets/images/certifications/9.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Installing & Configuring Systems</div><div class="cert-card-type">System Administration</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/10.png')"><img src="assets/images/certifications/10.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to CSS</div><div class="cert-card-type">Web Development</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/11.png')"><img src="assets/images/certifications/11.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Maintaining Computer Systems</div><div class="cert-card-type">Network Administration</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/12.png')"><img src="assets/images/certifications/12.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Setting Up Networks</div><div class="cert-card-type">Network Configuration</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/13.png')"><img src="assets/images/certifications/13.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Setting Up Servers</div><div class="cert-card-type">Server Administration</div></div></div>
       </div>
     </div>
   </div>
@@ -1894,7 +735,7 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid" style="max-width:300px">
-        <div class="cert-card" onclick="viewCertificate('14.png')"><img src="14.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Programming Basics</div><div class="cert-card-type">Foundation Certificate</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/14.png')"><img src="assets/images/certifications/14.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Programming Basics</div><div class="cert-card-type">Foundation Certificate</div></div></div>
       </div>
     </div>
   </div>
@@ -1909,8 +750,8 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid">
-        <div class="cert-card" onclick="viewCertificate('15.png')"><img src="15.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Java (Basics)</div><div class="cert-card-type">Backend Certificate</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('16.png')"><img src="16.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">SQL (Basics)</div><div class="cert-card-type">Backend Certificate</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/15.png')"><img src="assets/images/certifications/15.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Java (Basics)</div><div class="cert-card-type">Backend Certificate</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/16.png')"><img src="assets/images/certifications/16.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">SQL (Basics)</div><div class="cert-card-type">Backend Certificate</div></div></div>
       </div>
     </div>
   </div>
@@ -1925,7 +766,7 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid" style="max-width:300px">
-        <div class="cert-card" onclick="viewCertificate('17.png')"><img src="17.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">HTML/CSS</div><div class="cert-card-type">Professional (Paid)</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/17.png')"><img src="assets/images/certifications/17.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">HTML/CSS</div><div class="cert-card-type">Professional (Paid)</div></div></div>
       </div>
     </div>
   </div>
@@ -1940,8 +781,8 @@
     </div>
     <div class="modal-body">
       <div class="cert-grid">
-        <div class="cert-card" onclick="viewCertificate('5.png')"><img src="5.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations: Data, Data, Everywhere</div><div class="cert-card-type">Data Analytics</div></div></div>
-        <div class="cert-card" onclick="viewCertificate('6.png')"><img src="6.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of User Experience (UX) Design</div><div class="cert-card-type">UX Design</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/5.png')"><img src="assets/images/certifications/5.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations: Data, Data, Everywhere</div><div class="cert-card-type">Data Analytics</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/6.png')"><img src="assets/images/certifications/6.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of User Experience (UX) Design</div><div class="cert-card-type">UX Design</div></div></div>
       </div>
     </div>
   </div>
@@ -1982,311 +823,6 @@
   <button class="video-modal-close" onclick="closeVideoModal('ncipVideo')">← Close</button>
 </div>
 
-<script>
-// ── EmailJS Init ──
-(function () { emailjs.init("I4Gf5AHZD3VDl1rgR"); })();
-
-// ── Custom Cursor ──
-const cursor = document.getElementById('cursor');
-const cursorRing = document.getElementById('cursor-ring');
-let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
-document.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX - 6 + 'px';
-  cursor.style.top = mouseY - 6 + 'px';
-});
-
-function animRing() {
-  ringX += (mouseX - ringX - 20) * 0.12;
-  ringY += (mouseY - ringY - 20) * 0.12;
-  cursorRing.style.left = ringX + 'px';
-  cursorRing.style.top = ringY + 'px';
-  requestAnimationFrame(animRing);
-}
-animRing();
-
-// ── Nav scroll ──
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-  document.getElementById('backToTop').classList.toggle('show', window.scrollY > 300);
-});
-
-// ── Smooth nav links ──
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  });
-});
-
-// ── Mobile Menu ──
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobileMenu');
-  const btn = document.getElementById('hamburgerBtn');
-  menu.classList.toggle('open');
-  btn.classList.toggle('open');
-}
-function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.getElementById('hamburgerBtn').classList.remove('open');
-}
-
-// ── Typed Text ──
-const texts = ["IT Student & Developer", "Full-Stack Developer", "Problem Solver", "Tech Enthusiast"];
-let textIndex = 0, charIndex = 0, isDeleting = false;
-function typeText() {
-  const el = document.getElementById('typed-text');
-  if (!el) return;
-  const current = texts[textIndex];
-  el.textContent = isDeleting ? current.substring(0, charIndex - 1) : current.substring(0, charIndex + 1);
-  isDeleting ? charIndex-- : charIndex++;
-  if (!isDeleting && charIndex === current.length) setTimeout(() => isDeleting = true, 2000);
-  else if (isDeleting && charIndex === 0) { isDeleting = false; textIndex = (textIndex + 1) % texts.length; }
-  setTimeout(typeText, isDeleting ? 50 : 100);
-}
-setTimeout(typeText, 1000);
-
-// ── Scroll Reveal ──
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      // Trigger skill bars
-      entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width + '%';
-      });
-      // Trigger count-ups
-      entry.target.querySelectorAll('.count-up').forEach(el => {
-        const target = parseInt(el.dataset.target);
-        let current = 0;
-        const step = target / 40;
-        const timer = setInterval(() => {
-          current += step;
-          if (current >= target) { el.textContent = target + (target === 4 ? '+' : ''); clearInterval(timer); }
-          else el.textContent = Math.floor(current);
-        }, 30);
-      });
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-
-document.querySelectorAll('.reveal, .reveal-left').forEach(el => revealObserver.observe(el));
-
-// Also observe skill bars and count-up containers
-document.querySelectorAll('.count-up').forEach(el => {
-  const parent = el.closest('.hero-stat');
-  if (parent) {
-    // hero stats - trigger on load after short delay
-    setTimeout(() => {
-      const target = parseInt(el.dataset.target);
-      let current = 0;
-      const step = Math.max(1, target / 40);
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) { el.textContent = target + (target === 4 ? '+' : ''); clearInterval(timer); }
-        else el.textContent = Math.floor(current);
-      }, 40);
-    }, 1200);
-  }
-});
-
-// ── Skill bars standalone observer ──
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width + '%';
-      });
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.2 });
-document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
-
-// ── Modals ──
-function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
-document.querySelectorAll('.modal').forEach(modal => {
-  modal.addEventListener('click', e => { if (e.target === modal) closeModal(modal.id); });
-});
-
-// ── Certificate Viewer ──
-function viewCertificate(src) {
-  document.getElementById('certificateImg').src = src;
-  document.getElementById('certificateView').classList.add('open');
-}
-document.getElementById('certificateView').addEventListener('click', e => {
-  if (e.target === document.getElementById('certificateView')) document.getElementById('certificateView').classList.remove('open');
-});
-
-// ── Video Modals ──
-function openVideoModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-function closeVideoModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow='';
-  document.querySelectorAll('video').forEach(v => { v.pause(); v.currentTime = 0; });
-}
-document.querySelectorAll('.video-modal').forEach(modal => {
-  modal.addEventListener('click', e => { if (e.target === modal) closeVideoModal(modal.id); });
-});
-
-// ── Resume Download ──
-function downloadResume() {
-  const link = document.createElement('a');
-  link.href = 'Kundiman Resume.pdf';
-  link.download = 'Japhet_Kundiman_Resume.pdf';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
-
-// ── Contact Form ──
-function handleContactForm(event) {
-  event.preventDefault();
-  const btn = event.target.querySelector('button[type="submit"]');
-  const orig = btn.textContent;
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  emailjs.send('service_qoejl9a', 'template_efch3rd', {
-    from_name: document.getElementById('contactName').value,
-    from_email: document.getElementById('contactEmail').value,
-    message: document.getElementById('contactMessage').value,
-    to_email: 'japhetkundiman11@gmail.com'
-  }).then(() => {
-    const success = document.getElementById('contactSuccess');
-    success.classList.add('show');
-    document.getElementById('contactForm').reset();
-    btn.textContent = orig;
-    btn.disabled = false;
-    setTimeout(() => success.classList.remove('show'), 5000);
-  }, () => {
-    alert('Error sending. Try japhetkundiman11@gmail.com directly.');
-    btn.textContent = orig;
-    btn.disabled = false;
-  });
-}
-
-// ── Certifications Slideshow ──
-(function() {
-  const viewport = document.getElementById('certViewport');
-  const slides = Array.from(document.querySelectorAll('.cert-slide'));
-  const counter = document.getElementById('certCounter');
-  const dotsContainer = document.getElementById('certDots');
-  const progressFill = document.getElementById('certProgressFill');
-  const autoplayBtn = document.getElementById('certAutoplayBtn');
-
-  const TOTAL = slides.length;
-  const AUTOPLAY_INTERVAL = 4500;
-  let current = 0;
-  let autoplayTimer = null;
-  let progressTimer = null;
-  let isPlaying = true;
-
-  // Build dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'cert-dot' + (i === 0 ? ' active' : '');
-    dot.style.width = i === 0 ? '32px' : '16px';
-    dot.addEventListener('click', () => goTo(i));
-    dotsContainer.appendChild(dot);
-  });
-
-  function updateDots() {
-    document.querySelectorAll('.cert-dot').forEach((d, i) => {
-      d.classList.toggle('active', i === current);
-      d.style.width = i === current ? '32px' : '16px';
-    });
-  }
-
-  function goTo(index) {
-    slides[current].classList.remove('active');
-    current = (index + TOTAL) % TOTAL;
-    slides[current].classList.add('active');
-    viewport.style.transform = `translateX(-${current * 100}%)`;
-    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
-    updateDots();
-    if (isPlaying) startProgress();
-  }
-
-  function startProgress() {
-    clearInterval(progressTimer);
-    progressFill.style.transition = 'none';
-    progressFill.style.width = '0%';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        progressFill.style.transition = `width ${AUTOPLAY_INTERVAL}ms linear`;
-        progressFill.style.width = '100%';
-      });
-    });
-  }
-
-  function startAutoplay() {
-    clearInterval(autoplayTimer);
-    startProgress();
-    autoplayTimer = setInterval(() => goTo(current + 1), AUTOPLAY_INTERVAL);
-  }
-
-  function stopAutoplay() {
-    clearInterval(autoplayTimer);
-    clearInterval(progressTimer);
-    progressFill.style.transition = 'none';
-    progressFill.style.width = '0%';
-  }
-
-  window.toggleCertAutoplay = function() {
-    isPlaying = !isPlaying;
-    if (isPlaying) {
-      startAutoplay();
-      autoplayBtn.textContent = '⏸ Pause';
-      autoplayBtn.classList.add('playing');
-    } else {
-      stopAutoplay();
-      autoplayBtn.textContent = '▶ Play';
-      autoplayBtn.classList.remove('playing');
-    }
-  };
-
-  window.moveCertSlide = function(dir) {
-    if (isPlaying) startAutoplay(); // reset timer
-    goTo(current + dir);
-  };
-
-  // Pause on hover
-  const stage = document.getElementById('certStage');
-  stage.addEventListener('mouseenter', () => { if (isPlaying) stopAutoplay(); });
-  stage.addEventListener('mouseleave', () => { if (isPlaying) startAutoplay(); });
-
-  // Touch/swipe support
-  let touchStartX = 0;
-  stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  stage.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) moveCertSlide(diff > 0 ? 1 : -1);
-  }, { passive: true });
-
-  // Init
-  goTo(0);
-  startAutoplay();
-})();
-
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal.open, .video-modal.open').forEach(m => {
-      m.classList.remove('open');
-      document.body.style.overflow = '';
-    });
-    document.getElementById('certificateView').classList.remove('open');
-    closeMobileMenu();
-  }
-});
-</script>
+  <script src="assets/js/script.js"></script>
 </body>
 </html>
