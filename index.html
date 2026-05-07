@@ -656,6 +656,7 @@
     <div class="badge-orbit-ring badge-orbit-1"></div>
     <div class="badge-orbit-ring badge-orbit-2"></div>
     <div class="badge-orbit-ring badge-orbit-3"></div>
+    <div class="badge-orbit-ring badge-orbit-4"></div>
 
     <!-- Center spotlight beam -->
     <div class="badge-spotlight"></div>
@@ -895,9 +896,17 @@
   transform: rotateX(75deg) rotateZ(-20deg);
   animation: orbitPulse3 12s ease-in-out infinite;
 }
+.badge-orbit-4 {
+  width: 780px; height: 780px;
+  margin: -390px 0 0 -390px;
+  border: 1px solid rgba(200,241,53,0.018);
+  transform: rotateX(75deg) rotateZ(48deg);
+  animation: orbitPulse4 15s ease-in-out infinite;
+}
 @keyframes orbitPulse1 { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
 @keyframes orbitPulse2 { 0%,100%{opacity:0.4;} 50%{opacity:0.7;} }
 @keyframes orbitPulse3 { 0%,100%{opacity:0.3;} 50%{opacity:0.5;} }
+@keyframes orbitPulse4 { 0%,100%{opacity:0.2;} 50%{opacity:0.4;} }
 
 /* ── SPOTLIGHT ── */
 .badge-spotlight {
@@ -1040,6 +1049,7 @@
   .badge-orbit-1 { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
   .badge-orbit-2 { width: 400px; height: 400px; margin: -200px 0 0 -200px; }
   .badge-orbit-3 { display: none; }
+  .badge-orbit-4 { display: none; }
 }
 </style>
 
@@ -1066,6 +1076,13 @@
       type: 'Digital Badge · Networking',
       issuer: 'Cisco Academy',
       issuerLogo: 'assets/images/certifications/cisco.png'
+    },
+    {
+      img: 'assets/images/certifications/Data Structures.png',
+      title: 'Python (Data Structures)',
+      type: 'Digital Badge · Python',
+      issuer: 'Codedex',
+      issuerLogo: 'assets/images/branding/Logo.png'
     }
   ];
 
