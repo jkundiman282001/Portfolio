@@ -8,254 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <link rel="stylesheet" href="assets/css/styles.css">
-  <style>
-    /* ── PROFILE NAV DROPDOWN ── */
-    .nav-dropdown-wrap {
-      position: relative;
-      list-style: none;
-    }
-    .nav-dropdown-trigger {
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mist, #8a8a8a);
-      background: none;
-      border: none;
-      cursor: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0;
-      transition: color 0.2s;
-      position: relative;
-    }
-    .nav-dropdown-trigger::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: var(--acid, #c8f135);
-      transition: width 0.3s;
-    }
-    .nav-dropdown-trigger:hover,
-    .nav-dropdown-trigger[aria-expanded="true"] { color: var(--paper, #f0ede6); }
-    .nav-dropdown-trigger:hover::after,
-    .nav-dropdown-trigger[aria-expanded="true"]::after { width: 100%; }
-    .nav-dropdown-caret {
-      stroke: currentColor;
-      transition: transform 0.25s cubic-bezier(0.23,1,0.32,1);
-      flex-shrink: 0;
-    }
-    .nav-dropdown-trigger[aria-expanded="true"] .nav-dropdown-caret { transform: rotate(180deg); }
-
-    .nav-dropdown-menu {
-      position: absolute;
-      top: calc(100% + 1.2rem);
-      right: 0;
-      min-width: 220px;
-      background: rgba(10,10,10,0.97);
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(20px);
-      padding: 0.5rem 0;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-8px);
-      transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.23,1,0.32,1);
-      z-index: 200;
-    }
-    .nav-dropdown-menu.open {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateY(0);
-    }
-    .nav-dropdown-label {
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.58rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(138,138,138,0.5);
-      padding: 0.6rem 1.25rem 0.4rem;
-    }
-    .nav-dropdown-item {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.75rem 1.25rem;
-      text-decoration: none;
-      color: var(--paper, #f0ede6);
-      transition: background 0.15s;
-      cursor: none;
-    }
-    .nav-dropdown-item:hover { background: rgba(200,241,53,0.06); }
-    .nav-dropdown-item-icon {
-      color: var(--acid, #c8f135);
-      font-size: 0.8rem;
-      flex-shrink: 0;
-    }
-    .nav-dropdown-item-title {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      margin-bottom: 0.15rem;
-    }
-    .nav-dropdown-item-sub {
-      display: block;
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mist, #8a8a8a);
-    }
-
-    /* ── BADGES SECTION ── */
-    #badges {
-      background: var(--slate, #1a1a1a);
-    }
-    .badges-intro {
-      font-size: 0.95rem;
-      color: var(--mist, #8a8a8a);
-      font-weight: 300;
-      line-height: 1.7;
-      max-width: 520px;
-      margin-bottom: 4rem;
-    }
-    .badges-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-    .badge-card {
-      cursor: none;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.02);
-      transition: border-color 0.3s, background 0.3s, transform 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .badge-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 0; height: 2px;
-      background: var(--acid, #c8f135);
-      transition: width 0.4s cubic-bezier(0.23,1,0.32,1);
-    }
-    .badge-card:hover { border-color: rgba(200,241,53,0.3); background: rgba(200,241,53,0.03); transform: translateY(-4px); }
-    .badge-card:hover::before { width: 100%; }
-
-    .badge-card-inner { display: flex; flex-direction: column; }
-
-    .badge-img-wrap {
-      position: relative;
-      aspect-ratio: 1/1;
-      background: rgba(0,0,0,0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2.5rem;
-      overflow: hidden;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .badge-img-wrap img {
-      width: 100%;
-      max-width: 160px;
-      height: auto;
-      object-fit: contain;
-      display: block;
-      filter: drop-shadow(0 8px 24px rgba(200,241,53,0.15));
-      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), filter 0.3s;
-    }
-    .badge-card:hover .badge-img-wrap img {
-      transform: scale(1.06);
-      filter: drop-shadow(0 12px 32px rgba(200,241,53,0.3));
-    }
-    .badge-view-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,10,10,0.75);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.22s;
-    }
-    .badge-card:hover .badge-view-overlay { opacity: 1; }
-    .badge-view-overlay span {
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--acid, #c8f135);
-      border: 1px solid var(--acid, #c8f135);
-      padding: 0.5rem 1rem;
-    }
-
-    .badge-card-body {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    .badge-issuer {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.25rem;
-    }
-    .badge-issuer-logo {
-      width: 18px; height: 18px;
-      object-fit: contain;
-      filter: grayscale(40%);
-    }
-    .badge-issuer span {
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.58rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--mist, #8a8a8a);
-    }
-    .badge-name {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--paper, #f0ede6);
-      line-height: 1.3;
-    }
-    .badge-type {
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mist, #8a8a8a);
-    }
-    .badge-verify {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      font-family: var(--font-mono, 'DM Mono', monospace);
-      font-size: 0.58rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #4ade80;
-      margin-top: 0.5rem;
-    }
-    .badge-verify-dot {
-      width: 6px; height: 6px;
-      background: #4ade80;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: badge-pulse 2s infinite;
-    }
-    @keyframes badge-pulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
-
-    @media (max-width: 1024px) {
-      .badges-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 600px) {
-      .badges-grid { grid-template-columns: 1fr; }
-      .nav-dropdown-menu { right: auto; left: 0; }
-    }
-  </style>
 </head>
 <body>
 
@@ -277,23 +29,8 @@
     <li><a href="#projects">Work</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#certifications">Certs</a></li>
+    <li><a href="#badges">Badges</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li class="nav-dropdown-wrap" id="profileNavItem">
-      <button class="nav-dropdown-trigger" onclick="toggleProfileDropdown(event)" aria-expanded="false" aria-haspopup="true">
-        Profile
-        <svg class="nav-dropdown-caret" fill="none" viewBox="0 0 24 24" width="10" height="10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-      </button>
-      <div class="nav-dropdown-menu" id="profileDropdown" role="menu">
-        <div class="nav-dropdown-label">Profile</div>
-        <a href="#badges" class="nav-dropdown-item" onclick="closeProfileDropdown(); smoothScrollTo('badges');" role="menuitem">
-          <span class="nav-dropdown-item-icon">◈</span>
-          <span>
-            <span class="nav-dropdown-item-title">Badges</span>
-            <span class="nav-dropdown-item-sub">3 digital credentials</span>
-          </span>
-        </a>
-      </div>
-    </li>
   </ul>
   <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
   <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()">
@@ -624,7 +361,7 @@
         total credentials earned
       </div>
       <div class="cert-slide-controls">
-        <span class="cert-slide-counter" id="certCounter">01 / 06</span>
+        <span class="cert-slide-counter" id="certCounter">01 / 07</span>
         <button class="cert-autoplay-btn playing" id="certAutoplayBtn" onclick="toggleCertAutoplay()">⏸ Pause</button>
         <button class="cert-ctrl-btn" onclick="moveCertSlide(-1)" title="Previous">
           <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
@@ -850,84 +587,677 @@
 </section>
 
 <!-- BADGES -->
-<section id="badges">
-  <div class="section-label">Digital Credentials</div>
-  <h2 class="section-title reveal">My <em>Badges</em></h2>
-  <p class="badges-intro reveal">Verified digital badges earned from completing Cisco Academy cybersecurity courses — click any badge to view full credential.</p>
+<section id="badges" class="badges-section">
+  <div class="badges-bg-grid"></div>
+  <div class="badges-bg-glow"></div>
 
-  <div class="badges-grid reveal">
+  <div class="badges-header">
+    <div class="section-label">Digital Credentials</div>
+    <h2 class="section-title reveal">Badge <em>Showcase</em></h2>
+    <p class="badges-subtitle reveal">Drag to spin · Click any badge to inspect</p>
+  </div>
 
-    <div class="badge-card" onclick="viewCertificate('assets/images/certifications/cyber.png')">
-      <div class="badge-card-inner">
-        <div class="badge-img-wrap">
+  <!-- 3D Carousel Stage -->
+  <div class="badge-carousel-scene" id="badgeScene">
+    <div class="badge-carousel-ring" id="badgeRing">
+
+      <div class="badge-item" data-index="0"
+           data-title="Cyber Threat Management"
+           data-type="Digital Badge · Cybersecurity"
+           data-issuer="Cisco Academy"
+           data-img="assets/images/certifications/cyber.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
           <img src="assets/images/certifications/cyber.png" alt="Cyber Threat Management Badge">
-          <div class="badge-view-overlay">
-            <span>View Badge</span>
-          </div>
-        </div>
-        <div class="badge-card-body">
-          <div class="badge-issuer">
-            <img src="assets/images/certifications/cisco.png" alt="Cisco" class="badge-issuer-logo">
-            <span>Cisco Academy</span>
-          </div>
-          <div class="badge-name">Cyber Threat Management</div>
-          <div class="badge-type">Digital Badge · Cybersecurity</div>
-          <div class="badge-verify">
-            <span class="badge-verify-dot"></span>
-            Verified Credential
-          </div>
+          <div class="badge-item-shine"></div>
         </div>
       </div>
-    </div>
 
-    <div class="badge-card" onclick="viewCertificate('assets/images/certifications/intro.png')">
-      <div class="badge-card-inner">
-        <div class="badge-img-wrap">
+      <div class="badge-item" data-index="1"
+           data-title="Introduction to Cybersecurity"
+           data-type="Digital Badge · Cybersecurity"
+           data-issuer="Cisco Academy"
+           data-img="assets/images/certifications/intro.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
           <img src="assets/images/certifications/intro.png" alt="Intro to Cybersecurity Badge">
-          <div class="badge-view-overlay">
-            <span>View Badge</span>
-          </div>
-        </div>
-        <div class="badge-card-body">
-          <div class="badge-issuer">
-            <img src="assets/images/certifications/cisco.png" alt="Cisco" class="badge-issuer-logo">
-            <span>Cisco Academy</span>
-          </div>
-          <div class="badge-name">Introduction to Cybersecurity</div>
-          <div class="badge-type">Digital Badge · Cybersecurity</div>
-          <div class="badge-verify">
-            <span class="badge-verify-dot"></span>
-            Verified Credential
-          </div>
+          <div class="badge-item-shine"></div>
         </div>
       </div>
-    </div>
 
-    <div class="badge-card" onclick="viewCertificate('assets/images/certifications/network.png')">
-      <div class="badge-card-inner">
-        <div class="badge-img-wrap">
+      <div class="badge-item" data-index="2"
+           data-title="Network Defence"
+           data-type="Digital Badge · Networking"
+           data-issuer="Cisco Academy"
+           data-img="assets/images/certifications/network.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
           <img src="assets/images/certifications/network.png" alt="Network Defence Badge">
-          <div class="badge-view-overlay">
-            <span>View Badge</span>
-          </div>
-        </div>
-        <div class="badge-card-body">
-          <div class="badge-issuer">
-            <img src="assets/images/certifications/cisco.png" alt="Cisco" class="badge-issuer-logo">
-            <span>Cisco Academy</span>
-          </div>
-          <div class="badge-name">Network Defence</div>
-          <div class="badge-type">Digital Badge · Networking</div>
-          <div class="badge-verify">
-            <span class="badge-verify-dot"></span>
-            Verified Credential
-          </div>
+          <div class="badge-item-shine"></div>
         </div>
       </div>
+
     </div>
 
+    <!-- Orbital ring decorations -->
+    <div class="badge-orbit-ring badge-orbit-1"></div>
+    <div class="badge-orbit-ring badge-orbit-2"></div>
+    <div class="badge-orbit-ring badge-orbit-3"></div>
+
+    <!-- Center spotlight beam -->
+    <div class="badge-spotlight"></div>
+
+    <!-- Floating particles -->
+    <canvas class="badge-particles" id="badgeParticles"></canvas>
+  </div>
+
+  <!-- Info panel — updates on focus -->
+  <div class="badge-info-panel" id="badgeInfoPanel">
+    <div class="badge-info-issuer" id="badgeInfoIssuer">
+      <img src="assets/images/certifications/cisco.png" alt="Cisco" id="badgeInfoLogo">
+      <span id="badgeInfoIssuerName">Cisco Academy</span>
+    </div>
+    <div class="badge-info-title" id="badgeInfoTitle">Cyber Threat Management</div>
+    <div class="badge-info-type" id="badgeInfoType">Digital Badge · Cybersecurity</div>
+    <div class="badge-info-actions">
+      <button class="badge-info-view" id="badgeInfoView" onclick="viewActiveBadge()">
+        View Full Badge
+        <svg fill="none" viewBox="0 0 24 24" width="14" height="14"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </button>
+      <div class="badge-info-verified">
+        <span class="badge-verified-dot"></span>
+        Verified Credential
+      </div>
+    </div>
+  </div>
+
+  <!-- Drag hint -->
+  <div class="badge-drag-hint" id="badgeDragHint">
+    <svg fill="none" viewBox="0 0 24 24" width="16" height="16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+    Drag to rotate
   </div>
 </section>
+
+<style>
+/* ═══════════════════════════════
+   BADGES SECTION — IMMERSIVE 3D
+   ═══════════════════════════════ */
+.badges-section {
+  position: relative;
+  background: #04040a;
+  padding: 8rem 3rem 6rem;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badges-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.badges-bg-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(ellipse at center,
+    rgba(200,241,53,0.07) 0%,
+    rgba(200,241,53,0.03) 30%,
+    transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.badges-header {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.badges-subtitle {
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(200,241,53,0.5);
+  margin-top: -2.5rem;
+  margin-bottom: 0;
+}
+
+/* ── 3D CAROUSEL SCENE ── */
+.badge-carousel-scene {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 520px;
+  perspective: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  cursor: grab;
+  user-select: none;
+  margin: 2rem auto 0;
+}
+.badge-carousel-scene:active { cursor: grabbing; }
+
+.badge-carousel-ring {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  transform-style: preserve-3d;
+  animation: badgeAutoSpin 18s linear infinite;
+  will-change: transform;
+}
+.badge-carousel-ring.dragging { animation-play-state: paused; }
+
+@keyframes badgeAutoSpin {
+  from { transform: rotateY(0deg) rotateX(-8deg); }
+  to   { transform: rotateY(360deg) rotateX(-8deg); }
+}
+
+/* ── BADGE ITEMS ── */
+.badge-item {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 200px; height: 200px;
+  margin: -100px 0 0 -100px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: filter 0.4s;
+}
+
+.badge-item-face {
+  width: 100%; height: 100%;
+  background: rgba(10,10,18,0.85);
+  border: 1px solid rgba(200,241,53,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.8rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  box-shadow:
+    0 0 0 1px rgba(200,241,53,0.05),
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.badge-item.active .badge-item-face {
+  border-color: rgba(200,241,53,0.55);
+  box-shadow:
+    0 0 0 1px rgba(200,241,53,0.3),
+    0 0 40px rgba(200,241,53,0.2),
+    0 30px 80px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.badge-item-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 6px 20px rgba(200,241,53,0.25));
+  transition: filter 0.3s, transform 0.3s;
+}
+.badge-item.active .badge-item-face img {
+  filter: drop-shadow(0 8px 30px rgba(200,241,53,0.5));
+  transform: scale(1.05);
+}
+
+/* Shimmer shine */
+.badge-item-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 40%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 60%
+  );
+  animation: badgeShine 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes badgeShine {
+  0%,100% { opacity: 0; transform: translateX(-100%); }
+  50% { opacity: 1; transform: translateX(100%); }
+}
+
+/* Corner glow on active */
+.badge-item-glow {
+  position: absolute;
+  inset: -1px;
+  background: transparent;
+  transition: background 0.4s;
+  pointer-events: none;
+  z-index: 0;
+}
+.badge-item.active .badge-item-glow {
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(200,241,53,0.08) 0%,
+    transparent 70%
+  );
+}
+
+/* ── ORBITAL RINGS ── */
+.badge-orbit-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+.badge-orbit-1 {
+  width: 420px; height: 420px;
+  margin: -210px 0 0 -210px;
+  border: 1px solid rgba(200,241,53,0.06);
+  transform: rotateX(75deg);
+  animation: orbitPulse1 6s ease-in-out infinite;
+}
+.badge-orbit-2 {
+  width: 560px; height: 560px;
+  margin: -280px 0 0 -280px;
+  border: 1px solid rgba(200,241,53,0.03);
+  transform: rotateX(75deg) rotateZ(30deg);
+  animation: orbitPulse2 9s ease-in-out infinite;
+}
+.badge-orbit-3 {
+  width: 680px; height: 680px;
+  margin: -340px 0 0 -340px;
+  border: 1px dashed rgba(200,241,53,0.02);
+  transform: rotateX(75deg) rotateZ(-20deg);
+  animation: orbitPulse3 12s ease-in-out infinite;
+}
+@keyframes orbitPulse1 { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+@keyframes orbitPulse2 { 0%,100%{opacity:0.4;} 50%{opacity:0.7;} }
+@keyframes orbitPulse3 { 0%,100%{opacity:0.3;} 50%{opacity:0.5;} }
+
+/* ── SPOTLIGHT ── */
+.badge-spotlight {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 500px;
+  background: conic-gradient(
+    from 270deg at 50% 100%,
+    transparent 75deg,
+    rgba(200,241,53,0.04) 90deg,
+    rgba(200,241,53,0.09) 95deg,
+    rgba(200,241,53,0.04) 100deg,
+    transparent 115deg
+  );
+  pointer-events: none;
+  animation: spotlightBreath 4s ease-in-out infinite;
+}
+@keyframes spotlightBreath { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+
+/* ── PARTICLES CANVAS ── */
+.badge-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── INFO PANEL ── */
+.badge-info-panel {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 120px;
+}
+.badge-info-issuer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(138,138,138,0.7);
+}
+.badge-info-issuer img {
+  width: 16px; height: 16px;
+  object-fit: contain;
+  filter: grayscale(50%);
+}
+.badge-info-title {
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: 0.03em;
+  color: #f0ede6;
+  line-height: 1;
+  transition: opacity 0.3s;
+}
+.badge-info-type {
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(200,241,53,0.6);
+}
+.badge-info-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+.badge-info-view {
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: #c8f135;
+  color: #0a0a0a;
+  border: none;
+  padding: 0.7rem 1.6rem;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.badge-info-view:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 #e8451a; }
+.badge-info-verified {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4ade80;
+}
+.badge-verified-dot {
+  width: 6px; height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: bvPulse 2s infinite;
+}
+@keyframes bvPulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+/* ── DRAG HINT ── */
+.badge-drag-hint {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(138,138,138,0.45);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: hintFade 3s ease-in-out 2s forwards;
+  z-index: 3;
+}
+@keyframes hintFade { 0%{opacity:1;} 100%{opacity:0;pointer-events:none;} }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .badges-section { padding: 6rem 1.5rem 5rem; }
+  .badge-carousel-scene { height: 380px; perspective: 700px; }
+  .badge-carousel-ring { width: 180px; height: 180px; }
+  .badge-item { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+  .badge-orbit-1 { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+  .badge-orbit-2 { width: 400px; height: 400px; margin: -200px 0 0 -200px; }
+  .badge-orbit-3 { display: none; }
+}
+</style>
+
+<script>
+(function() {
+  const BADGES = [
+    {
+      img: 'assets/images/certifications/cyber.png',
+      title: 'Cyber Threat Management',
+      type: 'Digital Badge · Cybersecurity',
+      issuer: 'Cisco Academy',
+      issuerLogo: 'assets/images/certifications/cisco.png'
+    },
+    {
+      img: 'assets/images/certifications/intro.png',
+      title: 'Introduction to Cybersecurity',
+      type: 'Digital Badge · Cybersecurity',
+      issuer: 'Cisco Academy',
+      issuerLogo: 'assets/images/certifications/cisco.png'
+    },
+    {
+      img: 'assets/images/certifications/network.png',
+      title: 'Network Defence',
+      type: 'Digital Badge · Networking',
+      issuer: 'Cisco Academy',
+      issuerLogo: 'assets/images/certifications/cisco.png'
+    }
+  ];
+
+  const N = BADGES.length;
+  const RADIUS = 260;
+  const ring = document.getElementById('badgeRing');
+  const scene = document.getElementById('badgeScene');
+  const items = ring.querySelectorAll('.badge-item');
+
+  // Position badges in a circle
+  items.forEach((item, i) => {
+    const angle = (360 / N) * i;
+    item.style.transform = `rotateY(${angle}deg) translateZ(${RADIUS}px)`;
+  });
+
+  // ── Auto-spin state ──
+  let autoAngle = 0;
+  let manualAngle = 0;
+  let tiltX = -8;
+  let isDragging = false;
+  let lastX = 0;
+  let velocity = 0;
+  let raf;
+  let activeIndex = 0;
+  let autoSpinning = true;
+
+  function getActiveIndex(angle) {
+    const step = 360 / N;
+    // Normalize
+    let a = (((-angle) % 360) + 360) % 360;
+    return Math.round(a / step) % N;
+  }
+
+  function updateInfo(index) {
+    if (index === activeIndex && document.getElementById('badgeInfoTitle').textContent === BADGES[index].title) return;
+    activeIndex = index;
+    const b = BADGES[index];
+
+    // Fade out/in
+    const panel = document.getElementById('badgeInfoPanel');
+    panel.style.opacity = '0';
+    panel.style.transform = 'translateY(8px)';
+
+    setTimeout(() => {
+      document.getElementById('badgeInfoTitle').textContent = b.title;
+      document.getElementById('badgeInfoType').textContent = b.type;
+      document.getElementById('badgeInfoIssuerName').textContent = b.issuer;
+      document.getElementById('badgeInfoLogo').src = b.issuerLogo;
+      panel.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      panel.style.opacity = '1';
+      panel.style.transform = 'translateY(0)';
+    }, 150);
+
+    // Update active badge
+    items.forEach((item, i) => item.classList.toggle('active', i === index));
+  }
+
+  function applyTransform() {
+    const total = autoAngle + manualAngle;
+    ring.style.transform = `rotateY(${total}deg) rotateX(${tiltX}deg)`;
+    ring.style.animationPlayState = 'paused';
+    const ai = getActiveIndex(total);
+    updateInfo(ai);
+  }
+
+  // ── Continuous animation loop ──
+  let lastTime = 0;
+  function animate(ts) {
+    if (!isDragging && autoSpinning) {
+      const dt = ts - lastTime;
+      lastTime = ts;
+      autoAngle += dt * 0.015; // ~5.4 deg/sec
+    }
+    if (!isDragging && Math.abs(velocity) > 0.05) {
+      manualAngle += velocity;
+      velocity *= 0.94;
+    }
+    applyTransform();
+    raf = requestAnimationFrame(animate);
+  }
+  lastTime = performance.now();
+  raf = requestAnimationFrame(animate);
+
+  // ── Drag to rotate ──
+  scene.addEventListener('mousedown', e => {
+    isDragging = true;
+    lastX = e.clientX;
+    velocity = 0;
+    ring.classList.add('dragging');
+    // Pause auto by keeping autoAngle frozen — don't update it while dragging
+    autoSpinning = false;
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - lastX;
+    manualAngle += dx * 0.35;
+    velocity = dx * 0.35;
+    lastX = e.clientX;
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    ring.classList.remove('dragging');
+    // Resume auto-spin from current combined angle
+    autoAngle += manualAngle;
+    manualAngle = 0;
+    autoSpinning = true;
+    lastTime = performance.now();
+  });
+
+  // Touch
+  scene.addEventListener('touchstart', e => {
+    isDragging = true;
+    lastX = e.touches[0].clientX;
+    velocity = 0;
+    autoSpinning = false;
+    ring.classList.add('dragging');
+  }, { passive: true });
+  window.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const dx = e.touches[0].clientX - lastX;
+    manualAngle += dx * 0.35;
+    velocity = dx * 0.35;
+    lastX = e.touches[0].clientX;
+  }, { passive: true });
+  window.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    ring.classList.remove('dragging');
+    autoAngle += manualAngle;
+    manualAngle = 0;
+    autoSpinning = true;
+    lastTime = performance.now();
+  });
+
+  // Click a badge to snap to it
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => {
+      const step = 360 / N;
+      const targetAngle = -(i * step);
+      const current = ((autoAngle) % 360 + 360) % 360;
+      let delta = ((targetAngle + 360) % 360) - current;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      autoAngle += delta;
+      updateInfo(i);
+    });
+  });
+
+  // ── View active badge ──
+  window.viewActiveBadge = function() {
+    const img = BADGES[activeIndex].img;
+    if (typeof viewCertificate === 'function') viewCertificate(img);
+  };
+
+  // Initial active
+  updateInfo(0);
+  items[0].classList.add('active');
+
+  // ── Particle system ──
+  const canvas = document.getElementById('badgeParticles');
+  const ctx = canvas.getContext('2d');
+  const particles = [];
+
+  function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  for (let i = 0; i < 55; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      o: Math.random() * 0.5 + 0.1,
+      flicker: Math.random() * Math.PI * 2
+    });
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.flicker += 0.025;
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      const alpha = p.o * (0.6 + 0.4 * Math.sin(p.flicker));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200,241,53,${alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+})();
+</script>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -1144,36 +1474,6 @@
   <button class="video-modal-close" onclick="closeVideoModal('ncipVideo')">← Close</button>
 </div>
 
-  <script>
-    // ── Profile Dropdown ──
-    function toggleProfileDropdown(e) {
-      e.stopPropagation();
-      const menu = document.getElementById('profileDropdown');
-      const trigger = e.currentTarget;
-      const isOpen = menu.classList.contains('open');
-      menu.classList.toggle('open', !isOpen);
-      trigger.setAttribute('aria-expanded', String(!isOpen));
-    }
-    function closeProfileDropdown() {
-      const menu = document.getElementById('profileDropdown');
-      const trigger = document.querySelector('.nav-dropdown-trigger');
-      menu.classList.remove('open');
-      if (trigger) trigger.setAttribute('aria-expanded', 'false');
-    }
-    document.addEventListener('click', function(e) {
-      const wrap = document.getElementById('profileNavItem');
-      if (wrap && !wrap.contains(e.target)) closeProfileDropdown();
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeProfileDropdown();
-    });
-
-    // ── Smooth scroll helper ──
-    function smoothScrollTo(id) {
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
   <script src="assets/js/script.js"></script>
 </body>
 </html>
