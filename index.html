@@ -1542,10 +1542,10 @@
 
 <div class="video-modal" id="attendifyVideo">
   <div class="video-modal-title">Attendify — Demo</div>
-  <div class="video-placeholder">
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-    <p>Video demo coming soon</p>
-  </div>
+  <video controls preload="metadata">
+    <source src="assets/videos/Attendify.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <button class="video-modal-close" onclick="closeVideoModal('attendifyVideo')">← Close</button>
 </div>
 
