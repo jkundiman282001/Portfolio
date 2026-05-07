@@ -749,6 +749,7 @@
   z-index: 2;
   cursor: grab;
   user-select: none;
+  touch-action: none;
   margin: 2rem auto 0;
 }
 .badge-carousel-scene:active { cursor: grabbing; }
@@ -777,6 +778,8 @@
   transform-style: preserve-3d;
   cursor: pointer;
   transition: filter 0.4s;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .badge-item-face {
@@ -810,6 +813,9 @@
   height: 100%;
   object-fit: contain;
   display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
   filter: drop-shadow(0 6px 20px rgba(200,241,53,0.25));
   transition: filter 0.3s, transform 0.3s;
 }
@@ -1073,6 +1079,8 @@
   let manualAngle = 0;
   let tiltX = -8;
   let isDragging = false;
+  let movedDuringDrag = false;
+  let suppressClickUntil = 0;
   let lastX = 0;
   let velocity = 0;
   let raf;
@@ -1137,60 +1145,65 @@
   raf = requestAnimationFrame(animate);
 
   // ── Drag to rotate ──
-  scene.addEventListener('mousedown', e => {
+  function startDrag(clientX) {
     isDragging = true;
-    lastX = e.clientX;
+    movedDuringDrag = false;
+    lastX = clientX;
     velocity = 0;
     ring.classList.add('dragging');
-    // Pause auto by keeping autoAngle frozen — don't update it while dragging
     autoSpinning = false;
-  });
-  window.addEventListener('mousemove', e => {
+  }
+
+  function moveDrag(clientX) {
     if (!isDragging) return;
-    const dx = e.clientX - lastX;
+    const dx = clientX - lastX;
+    if (Math.abs(dx) > 2) {
+      movedDuringDrag = true;
+    }
     manualAngle += dx * 0.35;
     velocity = dx * 0.35;
-    lastX = e.clientX;
-  });
-  window.addEventListener('mouseup', () => {
+    lastX = clientX;
+  }
+
+  function endDrag() {
     if (!isDragging) return;
     isDragging = false;
     ring.classList.remove('dragging');
-    // Resume auto-spin from current combined angle
+    if (movedDuringDrag) {
+      suppressClickUntil = performance.now() + 250;
+    }
     autoAngle += manualAngle;
     manualAngle = 0;
     autoSpinning = true;
     lastTime = performance.now();
+  }
+
+  scene.addEventListener('pointerdown', e => {
+    startDrag(e.clientX);
+    scene.setPointerCapture(e.pointerId);
+    e.preventDefault();
   });
 
-  // Touch
-  scene.addEventListener('touchstart', e => {
-    isDragging = true;
-    lastX = e.touches[0].clientX;
-    velocity = 0;
-    autoSpinning = false;
-    ring.classList.add('dragging');
-  }, { passive: true });
-  window.addEventListener('touchmove', e => {
-    if (!isDragging) return;
-    const dx = e.touches[0].clientX - lastX;
-    manualAngle += dx * 0.35;
-    velocity = dx * 0.35;
-    lastX = e.touches[0].clientX;
-  }, { passive: true });
-  window.addEventListener('touchend', () => {
-    if (!isDragging) return;
-    isDragging = false;
-    ring.classList.remove('dragging');
-    autoAngle += manualAngle;
-    manualAngle = 0;
-    autoSpinning = true;
-    lastTime = performance.now();
+  scene.addEventListener('pointermove', e => {
+    moveDrag(e.clientX);
+  });
+
+  scene.addEventListener('pointerup', () => {
+    endDrag();
+  });
+
+  scene.addEventListener('pointercancel', () => {
+    endDrag();
   });
 
   // Click a badge to snap to it
   items.forEach((item, i) => {
-    item.addEventListener('click', () => {
+    item.addEventListener('click', e => {
+      if (performance.now() < suppressClickUntil) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       const step = 360 / N;
       const targetAngle = -(i * step);
       const current = ((autoAngle) % 360 + 360) % 360;
