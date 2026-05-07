@@ -759,15 +759,9 @@
   width: 260px;
   height: 260px;
   transform-style: preserve-3d;
-  animation: badgeAutoSpin 18s linear infinite;
   will-change: transform;
 }
-.badge-carousel-ring.dragging { animation-play-state: paused; }
-
-@keyframes badgeAutoSpin {
-  from { transform: rotateY(0deg) rotateX(-8deg); }
-  to   { transform: rotateY(360deg) rotateX(-8deg); }
-}
+.badge-carousel-ring.dragging { will-change: transform; }
 
 /* ── BADGE ITEMS ── */
 .badge-item {
