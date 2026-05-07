@@ -1716,6 +1716,31 @@
           </div>
         </div>
 
+        <!-- Slide 7: Coursera -->
+        <div class="cert-slide" data-modal="courseraModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="coursera.png" alt="Coursera" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Coursera</div>
+              <div class="cert-slide-org-count">2 Paid Certifications</div>
+              <ul class="cert-slide-list">
+                <li>Foundations: Data, Data, Everywhere</li>
+                <li>Foundations of User Experience (UX) Design</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('courseraModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('5.png')">
+              <img src="5.png" alt="Foundations: Data, Data, Everywhere">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('6.png')">
+              <img src="6.png" alt="Foundations of User Experience (UX) Design">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
       </div><!-- end viewport -->
     </div><!-- end stage -->
 
@@ -1901,6 +1926,22 @@
     <div class="modal-body">
       <div class="cert-grid" style="max-width:300px">
         <div class="cert-card" onclick="viewCertificate('17.png')"><img src="17.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">HTML/CSS</div><div class="cert-card-type">Professional (Paid)</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Coursera -->
+<div class="modal" id="courseraModal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div><div class="modal-sub">Coursera</div><div class="modal-title">1 Paid Certification</div></div>
+      <button class="modal-close" onclick="closeModal('courseraModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cert-grid" style="max-width:300px">
+        <div class="cert-card" onclick="viewCertificate('5.png')"><img src="5.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations: Data, Data, Everywhere</div><div class="cert-card-type">Data Analytics</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('6.png')"><img src="6.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of User Experience (UX) Design</div><div class="cert-card-type">UX Design</div></div></div>
       </div>
     </div>
   </div>
