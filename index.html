@@ -565,37 +565,274 @@
     }
     .skill-tag:hover { background: var(--acid); color: var(--ink); border-color: var(--acid); }
 
-    /* ── CERTIFICATIONS ── */
+    /* ── CERTIFICATIONS SLIDESHOW ── */
     #certifications { background: var(--ink); }
-    .cert-orgs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--divider); margin-bottom: 6rem; }
-    .cert-org {
-      background: var(--ink);
-      padding: 2.5rem 2rem;
-      text-align: center;
-      cursor: none;
-      transition: background 0.3s;
+
+    .cert-slideshow-wrap {
       position: relative;
+      overflow: hidden;
     }
-    .cert-org:hover { background: var(--slate); }
-    .cert-org img {
-      width: 48px; height: 48px;
-      object-fit: contain;
-      margin: 0 auto 1rem;
-      filter: grayscale(80%);
-      transition: filter 0.3s;
+
+    /* Track info bar */
+    .cert-track-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--divider);
     }
-    .cert-org:hover img { filter: grayscale(0%); }
-    .cert-org-name {
-      font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 0.25rem;
+    .cert-total-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mist);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
-    .cert-org-count {
+    .cert-total-badge strong {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--acid);
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .cert-slide-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .cert-ctrl-btn {
+      width: 44px; height: 44px;
+      background: none;
+      border: 1px solid var(--divider);
+      color: var(--mist);
+      display: flex; align-items: center; justify-content: center;
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .cert-ctrl-btn:hover { border-color: var(--acid); color: var(--acid); }
+    .cert-ctrl-btn svg { width: 18px; height: 18px; stroke: currentColor; }
+    .cert-slide-counter {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--mist);
+      min-width: 50px;
+      text-align: center;
+    }
+    .cert-autoplay-btn {
       font-family: var(--font-mono);
       font-size: 0.6rem;
       letter-spacing: 0.15em;
-      color: var(--acid);
       text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--divider);
+      color: var(--mist);
+      padding: 0 1rem;
+      height: 44px;
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .cert-autoplay-btn:hover,
+    .cert-autoplay-btn.playing { border-color: var(--acid); color: var(--acid); }
+
+    /* Main slide stage */
+    .cert-stage {
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-slides-viewport {
+      display: flex;
+      transition: transform 0.65s cubic-bezier(0.23, 1, 0.32, 1);
+      will-change: transform;
+    }
+    .cert-slide {
+      flex: 0 0 100%;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 0;
+      min-height: 480px;
+      border: 1px solid var(--divider);
+    }
+
+    /* Left panel: org info */
+    .cert-slide-info {
+      padding: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--divider);
+      position: relative;
+      overflow: hidden;
+    }
+    .cert-slide-info::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--acid);
+      transition: height 0.5s cubic-bezier(0.23,1,0.32,1);
+    }
+    .cert-slide.active .cert-slide-info::before { height: 100%; }
+
+    .cert-slide-org-logo {
+      width: 56px; height: 56px;
+      object-fit: contain;
+      filter: grayscale(60%);
+      transition: filter 0.4s;
+      margin-bottom: 2rem;
+    }
+    .cert-slide.active .cert-slide-org-logo { filter: grayscale(0%); }
+
+    .cert-slide-org-name {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+    .cert-slide-org-count {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 2.5rem;
+    }
+    .cert-slide-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
+    .cert-slide-list li {
+      font-size: 0.82rem;
+      color: rgba(240,237,230,0.65);
+      font-weight: 300;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.4;
+    }
+    .cert-slide-list li::before {
+      content: '—';
+      color: var(--acid);
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+    .cert-slide-cta {
+      margin-top: 2.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--divider);
+      color: var(--mist);
+      padding: 0.75rem 1.5rem;
+      cursor: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      align-self: flex-start;
+    }
+    .cert-slide-cta:hover { border-color: var(--acid); color: var(--ink); background: var(--acid); }
+
+    /* Right panel: cert thumbnails grid */
+    .cert-slide-gallery {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      align-content: start;
+      background: var(--slate);
+    }
+    .cert-thumb {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: none;
+      border: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .cert-thumb:hover { border-color: var(--acid); }
+    .cert-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(30%);
+      transition: filter 0.3s, transform 0.4s;
+    }
+    .cert-thumb:hover img { filter: grayscale(0%); transform: scale(1.05); }
+    .cert-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,10,10,0.7);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .cert-thumb:hover .cert-thumb-overlay { opacity: 1; }
+    .cert-thumb-overlay span {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--acid);
+    }
+
+    /* For slides with only 1-2 certs (span wider) */
+    .cert-slide-gallery.few-certs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cert-slide-gallery.one-cert {
+      grid-template-columns: 1fr;
+    }
+
+    /* Progress dots */
+    .cert-dots {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 2rem;
+    }
+    .cert-dot {
+      height: 2px;
+      background: var(--divider);
+      transition: width 0.3s, background 0.3s;
+      cursor: none;
+    }
+    .cert-dot.active {
+      background: var(--acid);
+    }
+
+    /* Progress bar */
+    .cert-progress-bar {
+      height: 1px;
+      background: var(--divider);
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .cert-progress-fill {
+      height: 100%;
+      background: var(--acid);
+      width: 0%;
+      transition: width linear;
+    }
+
+    @media (max-width: 1024px) {
+      .cert-slide { grid-template-columns: 1fr; min-height: auto; }
+      .cert-slide-info { border-right: none; border-bottom: 1px solid var(--divider); }
+      .cert-slide-gallery { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .cert-slide-info { padding: 2rem; }
+      .cert-slide-gallery { grid-template-columns: repeat(2, 1fr); padding: 1.5rem; }
+      .cert-slide-org-name { font-size: 2rem; }
+      .cert-track-bar { flex-wrap: wrap; gap: 1rem; }
     }
 
     /* ── CONTACT ── */
@@ -906,14 +1143,8 @@
       section { padding: 4rem 1.5rem; }
       nav { padding: 1rem 1.5rem; }
       .section-title { font-size: clamp(2.5rem, 9vw, 4rem); }
-      .cert-orgs { grid-template-columns: repeat(2, 1fr); }
       .about-detail-row { grid-template-columns: 1fr; gap: 0.3rem; }
       footer { padding: 2rem 1.5rem; }
-    }
-    @media (max-width: 480px) {
-      .hero-actions { flex-direction: column; }
-      .btn-primary, .btn-secondary { width: 100%; text-align: center; }
-      .cert-orgs { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── SCROLLBAR ── */
@@ -1278,40 +1509,225 @@
 <section id="certifications">
   <div class="section-label">Achievements</div>
   <h2 class="section-title reveal">Certifications <em>&amp;</em> Badges</h2>
-  <div class="cert-orgs">
-    <div class="cert-org reveal" onclick="openModal('ciscoModal')">
-      <img src="cisco.png" alt="Cisco">
-      <div class="cert-org-name">Cisco Academy</div>
-      <div class="cert-org-count">3 Certs / 3 Badges</div>
+
+  <div class="cert-slideshow-wrap reveal">
+    <!-- Track bar -->
+    <div class="cert-track-bar">
+      <div class="cert-total-badge">
+        <strong>14</strong>
+        total credentials earned
+      </div>
+      <div class="cert-slide-controls">
+        <span class="cert-slide-counter" id="certCounter">01 / 06</span>
+        <button class="cert-autoplay-btn playing" id="certAutoplayBtn" onclick="toggleCertAutoplay()">⏸ Pause</button>
+        <button class="cert-ctrl-btn" onclick="moveCertSlide(-1)" title="Previous">
+          <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="cert-ctrl-btn" onclick="moveCertSlide(1)" title="Next">
+          <svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
     </div>
-    <div class="cert-org reveal" onclick="openModal('coursebankModal')" style="transition-delay:0.05s">
-      <img src="coursebank.jpg" alt="Coursebank">
-      <div class="cert-org-name">Coursebank</div>
-      <div class="cert-org-count">3 Certifications</div>
+
+    <!-- Slides -->
+    <div class="cert-stage" id="certStage">
+      <div class="cert-slides-viewport" id="certViewport">
+
+        <!-- Slide 1: Cisco -->
+        <div class="cert-slide active" data-modal="ciscoModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="cisco.png" alt="Cisco" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Cisco Academy</div>
+              <div class="cert-slide-org-count">3 Certs · 3 Badges</div>
+              <ul class="cert-slide-list">
+                <li>Cyber Threat Management</li>
+                <li>Introduction to Cybersecurity</li>
+                <li>Network Defence</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('ciscoModal')">View All Credentials →</button>
+          </div>
+          <div class="cert-slide-gallery">
+            <div class="cert-thumb" onclick="viewCertificate('6.png')">
+              <img src="6.png" alt="Cyber Threat Management">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('7.png')">
+              <img src="7.png" alt="Intro to Cybersecurity">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('8.png')">
+              <img src="8.png" alt="Network Defence">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('cyber.png')">
+              <img src="cyber.png" alt="Badge">
+              <div class="cert-thumb-overlay"><span>Badge</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('intro.png')">
+              <img src="intro.png" alt="Badge">
+              <div class="cert-thumb-overlay"><span>Badge</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('network.png')">
+              <img src="network.png" alt="Badge">
+              <div class="cert-thumb-overlay"><span>Badge</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Coursebank -->
+        <div class="cert-slide" data-modal="coursebankModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="coursebank.jpg" alt="Coursebank" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Coursebank</div>
+              <div class="cert-slide-org-count">3 Certifications</div>
+              <ul class="cert-slide-list">
+                <li>Designing Presentation Slides</li>
+                <li>Microsoft Productivity Tools</li>
+                <li>Navigating Google Workspace</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('coursebankModal')">View All Credentials →</button>
+          </div>
+          <div class="cert-slide-gallery">
+            <div class="cert-thumb" onclick="viewCertificate('2.png')">
+              <img src="2.png" alt="Presentation Slides">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('3.png')">
+              <img src="3.png" alt="Microsoft Productivity">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('4.png')">
+              <img src="4.png" alt="Google Workspace">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Coursera -->
+        <div class="cert-slide" data-modal="courseraModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="coursera.png" alt="Coursera" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Coursera</div>
+              <div class="cert-slide-org-count">5 Certifications</div>
+              <ul class="cert-slide-list">
+                <li>Installing &amp; Configuring Systems</li>
+                <li>Introduction to CSS</li>
+                <li>Maintaining Computer Systems</li>
+                <li>Setting Up Networks</li>
+                <li>Setting Up Servers</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('courseraModal')">View All Credentials →</button>
+          </div>
+          <div class="cert-slide-gallery">
+            <div class="cert-thumb" onclick="viewCertificate('9.png')">
+              <img src="9.png" alt="Installing Systems">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('10.png')">
+              <img src="10.png" alt="CSS">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('11.png')">
+              <img src="11.png" alt="Maintaining Systems">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('12.png')">
+              <img src="12.png" alt="Networks">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('13.png')">
+              <img src="13.png" alt="Servers">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 4: Great Learning -->
+        <div class="cert-slide" data-modal="greatLearningModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="great_learning.jpg" alt="Great Learning" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Great Learning</div>
+              <div class="cert-slide-org-count">1 Certification</div>
+              <ul class="cert-slide-list">
+                <li>Figma for Beginners</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('greatLearningModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('5.png')">
+              <img src="5.png" alt="Figma for Beginners">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 5: HackerRank -->
+        <div class="cert-slide" data-modal="hackerRankModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="hackerrank.png" alt="HackerRank" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">HackerRank</div>
+              <div class="cert-slide-org-count">2 Certifications</div>
+              <ul class="cert-slide-list">
+                <li>Problem Solving (Basic)</li>
+                <li>Problem Solving (Intermediate)</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('hackerRankModal')">View All Credentials →</button>
+          </div>
+          <div class="cert-slide-gallery few-certs">
+            <div class="cert-thumb" onclick="viewCertificate('1.png')">
+              <img src="1.png" alt="Problem Solving Basic">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('hackerrank2.png')">
+              <img src="hackerrank2.png" alt="Problem Solving Intermediate">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 6: IT Specialist -->
+        <div class="cert-slide" data-modal="itsModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="ITS.png" alt="IT Specialist" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">IT Specialist</div>
+              <div class="cert-slide-org-count">1 Paid Certification</div>
+              <ul class="cert-slide-list">
+                <li>IT Specialist — Official Credential</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('itsModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('its_cert.png')">
+              <img src="its_cert.png" alt="IT Specialist">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end viewport -->
+    </div><!-- end stage -->
+
+    <!-- Progress dots + bar -->
+    <div style="display:flex;align-items:center;gap:1.5rem;margin-top:1.5rem;">
+      <div class="cert-dots" id="certDots"></div>
+      <div class="cert-progress-bar" style="flex:1;">
+        <div class="cert-progress-fill" id="certProgressFill"></div>
+      </div>
     </div>
-    <div class="cert-org reveal" onclick="openModal('courseraModal')" style="transition-delay:0.1s">
-      <img src="coursera.png" alt="Coursera">
-      <div class="cert-org-name">Coursera</div>
-      <div class="cert-org-count">5 Certifications</div>
-    </div>
-    <div class="cert-org reveal" onclick="openModal('greatLearningModal')" style="transition-delay:0.15s">
-      <img src="great_learning.jpg" alt="Great Learning">
-      <div class="cert-org-name">Great Learning</div>
-      <div class="cert-org-count">1 Certification</div>
-    </div>
-    <div class="cert-org reveal" onclick="openModal('hackerRankModal')" style="transition-delay:0.2s">
-      <img src="hackerrank.png" alt="HackerRank">
-      <div class="cert-org-name">HackerRank</div>
-      <div class="cert-org-count">2 Certifications</div>
-    </div>
-  </div>
-  <div style="text-align:center" class="reveal">
-    <div class="cert-org reveal" onclick="openModal('itsModal')" style="display:inline-flex;flex-direction:column;align-items:center;padding:2rem;border:1px solid var(--divider);cursor:none;min-width:200px;transition:background 0.3s;" onmouseover="this.style.background='var(--slate)'" onmouseout="this.style.background='transparent'">
-      <img src="ITS.png" alt="ITS" style="width:48px;height:48px;object-fit:contain;margin-bottom:1rem;filter:grayscale(80%);transition:filter 0.3s;" onmouseover="this.style.filter='grayscale(0%)'" onmouseout="this.style.filter='grayscale(80%)'">
-      <div class="cert-org-name">IT Specialist</div>
-      <div class="cert-org-count">1 Paid Certification</div>
-    </div>
-  </div>
+
+  </div><!-- end slideshow-wrap -->
 </section>
 
 <!-- CONTACT -->
@@ -1716,7 +2132,110 @@ function handleContactForm(event) {
   });
 }
 
-// ── Keyboard escape to close modals ──
+// ── Certifications Slideshow ──
+(function() {
+  const viewport = document.getElementById('certViewport');
+  const slides = Array.from(document.querySelectorAll('.cert-slide'));
+  const counter = document.getElementById('certCounter');
+  const dotsContainer = document.getElementById('certDots');
+  const progressFill = document.getElementById('certProgressFill');
+  const autoplayBtn = document.getElementById('certAutoplayBtn');
+
+  const TOTAL = slides.length;
+  const AUTOPLAY_INTERVAL = 4500;
+  let current = 0;
+  let autoplayTimer = null;
+  let progressTimer = null;
+  let isPlaying = true;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'cert-dot' + (i === 0 ? ' active' : '');
+    dot.style.width = i === 0 ? '32px' : '16px';
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateDots() {
+    document.querySelectorAll('.cert-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+      d.style.width = i === current ? '32px' : '16px';
+    });
+  }
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    current = (index + TOTAL) % TOTAL;
+    slides[current].classList.add('active');
+    viewport.style.transform = `translateX(-${current * 100}%)`;
+    counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+    updateDots();
+    if (isPlaying) startProgress();
+  }
+
+  function startProgress() {
+    clearInterval(progressTimer);
+    progressFill.style.transition = 'none';
+    progressFill.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        progressFill.style.transition = `width ${AUTOPLAY_INTERVAL}ms linear`;
+        progressFill.style.width = '100%';
+      });
+    });
+  }
+
+  function startAutoplay() {
+    clearInterval(autoplayTimer);
+    startProgress();
+    autoplayTimer = setInterval(() => goTo(current + 1), AUTOPLAY_INTERVAL);
+  }
+
+  function stopAutoplay() {
+    clearInterval(autoplayTimer);
+    clearInterval(progressTimer);
+    progressFill.style.transition = 'none';
+    progressFill.style.width = '0%';
+  }
+
+  window.toggleCertAutoplay = function() {
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      startAutoplay();
+      autoplayBtn.textContent = '⏸ Pause';
+      autoplayBtn.classList.add('playing');
+    } else {
+      stopAutoplay();
+      autoplayBtn.textContent = '▶ Play';
+      autoplayBtn.classList.remove('playing');
+    }
+  };
+
+  window.moveCertSlide = function(dir) {
+    if (isPlaying) startAutoplay(); // reset timer
+    goTo(current + dir);
+  };
+
+  // Pause on hover
+  const stage = document.getElementById('certStage');
+  stage.addEventListener('mouseenter', () => { if (isPlaying) stopAutoplay(); });
+  stage.addEventListener('mouseleave', () => { if (isPlaying) startAutoplay(); });
+
+  // Touch/swipe support
+  let touchStartX = 0;
+  stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) moveCertSlide(diff > 0 ? 1 : -1);
+  }, { passive: true });
+
+  // Init
+  goTo(0);
+  startAutoplay();
+})();
+
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal.open, .video-modal.open').forEach(m => {
