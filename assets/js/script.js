@@ -126,20 +126,25 @@ const skillObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
 
 // ── Modals ──
-function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+function openModal(id) { const el = document.getElementById(id); if(el){ el.classList.add('open'); document.body.style.overflow='hidden'; } }
+function closeModal(id) { const el = document.getElementById(id); if(el){ el.classList.remove('open'); document.body.style.overflow=''; } }
 document.querySelectorAll('.modal').forEach(modal => {
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(modal.id); });
 });
 
 // ── Certificate Viewer ──
 function viewCertificate(src) {
+  const viewer = document.getElementById('certificateView');
+  if (!viewer) return;
   document.getElementById('certificateImg').src = src;
-  document.getElementById('certificateView').classList.add('open');
+  viewer.classList.add('open');
 }
-document.getElementById('certificateView').addEventListener('click', e => {
-  if (e.target === document.getElementById('certificateView')) document.getElementById('certificateView').classList.remove('open');
-});
+const _certView = document.getElementById('certificateView');
+if (_certView) {
+  _certView.addEventListener('click', e => {
+    if (e.target === _certView) _certView.classList.remove('open');
+  });
+}
 
 // ── Video Modals ──
 function openVideoModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
@@ -151,7 +156,6 @@ function closeVideoModal(id) {
 document.querySelectorAll('.video-modal').forEach(modal => {
   modal.addEventListener('click', e => { if (e.target === modal) closeVideoModal(modal.id); });
 });
-
 // ── Resume Download ──
 function downloadResume() {
   const link = document.createElement('a');
@@ -191,6 +195,7 @@ function handleContactForm(event) {
 // ── Certifications Slideshow ──
 (function() {
   const viewport = document.getElementById('certViewport');
+  if (!viewport) return; // not on this page
   const slides = Array.from(document.querySelectorAll('.cert-slide'));
   const counter = document.getElementById('certCounter');
   const dotsContainer = document.getElementById('certDots');
@@ -298,7 +303,8 @@ document.addEventListener('keydown', e => {
       m.classList.remove('open');
       document.body.style.overflow = '';
     });
-    document.getElementById('certificateView').classList.remove('open');
+    const cv = document.getElementById('certificateView');
+    if (cv) cv.classList.remove('open');
     closeMobileMenu();
   }
 });
