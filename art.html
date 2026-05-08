@@ -287,117 +287,179 @@
     }
 
     /* ═══════════════════════════════
-       AI MUSIC
+       AI MUSIC — IMMERSIVE
        ═══════════════════════════════ */
-    .music-section { background: rgba(6,6,12,1); }
-
-    .music-tracks {
-      display: flex; flex-direction: column;
-      gap: 1px;
-      background: rgba(200,241,53,0.06);
-      border: 1px solid rgba(200,241,53,0.06);
+    .music-section {
+      position: relative;
+      background: #050509;
+      overflow: hidden;
     }
-    .music-track {
-      background: var(--page-bg);
+    .music-bg { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    .music-bg-halo {
+      position: absolute; left: 50%; top: 50%;
+      transform: translate(-50%,-50%);
+      width: 900px; height: 900px; border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(200,241,53,0.055) 0%, rgba(200,241,53,0.02) 35%, transparent 70%);
+      animation: haloBreath 8s ease-in-out infinite;
+    }
+    @keyframes haloBreath {
+      0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
+    }
+    .music-bg-scan {
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(200,241,53,0.012) 3px, rgba(200,241,53,0.012) 4px);
+    }
+    .music-bg-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(200,241,53,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(200,241,53,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    #musicCanvas {
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 220px;
+      opacity: 0.18; pointer-events: none;
+    }
+
+    /* Header */
+    .music-header {
+      margin-bottom: 4rem;
       display: grid;
-      grid-template-columns: 3rem 1fr auto;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1.25rem 1.5rem;
-      transition: background 0.2s;
-      cursor: pointer;
+      grid-template-columns: 1fr auto;
+      align-items: flex-end;
+      gap: 2rem;
     }
-    .music-track:hover { background: rgba(200,241,53,0.03); }
-    .music-track-num {
-      font-family: var(--font-mono);
-      font-size: 0.75rem; letter-spacing: 0.1em;
-      color: rgba(138,138,138,0.45);
-      text-align: center;
-    }
-    .music-track:hover .music-track-num { color: var(--acid); }
-    .music-track-info { display: flex; flex-direction: column; gap: 0.3rem; }
-    .music-track-title {
-      font-family: var(--font-body);
-      font-size: 0.97rem; font-weight: 500;
-      color: var(--text);
-    }
-    .music-track-meta {
-      font-family: var(--font-mono);
-      font-size: 0.6rem; letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(138,138,138,0.55);
-    }
-    .music-track-right {
-      display: flex; align-items: center;
-      gap: 1.25rem;
-    }
-    .music-track-player {
-      width: min(320px, 42vw);
-      height: 36px;
-      opacity: 0.92;
-    }
-    .music-track-duration {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: rgba(138,138,138,0.45);
-    }
-    .music-track-play {
-      width: 34px; height: 34px;
-      border: 1px solid rgba(200,241,53,0.25);
-      background: transparent;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--acid);
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      flex-shrink: 0;
-    }
-    .music-track-play:hover {
-      background: rgba(200,241,53,0.1);
-      border-color: rgba(200,241,53,0.6);
-    }
-    .music-track-play svg { width: 12px; height: 12px; }
-    /* placeholder track */
-    .music-track.placeholder {
-      opacity: 0.35;
-      cursor: default;
-      pointer-events: none;
-    }
-    .music-coming-note {
-      margin-top: 2rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px dashed rgba(200,241,53,0.18);
-      background: rgba(200,241,53,0.015);
-      display: flex; gap: 1rem; align-items: center;
-    }
-    .music-coming-note span {
-      font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.4);
-      line-height: 1.6;
-    }
+    .music-stats { display: flex; flex-direction: column; gap: 0.5rem; text-align: right; padding-bottom: 0.25rem; }
+    .music-stat-item { display: flex; flex-direction: column; }
+    .music-stat-num { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.04em; color: var(--acid); line-height: 1; }
+    .music-stat-label { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(200,241,53,0.4); }
 
-    /* Waveform placeholder animation */
-    .waveform {
-      display: flex; align-items: center; gap: 2px;
-      height: 24px;
+    /* Featured player */
+    .music-featured {
+      position: relative;
+      background: rgba(8,8,16,0.95);
+      border: 1px solid rgba(200,241,53,0.18);
+      padding: 2.5rem 2.5rem 2rem;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      transition: border-color 0.3s;
     }
-    .waveform-bar {
-      width: 2px;
-      background: var(--acid);
-      border-radius: 1px;
-      opacity: 0.4;
-      animation: waveAnim 1.2s ease-in-out infinite;
+    .music-featured::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--acid), transparent);
+      opacity: 0.6;
     }
-    .waveform-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
-    .waveform-bar:nth-child(2) { height: 14px; animation-delay: 0.1s; }
-    .waveform-bar:nth-child(3) { height: 20px; animation-delay: 0.2s; }
-    .waveform-bar:nth-child(4) { height: 12px; animation-delay: 0.3s; }
-    .waveform-bar:nth-child(5) { height: 18px; animation-delay: 0.15s; }
-    .waveform-bar:nth-child(6) { height: 8px; animation-delay: 0.25s; }
-    @keyframes waveAnim {
-      0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
-      50% { opacity: 0.6; transform: scaleY(1); }
+    .music-featured:hover { border-color: rgba(200,241,53,0.35); }
+    .music-featured-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--acid); border: 1px solid rgba(200,241,53,0.25); padding: 0.3rem 0.7rem; margin-bottom: 1.5rem;
+    }
+    .music-featured-badge-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--acid);
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .music-featured-layout { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2.5rem; }
+    .music-featured-num { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.18em; color: rgba(200,241,53,0.35); margin-bottom: 0.5rem; }
+    .music-featured-title { font-family: var(--font-display); font-size: clamp(2rem,4vw,3rem); letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 0.6rem; }
+    .music-featured-meta { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+    .music-featured-tag {
+      font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(200,241,53,0.5); padding: 0.25rem 0.6rem; border: 1px solid rgba(200,241,53,0.15);
+    }
+    .music-featured-duration { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-muted); }
+
+    /* Player controls */
+    .music-player-controls { display: flex; flex-direction: column; gap: 1.25rem; min-width: 280px; }
+    .music-waveform-viz { display: flex; align-items: flex-end; gap: 2px; height: 48px; cursor: pointer; }
+    .music-waveform-viz-bar { flex: 1; background: rgba(200,241,53,0.25); border-radius: 1px 1px 0 0; transition: background 0.15s; }
+    .music-waveform-viz-bar.played { background: rgba(200,241,53,0.75); }
+    .music-waveform-viz-bar:hover { background: var(--acid); }
+    .music-controls-row { display: flex; align-items: center; gap: 1rem; }
+    .ctrl-btn {
+      background: none; border: 1px solid rgba(200,241,53,0.2); color: var(--acid);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s; flex-shrink: 0;
+    }
+    .ctrl-btn:hover { background: rgba(200,241,53,0.1); border-color: rgba(200,241,53,0.5); transform: scale(1.05); }
+    .ctrl-btn:active { transform: scale(0.96); }
+    .ctrl-btn.play-main { width: 48px; height: 48px; border-color: rgba(200,241,53,0.45); }
+    .ctrl-btn.play-main svg { width: 18px; height: 18px; }
+    .ctrl-btn.small { width: 32px; height: 32px; }
+    .ctrl-btn.small svg { width: 13px; height: 13px; }
+    .ctrl-time { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--text-muted); margin-left: auto; }
+    .music-progress-wrap { position: relative; height: 2px; background: rgba(200,241,53,0.1); cursor: pointer; }
+    .music-progress-wrap:hover { height: 3px; }
+    .music-progress-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--acid); width: 0%; transition: width 0.1s linear; }
+    .music-progress-thumb {
+      position: absolute; top: 50%; transform: translate(-50%,-50%);
+      width: 10px; height: 10px; border-radius: 50%; background: var(--acid); left: 0%; transition: left 0.1s linear; opacity: 0;
+    }
+    .music-progress-wrap:hover .music-progress-thumb { opacity: 1; }
+    .music-audio-el { display: none; }
+    .vol-wrap { display: flex; align-items: center; gap: 0.5rem; }
+    .vol-slider { -webkit-appearance: none; appearance: none; width: 72px; height: 2px; background: rgba(200,241,53,0.2); outline: none; cursor: pointer; }
+    .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: var(--acid); cursor: pointer; }
+
+    /* Track list */
+    .music-tracklist { display: flex; flex-direction: column; gap: 1px; background: rgba(200,241,53,0.06); border: 1px solid rgba(200,241,53,0.06); border-top: none; }
+    .music-track-row {
+      background: var(--page-bg); display: grid; grid-template-columns: 3rem 1fr auto;
+      align-items: center; gap: 1.5rem; padding: 1.1rem 1.5rem;
+      cursor: pointer; transition: background 0.2s; position: relative; overflow: hidden;
+    }
+    .music-track-row::after {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: var(--acid); transform: scaleY(0); transition: transform 0.2s; transform-origin: bottom;
+    }
+    .music-track-row:hover::after, .music-track-row.active::after { transform: scaleY(1); }
+    .music-track-row:hover, .music-track-row.active { background: rgba(200,241,53,0.035); }
+    .music-track-num-wrap { display: flex; align-items: center; justify-content: center; }
+    .music-track-num { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(138,138,138,0.4); }
+    .music-track-row.active .music-track-num, .music-track-row:hover .music-track-num { display: none; }
+    .music-track-play-icon { display: none; color: var(--acid); }
+    .music-track-row:hover .music-track-play-icon, .music-track-row.active .music-track-play-icon { display: block; }
+    .music-track-play-icon svg { width: 14px; height: 14px; }
+    .music-track-bars { display: none; align-items: flex-end; gap: 2px; height: 16px; }
+    .music-track-row.playing .music-track-bars { display: flex; }
+    .music-track-row.playing .music-track-play-icon, .music-track-row.playing .music-track-num { display: none; }
+    .music-track-bar { width: 2px; background: var(--acid); border-radius: 1px; animation: barDance 0.9s ease-in-out infinite; }
+    .music-track-bar:nth-child(1){animation-delay:0s} .music-track-bar:nth-child(2){animation-delay:.15s} .music-track-bar:nth-child(3){animation-delay:.3s}
+    @keyframes barDance { 0%,100%{height:4px} 50%{height:14px} }
+    .music-track-info { display: flex; flex-direction: column; gap: 0.25rem; }
+    .music-track-title { font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; color: var(--text); transition: color 0.2s; }
+    .music-track-row.active .music-track-title { color: var(--acid); }
+    .music-track-meta-str { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(138,138,138,0.5); }
+    .music-track-right { display: flex; align-items: center; gap: 1rem; }
+    .music-track-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end; }
+    .music-tag { font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(200,241,53,0.45); border: 1px solid rgba(200,241,53,0.12); padding: 0.2rem 0.5rem; }
+    .music-track-dur { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-muted); min-width: 3rem; text-align: right; }
+    .music-track-row.placeholder { opacity: 0.28; cursor: default; pointer-events: none; }
+
+    /* Mood chips */
+    .music-mood-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 3rem; }
+    .mood-chip {
+      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 0.5rem 1rem; border: 1px solid rgba(200,241,53,0.1); color: rgba(200,241,53,0.4);
+      cursor: default; transition: border-color 0.2s, color 0.2s, background 0.2s; position: relative; overflow: hidden;
+    }
+    .mood-chip::before { content: ''; position: absolute; inset: 0; background: rgba(200,241,53,0.06); transform: translateX(-100%); transition: transform 0.25s ease; }
+    .mood-chip:hover::before { transform: translateX(0); }
+    .mood-chip:hover { border-color: rgba(200,241,53,0.35); color: rgba(200,241,53,0.85); }
+    .mood-chip.active { border-color: rgba(200,241,53,0.5); color: var(--acid); background: rgba(200,241,53,0.05); }
+
+    /* Add note */
+    .music-add-note { margin-top: 2rem; display: flex; align-items: center; gap: 1rem; padding: 1.25rem 1.5rem; border: 1px dashed rgba(200,241,53,0.15); background: rgba(200,241,53,0.01); }
+    .music-add-note span { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(200,241,53,0.35); line-height: 1.65; }
+
+    @media (max-width: 768px) {
+      .music-header { grid-template-columns: 1fr; }
+      .music-stats { flex-direction: row; text-align: left; }
+      .music-featured-layout { grid-template-columns: 1fr; }
+      .music-player-controls { min-width: unset; }
+      .music-track-row { grid-template-columns: 2.5rem 1fr; gap: 1rem; padding: 1rem 1.25rem; }
+      .music-track-right { display: none; }
     }
 
     /* ═══════════════════════════════
@@ -639,73 +701,274 @@
 </section>
 
 <!-- ═══════════ AI MUSIC ═══════════ -->
-<section class="art-section music-section">
-  <div class="art-section-glow"></div>
+<section class="art-section music-section" id="music">
+  <!-- Ambient background layers -->
+  <div class="music-bg">
+    <div class="music-bg-halo"></div>
+    <div class="music-bg-scan"></div>
+    <div class="music-bg-grid"></div>
+    <canvas id="musicCanvas"></canvas>
+  </div>
+
   <div class="art-section-inner">
-    <div class="art-section-header">
-      <div class="section-label">02 — AI Music</div>
-      <h2 class="art-section-title reveal">Sound <em>Explorations</em></h2>
-      <p class="art-section-subtitle reveal">Mood tracks, instrument experiments, and generated audio from my generative music workflow. Tracks added as they're made.</p>
+    <!-- Header -->
+    <div class="music-header">
+      <div class="music-header-left">
+        <div class="section-label">02 — AI Music</div>
+        <h2 class="art-section-title reveal">Sound <em>Explorations</em></h2>
+        <p class="art-section-subtitle reveal">Mood tracks, instrument experiments, and generated audio from my generative music workflow. Tracks added as they're made.</p>
+      </div>
+      <div class="music-stats">
+        <div class="music-stat-item">
+          <span class="music-stat-num">02</span>
+          <span class="music-stat-label">Tracks Live</span>
+        </div>
+        <div class="music-stat-item">
+          <span class="music-stat-num">AI</span>
+          <span class="music-stat-label">Generated</span>
+        </div>
+      </div>
     </div>
 
-    <div class="music-tracks reveal">
-      <!-- Track placeholders — replace href/src with actual audio files -->
-      <div class="music-track">
-        <div class="music-track-num">01</div>
+    <!-- Featured Player -->
+    <div class="music-featured reveal" id="featuredPlayer">
+      <div class="music-featured-badge">
+        <span class="music-featured-badge-dot"></span>
+        Now Playing
+      </div>
+      <div class="music-featured-layout">
+        <div class="music-featured-info">
+          <div class="music-featured-num" id="featuredNum">01 / 02</div>
+          <div class="music-featured-title" id="featuredTitle">Basement Tapes</div>
+          <div class="music-featured-meta">
+            <span class="music-featured-tag" id="featuredGenre">Country Pop</span>
+            <span class="music-featured-tag" id="featuredType">MP3 Demo</span>
+            <span class="music-featured-duration" id="featuredDur">—:——</span>
+          </div>
+        </div>
+        <div class="music-player-controls">
+          <div class="music-waveform-viz" id="waveformViz" onclick="seekFromWaveform(event)"></div>
+          <div class="music-progress-wrap" id="progressWrap" onclick="seekFromBar(event)">
+            <div class="music-progress-fill" id="progressFill"></div>
+            <div class="music-progress-thumb" id="progressThumb"></div>
+          </div>
+          <div class="music-controls-row">
+            <button class="ctrl-btn small" onclick="prevTrack()" title="Previous">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            </button>
+            <button class="ctrl-btn play-main" id="mainPlayBtn" onclick="togglePlay()" title="Play / Pause">
+              <svg id="playIcon" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="pauseIcon" fill="currentColor" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <button class="ctrl-btn small" onclick="nextTrack()" title="Next">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+            </button>
+            <div class="vol-wrap" style="margin-left:auto">
+              <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24" style="color:rgba(200,241,53,0.45)"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              <input class="vol-slider" type="range" min="0" max="100" value="80" id="volSlider" oninput="setVolume(this.value)">
+            </div>
+            <span class="ctrl-time" id="ctrlTime">0:00 / 0:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden audio element -->
+    <audio class="music-audio-el" id="mainAudio" preload="metadata">
+      <source src="assets/music/_Basement Tapes_.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Track List -->
+    <div class="music-tracklist reveal">
+      <div class="music-track-row active playing" data-index="0" onclick="selectTrack(0)">
+        <div class="music-track-num-wrap">
+          <span class="music-track-num">01</span>
+          <span class="music-track-play-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <div class="music-track-bars"><div class="music-track-bar"></div><div class="music-track-bar"></div><div class="music-track-bar"></div></div>
+        </div>
         <div class="music-track-info">
           <div class="music-track-title">Basement Tapes</div>
-          <div class="music-track-meta">AI Music · Country Pop · MP3 Demo</div>
+          <div class="music-track-meta-str">AI Music · Country Pop</div>
         </div>
         <div class="music-track-right">
-          <audio class="music-track-player" controls preload="metadata">
-            <source src="assets/music/_Basement Tapes_.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+          <div class="music-track-tags"><span class="music-tag">Country Pop</span><span class="music-tag">MP3</span></div>
+          <div class="music-track-dur" id="dur0">—:——</div>
         </div>
       </div>
 
-      <div class="music-track">
-        <div class="music-track-num">02</div>
+      <div class="music-track-row" data-index="1" onclick="selectTrack(1)">
+        <div class="music-track-num-wrap">
+          <span class="music-track-num">02</span>
+          <span class="music-track-play-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <div class="music-track-bars"><div class="music-track-bar"></div><div class="music-track-bar"></div><div class="music-track-bar"></div></div>
+        </div>
         <div class="music-track-info">
           <div class="music-track-title">4AM Thoughts</div>
-          <div class="music-track-meta">AI Music · Late Night Mood · MP3 Demo</div>
+          <div class="music-track-meta-str">AI Music · Late Night Mood</div>
         </div>
         <div class="music-track-right">
-          <audio class="music-track-player" controls preload="metadata">
-            <source src="assets/music/4AM Thoughts.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+          <div class="music-track-tags"><span class="music-tag">Late Night</span><span class="music-tag">MP3</span></div>
+          <div class="music-track-dur" id="dur1">—:——</div>
         </div>
       </div>
 
-      <div class="music-track placeholder">
-        <div class="music-track-num">03</div>
+      <div class="music-track-row placeholder">
+        <div class="music-track-num-wrap"><span class="music-track-num">03</span></div>
         <div class="music-track-info">
           <div class="music-track-title">Track Title Here</div>
-          <div class="music-track-meta">Genre · Mood · Tool Used</div>
+          <div class="music-track-meta-str">Genre · Mood · Tool Used</div>
         </div>
         <div class="music-track-right">
-          <div class="waveform">
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-          </div>
-          <div class="music-track-duration">—:——</div>
-          <button class="music-track-play">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="music-track-dur">—:——</div>
         </div>
       </div>
     </div>
 
-    <div class="music-coming-note reveal">
-      <svg width="18" height="18" fill="none" stroke="rgba(200,241,53,0.5)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      <span>The first uploaded track is now live here. Add more MP3s by replacing the remaining placeholder rows with real titles and audio sources.</span>
+    <!-- Mood chips -->
+    <div class="music-mood-row reveal">
+      <div class="mood-chip active">All</div>
+      <div class="mood-chip">Ambient</div>
+      <div class="mood-chip">Late Night</div>
+      <div class="mood-chip">Country</div>
+      <div class="mood-chip">Cinematic</div>
+      <div class="mood-chip">Experimental</div>
+      <div class="mood-chip">Upbeat</div>
+    </div>
+
+    <!-- Dev note -->
+    <div class="music-add-note reveal">
+      <svg width="16" height="16" fill="none" stroke="rgba(200,241,53,0.45)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>Add new tracks by appending to the tracks array in the script and adding a matching .music-track-row in the tracklist. Audio files go in assets/music/.</span>
     </div>
   </div>
+
+  <script>
+    const tracks = [
+      { src: 'assets/music/_Basement Tapes_.mp3', title: 'Basement Tapes', genre: 'Country Pop', type: 'MP3 Demo' },
+      { src: 'assets/music/4AM Thoughts.mp3', title: '4AM Thoughts', genre: 'Late Night Mood', type: 'MP3 Demo' },
+    ];
+    let currentIndex = 0, isPlaying = false;
+    const audio = document.getElementById('mainAudio');
+
+    function buildWaveform() {
+      const viz = document.getElementById('waveformViz');
+      viz.innerHTML = '';
+      for (let i = 0; i < 56; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'music-waveform-viz-bar';
+        bar.style.height = (10 + Math.abs(Math.sin(i * 0.55 + currentIndex * 1.3) * 32) + Math.abs(Math.sin(i * 0.2) * 10)) + 'px';
+        viz.appendChild(bar);
+      }
+    }
+    function updateWaveformProgress(pct) {
+      document.querySelectorAll('.music-waveform-viz-bar').forEach((b, i, arr) => {
+        b.classList.toggle('played', i / arr.length <= pct);
+      });
+    }
+    function seekFromWaveform(e) {
+      const r = document.getElementById('waveformViz').getBoundingClientRect();
+      if (audio.duration) audio.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * audio.duration;
+    }
+    function seekFromBar(e) {
+      const r = document.getElementById('progressWrap').getBoundingClientRect();
+      if (audio.duration) audio.currentTime = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * audio.duration;
+    }
+    function fmt(s) {
+      if (!s || isNaN(s)) return '—:——';
+      return Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+    }
+    function loadTrack(index, autoplay) {
+      const t = tracks[index]; currentIndex = index;
+      document.getElementById('featuredNum').textContent = String(index+1).padStart(2,'0') + ' / ' + String(tracks.length).padStart(2,'0');
+      document.getElementById('featuredTitle').textContent = t.title;
+      document.getElementById('featuredGenre').textContent = t.genre;
+      document.getElementById('featuredType').textContent = t.type;
+      document.getElementById('featuredDur').textContent = '—:——';
+      audio.src = t.src; audio.load();
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('progressThumb').style.left = '0%';
+      document.getElementById('ctrlTime').textContent = '0:00 / 0:00';
+      buildWaveform();
+      document.querySelectorAll('.music-track-row').forEach((row, i) => {
+        row.classList.remove('active','playing');
+        if (i === index) row.classList.add('active');
+      });
+      if (autoplay) audio.play().then(() => { isPlaying = true; updatePlayState(true); }).catch(() => {});
+    }
+    function selectTrack(index) {
+      if (index >= tracks.length) return;
+      if (index === currentIndex && isPlaying) { togglePlay(); return; }
+      loadTrack(index, true);
+    }
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play().then(() => { isPlaying = true; updatePlayState(true); }).catch(() => {});
+      } else { audio.pause(); isPlaying = false; updatePlayState(false); }
+    }
+    function updatePlayState(playing) {
+      document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
+      document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
+      const r = document.querySelectorAll('.music-track-row')[currentIndex];
+      if (r) r.classList.toggle('playing', playing);
+    }
+    function prevTrack() { loadTrack((currentIndex - 1 + tracks.length) % tracks.length, true); }
+    function nextTrack() { loadTrack((currentIndex + 1) % tracks.length, true); }
+    function setVolume(v) { audio.volume = v / 100; }
+
+    audio.addEventListener('timeupdate', () => {
+      if (!audio.duration) return;
+      const pct = audio.currentTime / audio.duration;
+      document.getElementById('progressFill').style.width = (pct * 100) + '%';
+      document.getElementById('progressThumb').style.left = (pct * 100) + '%';
+      document.getElementById('ctrlTime').textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+      document.getElementById('featuredDur').textContent = fmt(audio.currentTime);
+      updateWaveformProgress(pct);
+    });
+    audio.addEventListener('loadedmetadata', () => {
+      const el = document.getElementById('dur' + currentIndex);
+      if (el) el.textContent = fmt(audio.duration);
+      document.getElementById('ctrlTime').textContent = '0:00 / ' + fmt(audio.duration);
+    });
+    audio.addEventListener('ended', () => { isPlaying = false; updatePlayState(false); nextTrack(); });
+
+    tracks.forEach((_, i) => {
+      if (i !== 0) { const a = new Audio(); a.src = tracks[i].src; a.addEventListener('loadedmetadata', () => { const el = document.getElementById('dur' + i); if (el) el.textContent = fmt(a.duration); }); }
+    });
+
+    (function setupCanvas() {
+      const canvas = document.getElementById('musicCanvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, bars = [], tick = 0;
+      function resize() {
+        W = canvas.offsetWidth; H = canvas.offsetHeight;
+        canvas.width = W; canvas.height = H;
+        bars = Array.from({length: Math.floor(W / 5)}, (_, i) => ({
+          x: i * 5, phase: Math.random() * Math.PI * 2,
+          speed: 0.4 + Math.random() * 0.6, amp: 0.3 + Math.random() * 0.7,
+        }));
+      }
+      function draw() {
+        ctx.clearRect(0, 0, W, H); tick += 0.018;
+        bars.forEach(b => {
+          const h = (Math.sin(tick * b.speed + b.phase) * 0.5 + 0.5) * b.amp * H * 0.72;
+          ctx.fillStyle = `rgba(200,241,53,${0.18 + Math.sin(tick * b.speed + b.phase) * 0.1})`;
+          ctx.fillRect(b.x, H - h, 3, h);
+        });
+        requestAnimationFrame(draw);
+      }
+      resize(); window.addEventListener('resize', resize); draw();
+    })();
+
+    document.querySelectorAll('.mood-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+
+    buildWaveform();
+    audio.volume = 0.8;
+  </script>
 </section>
 
 <!-- ═══════════ CREATIVE EXPERIMENTS ═══════════ -->
