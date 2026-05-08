@@ -1,5 +1,9 @@
 // ── EmailJS Init ──
-(function () { emailjs.init("I4Gf5AHZD3VDl1rgR"); })();
+(function () {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init("I4Gf5AHZD3VDl1rgR");
+  }
+})();
 
 // ── Custom Cursor ──
 const cursor = document.getElementById('cursor');
