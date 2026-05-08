@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Art Lab — Japhet Kundiman</title>
+  <title>AI Music — Japhet Kundiman</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="assets/images/branding/Logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css">
-
   <style>
-    /* ═══════════════════════════════
-       PAGE-LEVEL RESETS & TOKENS
-       ═══════════════════════════════ */
     :root {
       --acid: #c8f135;
+      --acid-dim: rgba(200,241,53,0.12);
+      --acid-glow: rgba(200,241,53,0.06);
       --page-bg: #04040a;
       --surface: rgba(10,10,18,0.80);
       --border: rgba(200,241,53,0.12);
@@ -24,757 +20,1019 @@
       --font-display: 'Bebas Neue', sans-serif;
       --font-body: 'DM Sans', sans-serif;
       --font-mono: 'DM Mono', monospace;
-      --section-pad: 7rem 2rem;
-      --max-w: 1100px;
     }
 
-    /* ── NAV ACTIVE ── */
-    .nav-links a.active { color: var(--acid); }
-    .nav-links a.active::after { width: 100%; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ═══════════════════════════════
-       HERO
-       ═══════════════════════════════ */
-    .art-hero {
-      min-height: 38vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 9rem 2rem 4rem;
-      text-align: center;
+    body {
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+    }
+
+    /* ── MUSIC SECTION WRAPPER ── */
+    .music-section {
       position: relative;
+      background: #050509;
+      padding: 7rem 2rem;
       overflow: hidden;
     }
-    .art-hero-grid {
+
+    /* ── AMBIENT BACKGROUND ── */
+    .music-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* Slow rotating radial halo */
+    .music-bg-halo {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center,
+        rgba(200,241,53,0.055) 0%,
+        rgba(200,241,53,0.02) 35%,
+        transparent 70%);
+      animation: haloBreath 8s ease-in-out infinite;
+    }
+
+    @keyframes haloBreath {
+      0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+      50% { transform: translate(-50%,-50%) scale(1.12); opacity: 1; }
+    }
+
+    /* Scanline texture */
+    .music-bg-scan {
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(200,241,53,0.012) 3px,
+        rgba(200,241,53,0.012) 4px
+      );
+    }
+
+    /* Grid lines — faint */
+    .music-bg-grid {
       position: absolute; inset: 0;
       background-image:
-        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
+        linear-gradient(rgba(200,241,53,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* Canvas for live visualizer */
+    #musicCanvas {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 220px;
+      opacity: 0.18;
       pointer-events: none;
     }
-    .art-hero-glow {
-      position: absolute; top: 60%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px; height: 340px;
-      background: radial-gradient(ellipse at center, rgba(200,241,53,0.07) 0%, transparent 70%);
-      pointer-events: none;
+
+    /* ── INNER CONTENT ── */
+    .music-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
     }
-    .art-hero .section-label {
-      position: relative; z-index: 2;
-      margin-bottom: 0.9rem;
-    }
-    .art-hero-title {
-      position: relative; z-index: 2;
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 10vw, 8rem);
-      letter-spacing: 0.03em;
-      line-height: 0.9;
-      color: var(--text);
-      margin-bottom: 1.5rem;
-    }
-    .art-hero-title em {
-      font-style: italic;
-      color: var(--text-dim);
-    }
-    .art-hero-desc {
-      position: relative; z-index: 2;
-      max-width: 560px;
-      color: var(--text-dim);
-      font-size: 1rem;
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-    .art-hero-back {
-      position: relative; z-index: 2;
-      display: inline-flex; align-items: center; gap: 0.5rem;
+
+    /* ── SECTION HEADER ── */
+    .section-label {
       font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.18em;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.55);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .art-hero-back:hover { color: var(--acid); }
-    .art-hero-back svg { width: 14px; height: 14px; }
-
-    /* ═══════════════════════════════
-       SHARED SECTION LAYOUT
-       ═══════════════════════════════ */
-    .art-section {
-      position: relative;
-      background: var(--page-bg);
-      padding: var(--section-pad);
-      overflow: hidden;
-    }
-    .art-section + .art-section {
-      border-top: 1px solid rgba(200,241,53,0.06);
-    }
-    .art-section-inner {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      position: relative; z-index: 2;
-    }
-    .art-section-header {
-      margin-bottom: 3.5rem;
-    }
-    .art-section-header .section-label {
       margin-bottom: 0.75rem;
+      display: block;
     }
-    .art-section-title {
+
+    .music-header {
+      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+
+    .music-header-left {}
+
+    .music-title {
       font-family: var(--font-display);
-      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-size: clamp(3.2rem, 7vw, 5.5rem);
       letter-spacing: 0.03em;
-      line-height: 0.95;
+      line-height: 0.92;
       color: var(--text);
+      margin-bottom: 1rem;
     }
-    .art-section-title em {
+    .music-title em {
       font-style: italic;
       color: var(--text-dim);
     }
-    .art-section-subtitle {
-      margin-top: 1rem;
-      max-width: 580px;
+
+    .music-subtitle {
       color: var(--text-dim);
-      font-size: 0.97rem;
+      font-size: 0.95rem;
       line-height: 1.8;
-    }
-    /* Subtle section bg glow */
-    .art-section-glow {
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 800px; height: 400px;
-      background: radial-gradient(ellipse at center,
-        rgba(200,241,53,0.04) 0%, transparent 70%);
-      pointer-events: none;
+      max-width: 480px;
     }
 
-    /* ═══════════════════════════════
-       CATEGORY STRIPS (01 / 02 / 03)
-       ═══════════════════════════════ */
-    .art-cats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(200,241,53,0.08);
-      border: 1px solid rgba(200,241,53,0.08);
-      margin-bottom: 5rem;
+    /* Stats strip */
+    .music-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: right;
+      padding-bottom: 0.25rem;
     }
-    .art-cat {
-      background: var(--page-bg);
-      padding: 2rem 1.75rem;
-      display: flex; flex-direction: column; gap: 0.75rem;
-      transition: background 0.25s;
+    .music-stat-item {
+      display: flex;
+      flex-direction: column;
     }
-    .art-cat:hover { background: rgba(200,241,53,0.03); }
-    .art-cat-num {
-      font-family: var(--font-mono);
-      font-size: 0.6rem; letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.45);
-    }
-    .art-cat h3 {
+    .music-stat-num {
       font-family: var(--font-display);
-      font-size: 1.8rem; letter-spacing: 0.04em;
-      color: var(--text);
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--acid);
+      line-height: 1;
     }
-    .art-cat p {
-      font-size: 0.9rem; line-height: 1.7;
-      color: var(--text-dim);
-      flex: 1;
-    }
-    .art-cat-focus {
+    .music-stat-label {
       font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.14em;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(138,138,138,0.7);
-      padding-top: 0.5rem;
-      border-top: 1px solid rgba(200,241,53,0.08);
+      color: rgba(200,241,53,0.4);
     }
 
-    /* ═══════════════════════════════
-       AI ART GALLERY
-       ═══════════════════════════════ */
-    .art-gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    .art-gallery-card {
+    /* ── FEATURED PLAYER ── */
+    .music-featured {
       position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
+      background: rgba(8,8,16,0.95);
+      border: 1px solid rgba(200,241,53,0.18);
+      padding: 2.5rem 2.5rem 2rem;
+      margin-bottom: 1.5rem;
       overflow: hidden;
-      aspect-ratio: 4/5;
-      cursor: pointer;
-      transition: border-color 0.3s, transform 0.3s;
+      transition: border-color 0.3s;
     }
-    .art-gallery-card:hover {
+    .music-featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--acid), transparent);
+      opacity: 0.6;
+    }
+    .music-featured:hover {
       border-color: rgba(200,241,53,0.35);
-      transform: translateY(-4px);
     }
-    .art-gallery-card.wide {
-      grid-column: span 2;
-      aspect-ratio: 8/5;
-    }
-    .art-gallery-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.85);
-      transition: filter 0.4s, transform 0.4s;
-    }
-    .art-gallery-card:hover .art-gallery-img {
-      filter: saturate(1.1);
-      transform: scale(1.03);
-    }
-    /* Placeholder when no image */
-    .art-gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 0.75rem;
-      background: rgba(10,10,18,0.9);
-    }
-    .art-gallery-placeholder-icon {
-      width: 40px; height: 40px;
-      opacity: 0.2;
-    }
-    .art-gallery-placeholder span {
+
+    .music-featured-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       font-family: var(--font-mono);
-      font-size: 0.6rem; letter-spacing: 0.18em;
+      font-size: 0.55rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(200,241,53,0.3);
+      color: var(--acid);
+      border: 1px solid rgba(200,241,53,0.25);
+      padding: 0.3rem 0.7rem;
+      margin-bottom: 1.5rem;
     }
-    .art-gallery-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(4,4,10,0.85) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex; align-items: flex-end;
-      padding: 1.5rem;
+    .music-featured-badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--acid);
+      animation: pulseDot 2s ease-in-out infinite;
     }
-    .art-gallery-card:hover .art-gallery-overlay { opacity: 1; }
-    .art-gallery-meta {
-      display: flex; flex-direction: column; gap: 0.3rem;
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
-    .art-gallery-meta-label {
+
+    .music-featured-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .music-featured-info {}
+    .music-featured-num {
       font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.7);
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: rgba(200,241,53,0.35);
+      margin-bottom: 0.5rem;
     }
-    .art-gallery-meta-title {
+    .music-featured-title {
       font-family: var(--font-display);
-      font-size: 1.4rem; letter-spacing: 0.04em;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.04em;
       color: var(--text);
+      line-height: 1;
+      margin-bottom: 0.6rem;
     }
-    .art-gallery-add-note {
-      margin-top: 2rem;
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px dashed rgba(200,241,53,0.2);
-      background: rgba(200,241,53,0.02);
+    .music-featured-meta {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .art-gallery-add-note span {
+    .music-featured-tag {
       font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.14em;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(200,241,53,0.45);
-      line-height: 1.6;
+      color: rgba(200,241,53,0.5);
+      padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(200,241,53,0.15);
+    }
+    .music-featured-duration {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
     }
 
-    /* ═══════════════════════════════
-       AI MUSIC
-       ═══════════════════════════════ */
-    .music-section { background: rgba(6,6,12,1); }
+    /* Custom player controls */
+    .music-player-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      min-width: 280px;
+    }
 
-    .music-tracks {
-      display: flex; flex-direction: column;
+    /* Waveform visualizer bar */
+    .music-waveform-viz {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 48px;
+      cursor: pointer;
+    }
+    .music-waveform-viz-bar {
+      flex: 1;
+      background: rgba(200,241,53,0.25);
+      border-radius: 1px 1px 0 0;
+      transition: background 0.15s;
+      position: relative;
+    }
+    .music-waveform-viz-bar.played {
+      background: rgba(200,241,53,0.75);
+    }
+    .music-waveform-viz-bar:hover {
+      background: var(--acid);
+    }
+
+    .music-controls-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: 1px solid rgba(200,241,53,0.2);
+      color: var(--acid);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .ctrl-btn:hover {
+      background: rgba(200,241,53,0.1);
+      border-color: rgba(200,241,53,0.5);
+      transform: scale(1.05);
+    }
+    .ctrl-btn:active { transform: scale(0.96); }
+
+    .ctrl-btn.play-main {
+      width: 48px; height: 48px;
+      border-color: rgba(200,241,53,0.45);
+    }
+    .ctrl-btn.play-main svg { width: 18px; height: 18px; }
+    .ctrl-btn.small {
+      width: 32px; height: 32px;
+    }
+    .ctrl-btn.small svg { width: 13px; height: 13px; }
+
+    .ctrl-time {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
+
+    /* Progress bar */
+    .music-progress-wrap {
+      position: relative;
+      height: 2px;
+      background: rgba(200,241,53,0.1);
+      cursor: pointer;
+    }
+    .music-progress-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      background: var(--acid);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    .music-progress-thumb {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--acid);
+      left: 0%;
+      transition: left 0.1s linear;
+      opacity: 0;
+    }
+    .music-progress-wrap:hover .music-progress-thumb { opacity: 1; }
+    .music-progress-wrap:hover { height: 3px; }
+
+    /* hidden real audio element */
+    .music-audio-el {
+      display: none;
+    }
+
+    /* ── TRACK LIST ── */
+    .music-tracklist {
+      display: flex;
+      flex-direction: column;
       gap: 1px;
       background: rgba(200,241,53,0.06);
       border: 1px solid rgba(200,241,53,0.06);
+      border-top: none;
     }
-    .music-track {
+
+    .music-track-row {
       background: var(--page-bg);
       display: grid;
       grid-template-columns: 3rem 1fr auto;
       align-items: center;
       gap: 1.5rem;
-      padding: 1.25rem 1.5rem;
+      padding: 1.1rem 1.5rem;
+      cursor: pointer;
       transition: background 0.2s;
-      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
-    .music-track:hover { background: rgba(200,241,53,0.03); }
-    .music-track-num {
-      font-family: var(--font-mono);
-      font-size: 0.75rem; letter-spacing: 0.1em;
-      color: rgba(138,138,138,0.45);
-      text-align: center;
+    .music-track-row::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--acid);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
     }
-    .music-track:hover .music-track-num { color: var(--acid); }
-    .music-track-info { display: flex; flex-direction: column; gap: 0.3rem; }
-    .music-track-title {
-      font-family: var(--font-body);
-      font-size: 0.97rem; font-weight: 500;
-      color: var(--text);
+    .music-track-row:hover::after,
+    .music-track-row.active::after {
+      transform: scaleY(1);
     }
-    .music-track-meta {
-      font-family: var(--font-mono);
-      font-size: 0.6rem; letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(138,138,138,0.55);
-    }
-    .music-track-right {
-      display: flex; align-items: center;
-      gap: 1.25rem;
-    }
-    .music-track-player {
-      width: min(320px, 42vw);
-      height: 36px;
-      opacity: 0.92;
-    }
-    .music-track-duration {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: rgba(138,138,138,0.45);
-    }
-    .music-track-play {
-      width: 34px; height: 34px;
-      border: 1px solid rgba(200,241,53,0.25);
-      background: transparent;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--acid);
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s;
-      flex-shrink: 0;
-    }
-    .music-track-play:hover {
-      background: rgba(200,241,53,0.1);
-      border-color: rgba(200,241,53,0.6);
-    }
-    .music-track-play svg { width: 12px; height: 12px; }
-    /* placeholder track */
-    .music-track.placeholder {
-      opacity: 0.35;
-      cursor: default;
-      pointer-events: none;
-    }
-    .music-coming-note {
-      margin-top: 2rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px dashed rgba(200,241,53,0.18);
-      background: rgba(200,241,53,0.015);
-      display: flex; gap: 1rem; align-items: center;
-    }
-    .music-coming-note span {
-      font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.4);
-      line-height: 1.6;
+    .music-track-row:hover,
+    .music-track-row.active {
+      background: rgba(200,241,53,0.035);
     }
 
-    /* Waveform placeholder animation */
-    .waveform {
-      display: flex; align-items: center; gap: 2px;
-      height: 24px;
+    .music-track-num-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .waveform-bar {
+    .music-track-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: rgba(138,138,138,0.4);
+      transition: opacity 0.2s;
+    }
+    .music-track-row.active .music-track-num,
+    .music-track-row:hover .music-track-num { display: none; }
+
+    .music-track-play-icon {
+      display: none;
+      color: var(--acid);
+    }
+    .music-track-row:hover .music-track-play-icon,
+    .music-track-row.active .music-track-play-icon {
+      display: block;
+    }
+    .music-track-play-icon svg { width: 14px; height: 14px; }
+
+    /* Mini animated bars for playing state */
+    .music-track-bars {
+      display: none;
+      align-items: flex-end;
+      gap: 2px;
+      height: 16px;
+    }
+    .music-track-row.playing .music-track-bars { display: flex; }
+    .music-track-row.playing .music-track-play-icon { display: none; }
+    .music-track-row.playing .music-track-num { display: none; }
+    .music-track-bar {
       width: 2px;
       background: var(--acid);
       border-radius: 1px;
-      opacity: 0.4;
-      animation: waveAnim 1.2s ease-in-out infinite;
+      animation: barDance 0.9s ease-in-out infinite;
     }
-    .waveform-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
-    .waveform-bar:nth-child(2) { height: 14px; animation-delay: 0.1s; }
-    .waveform-bar:nth-child(3) { height: 20px; animation-delay: 0.2s; }
-    .waveform-bar:nth-child(4) { height: 12px; animation-delay: 0.3s; }
-    .waveform-bar:nth-child(5) { height: 18px; animation-delay: 0.15s; }
-    .waveform-bar:nth-child(6) { height: 8px; animation-delay: 0.25s; }
-    @keyframes waveAnim {
-      0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
-      50% { opacity: 0.6; transform: scaleY(1); }
+    .music-track-bar:nth-child(1) { animation-delay: 0s; }
+    .music-track-bar:nth-child(2) { animation-delay: 0.15s; }
+    .music-track-bar:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes barDance {
+      0%, 100% { height: 4px; }
+      50% { height: 14px; }
     }
 
-    /* ═══════════════════════════════
-       CREATIVE EXPERIMENTS
-       ═══════════════════════════════ */
-    .experiments-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-    }
-    .experiment-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      display: flex; flex-direction: column; gap: 1rem;
-      position: relative; overflow: hidden;
-      transition: border-color 0.3s;
-    }
-    .experiment-card:hover { border-color: rgba(200,241,53,0.3); }
-    .experiment-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(200,241,53,0.3), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .experiment-card:hover::before { opacity: 1; }
-    .experiment-type {
-      font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.5);
-    }
-    .experiment-card h4 {
-      font-family: var(--font-display);
-      font-size: 1.6rem; letter-spacing: 0.04em;
+    .music-track-info { display: flex; flex-direction: column; gap: 0.25rem; }
+    .music-track-title {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
       color: var(--text);
+      transition: color 0.2s;
     }
-    .experiment-card p {
-      font-size: 0.9rem; line-height: 1.7;
-      color: var(--text-dim);
-      flex: 1;
-    }
-    .experiment-status {
-      display: inline-flex; align-items: center; gap: 0.5rem;
+    .music-track-row.active .music-track-title { color: var(--acid); }
+    .music-track-meta-str {
       font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.14em;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(138,138,138,0.55);
-    }
-    .experiment-status-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: rgba(138,138,138,0.4);
-    }
-    .experiment-status-dot.active {
-      background: var(--acid);
-      animation: bvPulse 2s infinite;
+      color: rgba(138,138,138,0.5);
     }
 
-    /* ═══════════════════════════════
-       RESPONSIVE
-       ═══════════════════════════════ */
-    @media (max-width: 900px) {
-      .art-cats { grid-template-columns: 1fr; }
-      .art-gallery-grid { grid-template-columns: repeat(2, 1fr); }
-      .art-gallery-card.wide { grid-column: span 2; }
-      .experiments-grid { grid-template-columns: 1fr; }
+    .music-track-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
-    @media (max-width: 640px) {
-      :root { --section-pad: 5rem 1.25rem; }
-      .art-hero { padding: 8rem 1.25rem 3.5rem; }
-      .art-gallery-grid { grid-template-columns: 1fr; }
-      .art-gallery-card.wide { grid-column: span 1; aspect-ratio: 4/5; }
-      .music-track { grid-template-columns: 2rem 1fr auto; gap: 1rem; padding: 1rem 1.25rem; }
+    .music-track-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .music-tag {
+      font-family: var(--font-mono);
+      font-size: 0.5rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.45);
+      border: 1px solid rgba(200,241,53,0.12);
+      padding: 0.2rem 0.5rem;
+    }
+    .music-track-dur {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      min-width: 3rem;
+      text-align: right;
+    }
+
+    /* Placeholder row */
+    .music-track-row.placeholder {
+      opacity: 0.28;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* ── MOOD CHIPS ── */
+    .music-mood-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      margin-bottom: 0;
+    }
+    .mood-chip {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(200,241,53,0.1);
+      color: rgba(200,241,53,0.4);
+      cursor: default;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .mood-chip::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(200,241,53,0.06);
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+    }
+    .mood-chip:hover::before { transform: translateX(0); }
+    .mood-chip:hover {
+      border-color: rgba(200,241,53,0.35);
+      color: rgba(200,241,53,0.85);
+    }
+    .mood-chip.active {
+      border-color: rgba(200,241,53,0.5);
+      color: var(--acid);
+      background: rgba(200,241,53,0.05);
+    }
+
+    /* ── ADD NOTE ── */
+    .music-add-note {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px dashed rgba(200,241,53,0.15);
+      background: rgba(200,241,53,0.01);
+    }
+    .music-add-note span {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.35);
+      line-height: 1.65;
+    }
+    .music-add-note svg { flex-shrink: 0; }
+
+    /* ── VOLUME ── */
+    .vol-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .vol-wrap svg { width: 12px; height: 12px; color: rgba(200,241,53,0.4); flex-shrink: 0; }
+    .vol-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 72px;
+      height: 2px;
+      background: rgba(200,241,53,0.2);
+      outline: none;
+      cursor: pointer;
+    }
+    .vol-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--acid);
+      cursor: pointer;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .music-header { grid-template-columns: 1fr; }
+      .music-stats { flex-direction: row; text-align: left; }
+      .music-featured-layout { grid-template-columns: 1fr; }
+      .music-player-controls { min-width: unset; }
+      .music-waveform-viz { height: 36px; }
+      .music-track-row { grid-template-columns: 2.5rem 1fr; gap: 1rem; padding: 1rem 1.25rem; }
+      .music-track-right { display: none; }
+      .music-mood-row { gap: 0.5rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- Custom Cursor -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- Back to Top -->
-<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-</button>
-
-<!-- NAV -->
-<nav id="navbar">
-  <a href="index.html" class="nav-logo">JK<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="art.html" class="active">Art</a></li>
-  </ul>
-  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
-  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- Mobile Menu -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMobileMenu()">Home</a>
-  <a href="art.html" onclick="closeMobileMenu()">Art</a>
-</div>
-
-<!-- ═══════════ HERO ═══════════ -->
-<div class="art-hero">
-  <div class="art-hero-grid"></div>
-  <div class="art-hero-glow"></div>
-  <div class="section-label">Art Lab</div>
-  <h1 class="art-hero-title">AI <em>Generations</em></h1>
-  <p class="art-hero-desc">A space for generative work — AI art, AI music, visual experiments, and synthetic media studies as I keep building my creative workflow.</p>
-  <a href="index.html" class="art-hero-back">
-    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Back to Portfolio
-  </a>
-</div>
-
-<!-- ═══════════ CATEGORY OVERVIEW ═══════════ -->
-<section class="art-section">
-  <div class="art-section-glow"></div>
-  <div class="art-section-inner">
-    <div class="art-cats reveal">
-      <div class="art-cat">
-        <div class="art-cat-num">01</div>
-        <h3>AI Art</h3>
-        <p>Character concepts, cinematic scenes, poster studies, and style explorations generated and refined through prompt iteration.</p>
-        <div class="art-cat-focus">Focus: composition, lighting &amp; mood</div>
-      </div>
-      <div class="art-cat">
-        <div class="art-cat-num">02</div>
-        <h3>AI Music</h3>
-        <p>Sound ideas, instrument experiments, and mood tracks built through generative audio tools and careful curation.</p>
-        <div class="art-cat-focus">Focus: atmosphere, hooks &amp; genre</div>
-      </div>
-      <div class="art-cat">
-        <div class="art-cat-num">03</div>
-        <h3>Experiments</h3>
-        <p>Mixed-media outputs: visual identities, concept boards, motion loops, and process-driven generative prototypes.</p>
-        <div class="art-cat-focus">Focus: code, visuals &amp; storytelling</div>
-      </div>
-    </div>
+<!-- ═══════════ AI MUSIC SECTION ═══════════ -->
+<section class="music-section" id="music">
+  <!-- Ambient background layers -->
+  <div class="music-bg">
+    <div class="music-bg-halo"></div>
+    <div class="music-bg-scan"></div>
+    <div class="music-bg-grid"></div>
+    <canvas id="musicCanvas"></canvas>
   </div>
-</section>
 
-<!-- ═══════════ AI ART GALLERY ═══════════ -->
-<section class="art-section">
-  <div class="art-section-glow"></div>
-  <div class="art-section-inner">
-    <div class="art-section-header">
-      <div class="section-label">01 — AI Art</div>
-      <h2 class="art-section-title reveal">Visual <em>Generations</em></h2>
-      <p class="art-section-subtitle reveal">Character concepts, cinematic scenes, and style explorations generated through prompt iteration. Add your images directly to the grid below.</p>
+  <div class="music-inner">
+
+    <!-- Header -->
+    <div class="music-header">
+      <div class="music-header-left">
+        <span class="section-label">02 — AI Music</span>
+        <h2 class="music-title">Sound <em>Explorations</em></h2>
+        <p class="music-subtitle">Mood tracks, instrument experiments, and generated audio from my generative music workflow. Tracks added as they're made.</p>
+      </div>
+      <div class="music-stats">
+        <div class="music-stat-item">
+          <span class="music-stat-num">02</span>
+          <span class="music-stat-label">Tracks Live</span>
+        </div>
+        <div class="music-stat-item">
+          <span class="music-stat-num">AI</span>
+          <span class="music-stat-label">Generated</span>
+        </div>
+      </div>
     </div>
 
-    <div class="art-gallery-grid reveal">
-      <!-- Featured wide card -->
-      <article class="art-gallery-card wide">
-        <!-- Replace src with your image path -->
-        <!-- <img class="art-gallery-img" src="assets/images/art/featured.jpg" alt="Featured Generation"> -->
-        <div class="art-gallery-placeholder">
-          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span>Featured · Add Image</span>
-        </div>
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Featured Work</div>
-            <div class="art-gallery-meta-title">Title Here</div>
-          </div>
-        </div>
-      </article>
+    <!-- Featured Player -->
+    <div class="music-featured" id="featuredPlayer">
+      <div class="music-featured-badge">
+        <span class="music-featured-badge-dot"></span>
+        Now Playing
+      </div>
 
-      <!-- Card 2 -->
-      <article class="art-gallery-card">
-        <div class="art-gallery-placeholder">
-          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span>Add Image</span>
-        </div>
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Character Concept</div>
-            <div class="art-gallery-meta-title">Title Here</div>
+      <div class="music-featured-layout">
+        <!-- Info -->
+        <div class="music-featured-info">
+          <div class="music-featured-num" id="featuredNum">01 / 02</div>
+          <div class="music-featured-title" id="featuredTitle">Basement Tapes</div>
+          <div class="music-featured-meta">
+            <span class="music-featured-tag" id="featuredGenre">Country Pop</span>
+            <span class="music-featured-tag" id="featuredType">MP3 Demo</span>
+            <span class="music-featured-duration" id="featuredDur">—:——</span>
           </div>
         </div>
-      </article>
 
-      <!-- Card 3 -->
-      <article class="art-gallery-card">
-        <div class="art-gallery-placeholder">
-          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span>Add Image</span>
-        </div>
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Cinematic Scene</div>
-            <div class="art-gallery-meta-title">Title Here</div>
-          </div>
-        </div>
-      </article>
+        <!-- Controls -->
+        <div class="music-player-controls">
 
-      <!-- Card 4 -->
-      <article class="art-gallery-card">
-        <div class="art-gallery-placeholder">
-          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span>Add Image</span>
-        </div>
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Style Study</div>
-            <div class="art-gallery-meta-title">Title Here</div>
+          <!-- Fake waveform (visual accent) -->
+          <div class="music-waveform-viz" id="waveformViz" onclick="seekFromWaveform(event)">
           </div>
-        </div>
-      </article>
 
-      <!-- Card 5 -->
-      <article class="art-gallery-card">
-        <div class="art-gallery-placeholder">
-          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span>Add Image</span>
-        </div>
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Poster Study</div>
-            <div class="art-gallery-meta-title">Title Here</div>
+          <!-- Progress bar -->
+          <div class="music-progress-wrap" id="progressWrap" onclick="seekFromBar(event)">
+            <div class="music-progress-fill" id="progressFill"></div>
+            <div class="music-progress-thumb" id="progressThumb"></div>
+          </div>
+
+          <!-- Buttons row -->
+          <div class="music-controls-row">
+            <!-- Skip back -->
+            <button class="ctrl-btn small" onclick="prevTrack()" title="Previous">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+            </button>
+
+            <!-- Play/Pause main -->
+            <button class="ctrl-btn play-main" id="mainPlayBtn" onclick="togglePlay()" title="Play / Pause">
+              <svg id="playIcon" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="pauseIcon" fill="currentColor" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+
+            <!-- Skip forward -->
+            <button class="ctrl-btn small" onclick="nextTrack()" title="Next">
+              <svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm2-8.14L11.03 12 8 14.14V9.86zM16 6h2v12h-2z"/></svg>
+            </button>
+
+            <!-- Volume -->
+            <div class="vol-wrap" style="margin-left:auto">
+              <svg fill="currentColor" viewBox="0 0 24 24" style="color:rgba(200,241,53,0.45)">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+              </svg>
+              <input class="vol-slider" type="range" min="0" max="100" value="80" id="volSlider" oninput="setVolume(this.value)">
+            </div>
+
+            <span class="ctrl-time" id="ctrlTime">0:00 / 0:00</span>
           </div>
         </div>
-      </article>
+      </div>
     </div>
 
-    <!-- How to add images note -->
-    <div class="art-gallery-add-note reveal">
-      <svg width="18" height="18" fill="none" stroke="rgba(200,241,53,0.5)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      <span>To add art: replace the placeholder divs with &lt;img class="art-gallery-img" src="your-path.jpg"&gt; inside each .art-gallery-card — the hover overlay and zoom effects apply automatically.</span>
-    </div>
-  </div>
-</section>
+    <!-- Real audio element (hidden) -->
+    <audio class="music-audio-el" id="mainAudio" preload="metadata">
+      <source src="assets/music/_Basement Tapes_.mp3" type="audio/mpeg">
+    </audio>
 
-<!-- ═══════════ AI MUSIC ═══════════ -->
-<section class="art-section music-section">
-  <div class="art-section-glow"></div>
-  <div class="art-section-inner">
-    <div class="art-section-header">
-      <div class="section-label">02 — AI Music</div>
-      <h2 class="art-section-title reveal">Sound <em>Explorations</em></h2>
-      <p class="art-section-subtitle reveal">Mood tracks, instrument experiments, and generated audio from my generative music workflow. Tracks added as they're made.</p>
-    </div>
-
-    <div class="music-tracks reveal">
-      <!-- Track placeholders — replace href/src with actual audio files -->
-      <div class="music-track">
-        <div class="music-track-num">01</div>
+    <!-- Track List -->
+    <div class="music-tracklist">
+      <!-- Track 1 -->
+      <div class="music-track-row active playing" data-index="0" onclick="selectTrack(0)">
+        <div class="music-track-num-wrap">
+          <span class="music-track-num">01</span>
+          <span class="music-track-play-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <div class="music-track-bars">
+            <div class="music-track-bar"></div>
+            <div class="music-track-bar"></div>
+            <div class="music-track-bar"></div>
+          </div>
+        </div>
         <div class="music-track-info">
           <div class="music-track-title">Basement Tapes</div>
-          <div class="music-track-meta">AI Music · Country Pop · MP3 Demo</div>
+          <div class="music-track-meta-str">AI Music · Country Pop</div>
         </div>
         <div class="music-track-right">
-          <audio class="music-track-player" controls preload="metadata">
-            <source src="assets/music/_Basement Tapes_.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+          <div class="music-track-tags">
+            <span class="music-tag">Country Pop</span>
+            <span class="music-tag">MP3</span>
+          </div>
+          <div class="music-track-dur" id="dur0">—:——</div>
         </div>
       </div>
 
-      <div class="music-track">
-        <div class="music-track-num">02</div>
+      <!-- Track 2 -->
+      <div class="music-track-row" data-index="1" onclick="selectTrack(1)">
+        <div class="music-track-num-wrap">
+          <span class="music-track-num">02</span>
+          <span class="music-track-play-icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+          <div class="music-track-bars">
+            <div class="music-track-bar"></div>
+            <div class="music-track-bar"></div>
+            <div class="music-track-bar"></div>
+          </div>
+        </div>
         <div class="music-track-info">
           <div class="music-track-title">4AM Thoughts</div>
-          <div class="music-track-meta">AI Music · Late Night Mood · MP3 Demo</div>
+          <div class="music-track-meta-str">AI Music · Late Night Mood</div>
         </div>
         <div class="music-track-right">
-          <audio class="music-track-player" controls preload="metadata">
-            <source src="assets/music/4AM Thoughts.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+          <div class="music-track-tags">
+            <span class="music-tag">Late Night</span>
+            <span class="music-tag">MP3</span>
+          </div>
+          <div class="music-track-dur" id="dur1">—:——</div>
         </div>
       </div>
 
-      <div class="music-track placeholder">
-        <div class="music-track-num">03</div>
+      <!-- Placeholder 3 -->
+      <div class="music-track-row placeholder">
+        <div class="music-track-num-wrap">
+          <span class="music-track-num">03</span>
+        </div>
         <div class="music-track-info">
           <div class="music-track-title">Track Title Here</div>
-          <div class="music-track-meta">Genre · Mood · Tool Used</div>
+          <div class="music-track-meta-str">Genre · Mood · Tool Used</div>
         </div>
         <div class="music-track-right">
-          <div class="waveform">
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-            <div class="waveform-bar"></div>
-          </div>
-          <div class="music-track-duration">—:——</div>
-          <button class="music-track-play">
-            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
+          <div class="music-track-dur">—:——</div>
         </div>
       </div>
     </div>
 
-    <div class="music-coming-note reveal">
-      <svg width="18" height="18" fill="none" stroke="rgba(200,241,53,0.5)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      <span>The first uploaded track is now live here. Add more MP3s by replacing the remaining placeholder rows with real titles and audio sources.</span>
+    <!-- Mood chips -->
+    <div class="music-mood-row">
+      <div class="mood-chip active">All</div>
+      <div class="mood-chip">Ambient</div>
+      <div class="mood-chip">Late Night</div>
+      <div class="mood-chip">Country</div>
+      <div class="mood-chip">Cinematic</div>
+      <div class="mood-chip">Experimental</div>
+      <div class="mood-chip">Upbeat</div>
     </div>
-  </div>
+
+    <!-- Dev note -->
+    <div class="music-add-note">
+      <svg width="16" height="16" fill="none" stroke="rgba(200,241,53,0.45)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>Add new tracks by appending to the tracks array in the script and adding a matching .music-track-row in the tracklist. Audio files go in assets/music/.</span>
+    </div>
+
+  </div><!-- /music-inner -->
 </section>
 
-<!-- ═══════════ CREATIVE EXPERIMENTS ═══════════ -->
-<section class="art-section">
-  <div class="art-section-glow"></div>
-  <div class="art-section-inner">
-    <div class="art-section-header">
-      <div class="section-label">03 — Experiments</div>
-      <h2 class="art-section-title reveal">Creative <em>Prototypes</em></h2>
-      <p class="art-section-subtitle reveal">Mixed-media projects combining code, visuals, and storytelling. From visual identities to motion loops and concept boards.</p>
-    </div>
+<script>
+  /* ── TRACKS DATA ── */
+  const tracks = [
+    {
+      src: 'assets/music/_Basement Tapes_.mp3',
+      title: 'Basement Tapes',
+      genre: 'Country Pop',
+      type: 'MP3 Demo',
+      label: 'AI Music · Country Pop',
+    },
+    {
+      src: 'assets/music/4AM Thoughts.mp3',
+      title: '4AM Thoughts',
+      genre: 'Late Night Mood',
+      type: 'MP3 Demo',
+      label: 'AI Music · Late Night Mood',
+    },
+  ];
 
-    <div class="experiments-grid reveal">
-      <div class="experiment-card">
-        <div class="experiment-type">Visual Identity</div>
-        <h4>Brand Concepts</h4>
-        <p>AI-assisted brand identity explorations — logotype studies, color system experiments, and visual language prototyping.</p>
-        <div class="experiment-status">
-          <div class="experiment-status-dot"></div>
-          Planned
-        </div>
-      </div>
+  let currentIndex = 0;
+  let isPlaying = false;
+  const audio = document.getElementById('mainAudio');
 
-      <div class="experiment-card">
-        <div class="experiment-type">Motion &amp; Loop</div>
-        <h4>Motion Studies</h4>
-        <p>Short looping animations and motion graphics generated and post-processed through iterative experimentation.</p>
-        <div class="experiment-status">
-          <div class="experiment-status-dot"></div>
-          Planned
-        </div>
-      </div>
+  /* ── WAVEFORM BARS SETUP ── */
+  function buildWaveform() {
+    const viz = document.getElementById('waveformViz');
+    viz.innerHTML = '';
+    const barCount = 56;
+    for (let i = 0; i < barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'music-waveform-viz-bar';
+      // Randomised heights to look like a waveform
+      const h = 10 + Math.abs(Math.sin(i * 0.55 + currentIndex * 1.3) * 32) +
+                Math.abs(Math.sin(i * 0.2) * 10);
+      bar.style.height = h + 'px';
+      bar.dataset.pos = i / barCount;
+      viz.appendChild(bar);
+    }
+  }
 
-      <div class="experiment-card">
-        <div class="experiment-type">Concept Board</div>
-        <h4>Mood Boards</h4>
-        <p>Curated visual collections and aesthetic directions built using generative tools — for films, games, or personal projects.</p>
-        <div class="experiment-status">
-          <div class="experiment-status-dot active"></div>
-          In Progress
-        </div>
-      </div>
+  function updateWaveformProgress(pct) {
+    const bars = document.querySelectorAll('.music-waveform-viz-bar');
+    bars.forEach((b, i) => {
+      const pos = i / bars.length;
+      b.classList.toggle('played', pos <= pct);
+    });
+  }
 
-      <div class="experiment-card">
-        <div class="experiment-type">Generative Code</div>
-        <h4>Code + Visuals</h4>
-        <p>Creative coding experiments: p5.js sketches, shader explorations, and data-driven generative art pieces.</p>
-        <div class="experiment-status">
-          <div class="experiment-status-dot active"></div>
-          In Progress
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  function seekFromWaveform(e) {
+    const viz = document.getElementById('waveformViz');
+    const rect = viz.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (audio.duration) {
+      audio.currentTime = pct * audio.duration;
+    }
+  }
 
-<!-- Image Viewer -->
-<div class="img-viewer" id="certificateView">
-  <button class="img-viewer-close" onclick="document.getElementById('certificateView').classList.remove('open')">✕</button>
-  <img id="certificateImg" src="" alt="Certificate">
-</div>
+  function seekFromBar(e) {
+    const wrap = document.getElementById('progressWrap');
+    const rect = wrap.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    if (audio.duration) {
+      audio.currentTime = pct * audio.duration;
+    }
+  }
 
-<!-- FOOTER -->
-<footer>
-  <div class="foot-brand">JK<span>.</span></div>
-  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
-  <div class="available-dot">Available for Work</div>
-</footer>
+  /* ── FORMAT TIME ── */
+  function fmt(s) {
+    if (!s || isNaN(s)) return '—:——';
+    const m = Math.floor(s / 60);
+    const ss = String(Math.floor(s % 60)).padStart(2, '0');
+    return m + ':' + ss;
+  }
 
-<script src="assets/js/script.js"></script>
+  /* ── LOAD TRACK ── */
+  function loadTrack(index, autoplay) {
+    const t = tracks[index];
+    currentIndex = index;
+
+    // Update featured info
+    document.getElementById('featuredNum').textContent = String(index + 1).padStart(2,'0') + ' / ' + String(tracks.length).padStart(2,'0');
+    document.getElementById('featuredTitle').textContent = t.title;
+    document.getElementById('featuredGenre').textContent = t.genre;
+    document.getElementById('featuredType').textContent = t.type;
+    document.getElementById('featuredDur').textContent = '—:——';
+
+    // Load audio
+    audio.src = t.src;
+    audio.load();
+
+    // Reset progress
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('progressThumb').style.left = '0%';
+    document.getElementById('ctrlTime').textContent = '0:00 / 0:00';
+
+    // Rebuild waveform
+    buildWaveform();
+
+    // Mark active row
+    document.querySelectorAll('.music-track-row').forEach((row, i) => {
+      row.classList.remove('active', 'playing');
+      if (i === index) row.classList.add('active');
+    });
+
+    if (autoplay) {
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayState(true);
+      }).catch(() => {});
+    }
+  }
+
+  function selectTrack(index) {
+    if (index >= tracks.length) return;
+    if (index === currentIndex && isPlaying) {
+      togglePlay();
+      return;
+    }
+    loadTrack(index, true);
+  }
+
+  /* ── PLAY / PAUSE ── */
+  function togglePlay() {
+    if (audio.paused) {
+      audio.play().then(() => {
+        isPlaying = true;
+        updatePlayState(true);
+      }).catch(() => {});
+    } else {
+      audio.pause();
+      isPlaying = false;
+      updatePlayState(false);
+    }
+  }
+
+  function updatePlayState(playing) {
+    document.getElementById('playIcon').style.display = playing ? 'none' : 'block';
+    document.getElementById('pauseIcon').style.display = playing ? 'block' : 'none';
+    const activeRow = document.querySelectorAll('.music-track-row')[currentIndex];
+    if (activeRow) activeRow.classList.toggle('playing', playing);
+  }
+
+  /* ── PREV / NEXT ── */
+  function prevTrack() {
+    const idx = (currentIndex - 1 + tracks.length) % tracks.length;
+    loadTrack(idx, true);
+  }
+  function nextTrack() {
+    const idx = (currentIndex + 1) % tracks.length;
+    loadTrack(idx, true);
+  }
+
+  /* ── VOLUME ── */
+  function setVolume(v) {
+    audio.volume = v / 100;
+  }
+
+  /* ── AUDIO EVENTS ── */
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = audio.currentTime / audio.duration;
+    document.getElementById('progressFill').style.width = (pct * 100) + '%';
+    document.getElementById('progressThumb').style.left = (pct * 100) + '%';
+    document.getElementById('ctrlTime').textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+    document.getElementById('featuredDur').textContent = fmt(audio.currentTime);
+    updateWaveformProgress(pct);
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    const el = document.getElementById('dur' + currentIndex);
+    if (el) el.textContent = fmt(audio.duration);
+    document.getElementById('ctrlTime').textContent = '0:00 / ' + fmt(audio.duration);
+  });
+
+  audio.addEventListener('ended', () => {
+    isPlaying = false;
+    updatePlayState(false);
+    nextTrack();
+  });
+
+  /* ── PRE-LOAD DURATIONS for all tracks ── */
+  function preloadDuration(index) {
+    const a = new Audio();
+    a.src = tracks[index].src;
+    a.addEventListener('loadedmetadata', () => {
+      const el = document.getElementById('dur' + index);
+      if (el) el.textContent = fmt(a.duration);
+    });
+  }
+  tracks.forEach((_, i) => { if (i !== 0) preloadDuration(i); });
+
+  /* ── CANVAS VISUALIZER (idle ambient) ── */
+  (function setupCanvas() {
+    const canvas = document.getElementById('musicCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, bars = [], tick = 0;
+
+    function resize() {
+      W = canvas.offsetWidth;
+      H = canvas.offsetHeight;
+      canvas.width = W;
+      canvas.height = H;
+      bars = Array.from({length: Math.floor(W / 5)}, (_, i) => ({
+        x: i * 5,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.4 + Math.random() * 0.6,
+        amp: 0.3 + Math.random() * 0.7,
+      }));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      tick += 0.018;
+      bars.forEach(b => {
+        const h = (Math.sin(tick * b.speed + b.phase) * 0.5 + 0.5) * b.amp * H * 0.72;
+        const alpha = 0.18 + Math.sin(tick * b.speed + b.phase) * 0.1;
+        ctx.fillStyle = `rgba(200,241,53,${alpha})`;
+        ctx.fillRect(b.x, H - h, 3, h);
+      });
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    draw();
+  })();
+
+  /* ── MOOD CHIPS (UI only, no filter logic yet) ── */
+  document.querySelectorAll('.mood-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  /* ── INIT ── */
+  buildWaveform();
+  audio.volume = 0.8;
+</script>
 </body>
 </html>
