@@ -195,231 +195,267 @@
     }
 
     /* ═══════════════════════════════
-       AI ART GALLERY — IMMERSIVE
+       AI ART GALLERY — REDESIGNED IMMERSIVE
        ═══════════════════════════════ */
 
     /* Section override — edge-to-edge */
     .art-gallery-section {
       padding: 0 !important;
       overflow: hidden;
+      background: var(--page-bg);
     }
 
-    /* ── FEATURED HERO PIECE ── */
-    .agal-hero {
-      position: relative;
-      width: 100%;
-      height: 88vh;
-      min-height: 560px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .agal-hero-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.7) brightness(0.75);
-      transform: scale(1.04);
-      transition: filter 0.8s ease, transform 6s ease;
-    }
-    .agal-hero:hover .agal-hero-img {
-      filter: saturate(1) brightness(0.85);
-      transform: scale(1.0);
-    }
-    /* dark gradient bottom */
-    .agal-hero-fog {
-      position: absolute; inset: 0;
-      background:
-        linear-gradient(to top, rgba(4,4,10,0.95) 0%, rgba(4,4,10,0.3) 40%, transparent 70%),
-        linear-gradient(to right, rgba(4,4,10,0.5) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    /* top bar */
-    .agal-hero-topbar {
-      position: absolute; top: 0; left: 0; right: 0;
-      padding: 2rem 2.5rem;
-      display: flex; justify-content: space-between; align-items: flex-start;
-      z-index: 3;
-    }
-    .agal-hero-label {
-      font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.26em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.6);
-      border: 1px solid rgba(200,241,53,0.2);
-      padding: 0.35rem 0.8rem;
-      backdrop-filter: blur(4px);
-    }
-    .agal-hero-count {
-      font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.18em;
-      color: rgba(240,237,230,0.35);
-    }
-    /* bottom info */
-    .agal-hero-info {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 3rem 2.5rem 2.5rem;
-      z-index: 3;
-      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
-    }
-    .agal-hero-text {}
-    .agal-hero-cat {
-      font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.65);
-      margin-bottom: 0.6rem;
-    }
-    .agal-hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 7vw, 6rem);
-      letter-spacing: 0.03em; line-height: 0.9;
-      color: var(--text);
-    }
-    .agal-hero-expand {
-      flex-shrink: 0;
-      width: 48px; height: 48px;
-      border: 1px solid rgba(200,241,53,0.3);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--acid);
-      transition: background 0.2s, border-color 0.2s, transform 0.3s;
-      cursor: pointer;
-      background: rgba(4,4,10,0.5);
-      backdrop-filter: blur(4px);
-    }
-    .agal-hero:hover .agal-hero-expand {
-      background: rgba(200,241,53,0.1);
-      border-color: rgba(200,241,53,0.6);
-    }
-    .agal-hero-expand svg { width: 18px; height: 18px; }
-
-    /* ── GRID STRIP BELOW FEATURED ── */
-    .agal-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      background: rgba(200,241,53,0.05);
-    }
-    .agal-strip-item {
-      position: relative;
-      aspect-ratio: 3/4;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    .agal-strip-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: saturate(0.6) brightness(0.7);
-      transform: scale(1.05);
-      transition: filter 0.5s, transform 0.5s;
-    }
-    .agal-strip-item:hover img {
-      filter: saturate(1) brightness(0.9);
-      transform: scale(1.0);
-    }
-    .agal-strip-item-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(4,4,10,0.9) 0%, transparent 55%);
-      opacity: 0;
-      transition: opacity 0.35s;
-      display: flex; align-items: flex-end;
-      padding: 1.25rem;
-    }
-    .agal-strip-item:hover .agal-strip-item-overlay { opacity: 1; }
-    .agal-strip-item-meta { display: flex; flex-direction: column; gap: 0.25rem; }
-    .agal-strip-item-cat {
-      font-family: var(--font-mono);
-      font-size: 0.52rem; letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.7);
-    }
-    .agal-strip-item-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem; letter-spacing: 0.04em;
-      color: var(--text); line-height: 1;
-    }
-
-    /* ── INDEX ROW (list view under grid) ── */
-    .agal-index {
+    /* ── GALLERY HEADER BAR ── */
+    .agal-header {
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 4rem 2rem 5rem;
+      padding: 5rem 2rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
-    .agal-index-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(200,241,53,0.08);
+    .agal-header-top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
     }
-    .agal-index-title {
+    .agal-header-left {}
+    .agal-header-count {
       font-family: var(--font-mono);
-      font-size: 0.58rem; letter-spacing: 0.24em;
+      font-size: 0.55rem; letter-spacing: 0.22em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.45);
+      margin-top: 0.75rem;
     }
-    .agal-index-total {
+    .agal-view-toggle {
+      display: flex;
+      gap: 2px;
+      border: 1px solid rgba(200,241,53,0.12);
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .agal-view-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      color: rgba(200,241,53,0.35);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .agal-view-btn:hover { color: rgba(200,241,53,0.7); }
+    .agal-view-btn.active { background: rgba(200,241,53,0.08); color: var(--acid); }
+    .agal-view-btn svg { width: 15px; height: 15px; }
+
+    /* ── FILTER TABS ── */
+    .agal-filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .agal-filter-btn {
       font-family: var(--font-mono);
-      font-size: 0.55rem; letter-spacing: 0.14em;
-      color: var(--text-muted);
+      font-size: 0.55rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.45rem 1rem;
+      border: 1px solid rgba(200,241,53,0.1);
+      background: none;
+      color: rgba(200,241,53,0.4);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      position: relative; overflow: hidden;
     }
-    .agal-index-list { display: flex; flex-direction: column; }
-    .agal-index-row {
+    .agal-filter-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(200,241,53,0.05);
+      transform: translateX(-100%);
+      transition: transform 0.25s;
+    }
+    .agal-filter-btn:hover::before { transform: translateX(0); }
+    .agal-filter-btn:hover { border-color: rgba(200,241,53,0.3); color: rgba(200,241,53,0.8); }
+    .agal-filter-btn.active {
+      border-color: rgba(200,241,53,0.5);
+      color: var(--acid);
+      background: rgba(200,241,53,0.06);
+    }
+
+    /* ── MASONRY GRID ── */
+    .agal-masonry {
+      padding: 0 2rem 2rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      columns: 3;
+      column-gap: 10px;
+      transition: opacity 0.3s;
+    }
+    .agal-masonry.filtering { opacity: 0.4; pointer-events: none; }
+    .agal-card {
+      break-inside: avoid;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 10px;
+      background: rgba(10,10,18,0.6);
+      transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), opacity 0.35s;
+    }
+    .agal-card.hidden { display: none; }
+    .agal-card img {
+      width: 100%; height: auto;
+      display: block;
+      filter: saturate(0.65) brightness(0.8);
+      transform: scale(1.03);
+      transition: filter 0.6s ease, transform 0.7s cubic-bezier(0.23,1,0.32,1);
+    }
+    .agal-card:hover img {
+      filter: saturate(1) brightness(0.92);
+      transform: scale(1.0);
+    }
+    .agal-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,4,10,0.92) 0%, rgba(4,4,10,0.2) 50%, transparent 80%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem 1.25rem 1.25rem;
+      gap: 0.3rem;
+    }
+    .agal-card:hover .agal-card-overlay { opacity: 1; }
+    .agal-card-cat {
+      font-family: var(--font-mono);
+      font-size: 0.5rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.75);
+    }
+    .agal-card-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      letter-spacing: 0.04em; line-height: 0.95;
+      color: var(--text);
+    }
+    .agal-card-expand {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 34px; height: 34px;
+      border: 1px solid rgba(200,241,53,0.3);
+      background: rgba(4,4,10,0.55);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--acid);
+      opacity: 0;
+      transition: opacity 0.3s, background 0.2s;
+    }
+    .agal-card:hover .agal-card-expand { opacity: 1; }
+    .agal-card-expand:hover { background: rgba(200,241,53,0.15); }
+    .agal-card-expand svg { width: 13px; height: 13px; }
+
+    /* Featured card accent */
+    .agal-card.featured::after {
+      content: 'Featured';
+      position: absolute; top: 1rem; left: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.5rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--acid);
+      border: 1px solid rgba(200,241,53,0.35);
+      padding: 0.25rem 0.6rem;
+      background: rgba(4,4,10,0.7);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ── LIST VIEW ── */
+    .agal-list-view {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      display: none;
+    }
+    .agal-list-view.active { display: block; }
+    .agal-list-row {
       display: grid;
-      grid-template-columns: 3rem 1fr auto auto;
+      grid-template-columns: 3rem 60px 1fr auto auto;
       align-items: center;
       gap: 1.5rem;
-      padding: 1rem 0;
+      padding: 0.85rem 0;
       border-bottom: 1px solid rgba(200,241,53,0.05);
       cursor: pointer;
+      transition: padding-left 0.25s, background 0.2s;
       position: relative;
-      transition: padding-left 0.25s;
     }
-    .agal-index-row::before {
+    .agal-list-row::before {
       content: '';
-      position: absolute; left: 0; top: 50%;
-      transform: translateY(-50%);
-      width: 0; height: 1px;
+      position: absolute; left: -2rem; top: 0; bottom: 0; width: 2px;
       background: var(--acid);
-      transition: width 0.25s;
+      transform: scaleY(0);
+      transition: transform 0.25s;
+      transform-origin: bottom;
     }
-    .agal-index-row:hover { padding-left: 1.2rem; }
-    .agal-index-row:hover::before { width: 0.8rem; }
-    .agal-index-num {
+    .agal-list-row:hover { padding-left: 0.75rem; }
+    .agal-list-row:hover::before { transform: scaleY(1); }
+    .agal-list-num {
       font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.14em;
-      color: rgba(138,138,138,0.35);
+      font-size: 0.6rem; letter-spacing: 0.14em;
+      color: rgba(138,138,138,0.3);
     }
-    .agal-index-name {
+    .agal-list-thumb {
+      width: 60px; height: 44px;
+      object-fit: cover;
+      opacity: 0.55;
+      transition: opacity 0.3s;
+    }
+    .agal-list-row:hover .agal-list-thumb { opacity: 1; }
+    .agal-list-name {
       font-family: var(--font-body);
       font-size: 0.95rem; font-weight: 500;
       color: var(--text-dim);
       transition: color 0.2s;
     }
-    .agal-index-row:hover .agal-index-name { color: var(--text); }
-    .agal-index-tag {
+    .agal-list-row:hover .agal-list-name { color: var(--text); }
+    .agal-list-tag {
       font-family: var(--font-mono);
-      font-size: 0.52rem; letter-spacing: 0.16em;
+      font-size: 0.5rem; letter-spacing: 0.16em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.4);
       border: 1px solid rgba(200,241,53,0.1);
       padding: 0.2rem 0.55rem;
     }
-    .agal-index-thumb {
-      width: 48px; height: 36px;
-      object-fit: cover;
-      opacity: 0.5;
-      transition: opacity 0.3s;
+    .agal-list-arrow {
+      color: rgba(200,241,53,0.2);
+      transition: color 0.2s, transform 0.2s;
     }
-    .agal-index-row:hover .agal-index-thumb { opacity: 1; }
+    .agal-list-row:hover .agal-list-arrow { color: var(--acid); transform: translateX(4px); }
+    .agal-list-arrow svg { width: 14px; height: 14px; }
+
+    /* ── ADD NOTE ── */
+    .agal-add-note {
+      max-width: var(--max-w);
+      margin: 0 auto 4rem;
+      padding: 0 2rem;
+    }
+    .agal-add-note-inner {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px dashed rgba(200,241,53,0.15);
+      background: rgba(200,241,53,0.01);
+    }
+    .agal-add-note-inner svg { flex-shrink: 0; }
+    .agal-add-note-inner span {
+      font-family: var(--font-mono);
+      font-size: 0.56rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.32);
+      line-height: 1.7;
+    }
 
     /* ── LIGHTBOX ── */
     .agal-lightbox {
       position: fixed; inset: 0; z-index: 999;
-      background: rgba(4,4,10,0.96);
+      background: rgba(4,4,10,0.97);
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity 0.35s;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(12px);
     }
     .agal-lightbox.open { opacity: 1; pointer-events: all; }
     .agal-lightbox-inner {
@@ -442,6 +478,11 @@
     .agal-lightbox-title {
       font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.04em;
       color: var(--text);
+    }
+    .agal-lightbox-counter {
+      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.18em;
+      color: rgba(200,241,53,0.3);
+      margin-left: auto;
     }
     .agal-lightbox-close {
       position: fixed; top: 1.5rem; right: 1.5rem;
@@ -469,29 +510,22 @@
     .agal-lightbox-nav.next { right: 1.5rem; }
     .agal-lightbox-nav svg { width: 16px; height: 16px; }
 
-    /* Placeholder when no image */
-    .agal-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.75rem; background: rgba(10,10,18,0.95);
-    }
-    .agal-placeholder svg { width: 36px; height: 36px; opacity: 0.15; }
-    .agal-placeholder span {
-      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: rgba(200,241,53,0.25);
-    }
-
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .agal-strip { grid-template-columns: repeat(2, 1fr); }
-      .agal-index-row { grid-template-columns: 2.5rem 1fr auto; }
-      .agal-index-thumb { display: none; }
+      .agal-masonry { columns: 2; }
+      .agal-list-row { grid-template-columns: 2.5rem 48px 1fr auto; }
+      .agal-list-arrow { display: none; }
     }
     @media (max-width: 600px) {
-      .agal-hero { height: 70vh; }
-      .agal-strip { grid-template-columns: repeat(2, 1fr); }
-      .agal-hero-title { font-size: clamp(2.2rem, 10vw, 4rem); }
-      .agal-index-row { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
-      .agal-index-tag { display: none; }
+      .agal-masonry { columns: 2; column-gap: 6px; }
+      .agal-masonry { padding: 0 1.25rem 1.25rem; }
+      .agal-header { padding: 4rem 1.25rem 2rem; }
+      .agal-header-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .agal-filters { gap: 0.4rem; }
+      .agal-list-row { grid-template-columns: 2.5rem 1fr auto; gap: 1rem; }
+      .agal-list-thumb { display: none; }
+      .agal-list-tag { display: none; }
+      .agal-add-note { padding: 0 1.25rem; }
     }
 
     /* ═══════════════════════════════
@@ -816,183 +850,42 @@
   </div>
 </section>
 
-<!-- ═══════════ AI ART GALLERY — IMMERSIVE ═══════════ -->
+<!-- ═══════════ AI ART GALLERY — IMMERSIVE MASONRY ═══════════ -->
 <section class="art-section art-gallery-section">
 
-  <!-- FEATURED HERO -->
-  <div class="agal-hero" onclick="openLightbox(0)">
-    <img class="agal-hero-img" src="assets/art/X45.png" alt="Featured AI generation X45">
-    <div class="agal-hero-fog"></div>
-    <div class="agal-hero-topbar">
-      <span class="agal-hero-label">01 — AI Art</span>
-      <span class="agal-hero-count">12 works</span>
-    </div>
-    <div class="agal-hero-info">
-      <div class="agal-hero-text">
-        <div class="agal-hero-cat">Featured Work</div>
-        <div class="agal-hero-title">X45</div>
+  <!-- GALLERY HEADER + CONTROLS -->
+  <div class="agal-header">
+    <div class="agal-header-top">
+      <div class="agal-header-left">
+        <div class="section-label">01 — AI Art</div>
+        <h2 class="art-section-title reveal">Visual <em>Generations</em></h2>
+        <div class="agal-header-count" id="agalCount">12 works</div>
       </div>
-      <div class="agal-hero-expand">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 3h6m0 0v6m0-6L14 10M9 21H3m0 0v-6m0 6l7-7"/></svg>
+      <div class="agal-view-toggle">
+        <button class="agal-view-btn active" id="viewGrid" title="Grid view" onclick="setView('grid')">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        </button>
+        <button class="agal-view-btn" id="viewList" title="List view" onclick="setView('list')">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
     </div>
+
+    <!-- FILTER TABS — auto-generated from data -->
+    <div class="agal-filters" id="agalFilters"></div>
   </div>
 
-  <!-- STRIP GRID -->
-  <div class="agal-strip">
-    <div class="agal-strip-item" onclick="openLightbox(1)">
-      <img src="assets/art/X01.png" alt="X01">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Character Concept</div>
-          <div class="agal-strip-item-title">X01</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(2)">
-      <img src="assets/art/X02.png" alt="X02">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Cinematic Scene</div>
-          <div class="agal-strip-item-title">X02</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(3)">
-      <img src="assets/art/X10.png" alt="X10">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Style Study</div>
-          <div class="agal-strip-item-title">X10</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(4)">
-      <img src="assets/art/X13.png" alt="X13">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Poster Study</div>
-          <div class="agal-strip-item-title">X13</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(5)">
-      <img src="assets/art/Caelum.png" alt="Caelum">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Portrait Study</div>
-          <div class="agal-strip-item-title">Caelum</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(6)">
-      <img src="assets/art/Colt.png" alt="Colt">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Character Design</div>
-          <div class="agal-strip-item-title">Colt</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(7)">
-      <img src="assets/art/Dash.png" alt="Dash">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Visual Study</div>
-          <div class="agal-strip-item-title">Dash</div>
-        </div>
-      </div>
-    </div>
-    <div class="agal-strip-item" onclick="openLightbox(8)">
-      <img src="assets/art/Dex.png" alt="Dex">
-      <div class="agal-strip-item-overlay">
-        <div class="agal-strip-item-meta">
-          <div class="agal-strip-item-cat">Portrait Study</div>
-          <div class="agal-strip-item-title">Dex</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- MASONRY GRID VIEW -->
+  <div class="agal-masonry" id="agalMasonry"></div>
 
-  <!-- INDEX LIST -->
-  <div class="agal-index">
-    <div class="agal-index-header">
-      <span class="agal-index-title">Full Index</span>
-      <span class="agal-index-total">12 generations</span>
-    </div>
-    <div class="agal-index-list">
-      <div class="agal-index-row" onclick="openLightbox(0)">
-        <span class="agal-index-num">01</span>
-        <span class="agal-index-name">X45</span>
-        <span class="agal-index-tag">Featured</span>
-        <img class="agal-index-thumb" src="assets/art/X45.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(1)">
-        <span class="agal-index-num">02</span>
-        <span class="agal-index-name">X01</span>
-        <span class="agal-index-tag">Character</span>
-        <img class="agal-index-thumb" src="assets/art/X01.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(2)">
-        <span class="agal-index-num">03</span>
-        <span class="agal-index-name">X02</span>
-        <span class="agal-index-tag">Cinematic</span>
-        <img class="agal-index-thumb" src="assets/art/X02.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(3)">
-        <span class="agal-index-num">04</span>
-        <span class="agal-index-name">X10</span>
-        <span class="agal-index-tag">Style</span>
-        <img class="agal-index-thumb" src="assets/art/X10.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(4)">
-        <span class="agal-index-num">05</span>
-        <span class="agal-index-name">X13</span>
-        <span class="agal-index-tag">Poster</span>
-        <img class="agal-index-thumb" src="assets/art/X13.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(5)">
-        <span class="agal-index-num">06</span>
-        <span class="agal-index-name">Caelum</span>
-        <span class="agal-index-tag">Portrait</span>
-        <img class="agal-index-thumb" src="assets/art/Caelum.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(6)">
-        <span class="agal-index-num">07</span>
-        <span class="agal-index-name">Colt</span>
-        <span class="agal-index-tag">Character</span>
-        <img class="agal-index-thumb" src="assets/art/Colt.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(7)">
-        <span class="agal-index-num">08</span>
-        <span class="agal-index-name">Dash</span>
-        <span class="agal-index-tag">Study</span>
-        <img class="agal-index-thumb" src="assets/art/Dash.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(8)">
-        <span class="agal-index-num">09</span>
-        <span class="agal-index-name">Dex</span>
-        <span class="agal-index-tag">Portrait</span>
-        <img class="agal-index-thumb" src="assets/art/Dex.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(9)">
-        <span class="agal-index-num">10</span>
-        <span class="agal-index-name">Drake</span>
-        <span class="agal-index-tag">Fantasy</span>
-        <img class="agal-index-thumb" src="assets/art/Drake.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(10)">
-        <span class="agal-index-num">11</span>
-        <span class="agal-index-name">Ember</span>
-        <span class="agal-index-tag">Mood</span>
-        <img class="agal-index-thumb" src="assets/art/Ember.png" alt="">
-      </div>
-      <div class="agal-index-row" onclick="openLightbox(11)">
-        <span class="agal-index-num">12</span>
-        <span class="agal-index-name">Kael</span>
-        <span class="agal-index-tag">Character</span>
-        <img class="agal-index-thumb" src="assets/art/Kael.png" alt="">
-      </div>
+  <!-- LIST VIEW -->
+  <div class="agal-list-view" id="agalListView"></div>
+
+  <!-- DEV NOTE -->
+  <div class="agal-add-note">
+    <div class="agal-add-note-inner">
+      <svg width="16" height="16" fill="none" stroke="rgba(200,241,53,0.45)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>To add new artwork: append an object to the <code style="color:rgba(200,241,53,0.6)">agalWorks</code> array in the script below. Each entry needs: src, title, cat, and optionally featured:true. Image files go in <code style="color:rgba(200,241,53,0.6)">assets/art/</code>.</span>
     </div>
   </div>
 
@@ -1012,43 +905,135 @@
     <div class="agal-lightbox-meta">
       <span class="agal-lightbox-cat" id="agalLightboxCat"></span>
       <span class="agal-lightbox-title" id="agalLightboxTitle"></span>
+      <span class="agal-lightbox-counter" id="agalLightboxCounter"></span>
     </div>
   </div>
 </div>
 
 <script>
+  /* ═══════════════════════════════════════════════════
+     GALLERY DATA — add new works here freely.
+     Fields: src (required), title (required), cat (required), featured (optional boolean)
+     ═══════════════════════════════════════════════════ */
   const agalWorks = [
-    { src: 'assets/art/X45.png', title: 'X45', cat: 'Featured Work' },
-    { src: 'assets/art/X01.png', title: 'X01', cat: 'Character Concept' },
-    { src: 'assets/art/X02.png', title: 'X02', cat: 'Cinematic Scene' },
-    { src: 'assets/art/X10.png', title: 'X10', cat: 'Style Study' },
-    { src: 'assets/art/X13.png', title: 'X13', cat: 'Poster Study' },
-    { src: 'assets/art/Caelum.png', title: 'Caelum', cat: 'Portrait Study' },
-    { src: 'assets/art/Colt.png', title: 'Colt', cat: 'Character Design' },
-    { src: 'assets/art/Dash.png', title: 'Dash', cat: 'Visual Study' },
-    { src: 'assets/art/Dex.png', title: 'Dex', cat: 'Portrait Study' },
-    { src: 'assets/art/Drake.png', title: 'Drake', cat: 'Fantasy Character' },
-    { src: 'assets/art/Ember.png', title: 'Ember', cat: 'Mood Piece' },
-    { src: 'assets/art/Kael.png', title: 'Kael', cat: 'Character Design' },
+    { src: 'assets/art/X45.png',    title: 'X45',    cat: 'Featured Work',     featured: true },
+    { src: 'assets/art/X01.png',    title: 'X01',    cat: 'Character Concept' },
+    { src: 'assets/art/X02.png',    title: 'X02',    cat: 'Cinematic Scene'   },
+    { src: 'assets/art/X10.png',    title: 'X10',    cat: 'Style Study'       },
+    { src: 'assets/art/X13.png',    title: 'X13',    cat: 'Poster Study'      },
+    { src: 'assets/art/Caelum.png', title: 'Caelum', cat: 'Portrait Study'    },
+    { src: 'assets/art/Colt.png',   title: 'Colt',   cat: 'Character Design'  },
+    { src: 'assets/art/Dash.png',   title: 'Dash',   cat: 'Visual Study'      },
+    { src: 'assets/art/Dex.png',    title: 'Dex',    cat: 'Portrait Study'    },
+    { src: 'assets/art/Drake.png',  title: 'Drake',  cat: 'Fantasy Character' },
+    { src: 'assets/art/Ember.png',  title: 'Ember',  cat: 'Mood Piece'        },
+    { src: 'assets/art/Kael.png',   title: 'Kael',   cat: 'Character Design'  },
+    // ↓ ADD NEW WORKS BELOW — just copy the pattern above
   ];
-  let agalCurrent = 0;
 
-  function openLightbox(index) {
-    agalCurrent = index;
-    const w = agalWorks[index];
+  /* ── STATE ── */
+  let agalCurrent = 0;
+  let agalFiltered = [...agalWorks]; // what's visible after filter
+  let currentView  = 'grid';
+  let activeFilter = 'All';
+
+  /* ── BUILD FILTERS ── */
+  function buildFilters() {
+    const cats = ['All', ...new Set(agalWorks.map(w => w.cat))];
+    const container = document.getElementById('agalFilters');
+    container.innerHTML = cats.map(cat => `
+      <button class="agal-filter-btn${cat === 'All' ? ' active' : ''}"
+              onclick="applyFilter('${cat.replace(/'/g, "\\'")}', this)">
+        ${cat}
+      </button>
+    `).join('');
+  }
+
+  /* ── BUILD GRID (MASONRY) ── */
+  function buildGrid(works) {
+    const container = document.getElementById('agalMasonry');
+    container.innerHTML = works.map((w, i) => `
+      <div class="agal-card${w.featured ? ' featured' : ''}" onclick="openLightboxFiltered(${i})">
+        <img src="${w.src}" alt="${w.title}" loading="lazy">
+        <div class="agal-card-overlay">
+          <div class="agal-card-cat">${w.cat}</div>
+          <div class="agal-card-title">${w.title}</div>
+        </div>
+        <div class="agal-card-expand">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 3h6m0 0v6m0-6L14 10M9 21H3m0 0v-6m0 6l7-7"/></svg>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  /* ── BUILD LIST ── */
+  function buildList(works) {
+    const container = document.getElementById('agalListView');
+    container.innerHTML = works.map((w, i) => `
+      <div class="agal-list-row" onclick="openLightboxFiltered(${i})">
+        <span class="agal-list-num">${String(i + 1).padStart(2, '0')}</span>
+        <img class="agal-list-thumb" src="${w.src}" alt="${w.title}" loading="lazy">
+        <span class="agal-list-name">${w.title}</span>
+        <span class="agal-list-tag">${w.cat}</span>
+        <span class="agal-list-arrow">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    `).join('');
+  }
+
+  /* ── FILTER ── */
+  function applyFilter(cat, btn) {
+    activeFilter = cat;
+    document.querySelectorAll('.agal-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    agalFiltered = cat === 'All' ? [...agalWorks] : agalWorks.filter(w => w.cat === cat);
+    const count = agalFiltered.length;
+    document.getElementById('agalCount').textContent = `${count} work${count !== 1 ? 's' : ''}${cat !== 'All' ? ' · ' + cat : ''}`;
+    buildGrid(agalFiltered);
+    buildList(agalFiltered);
+  }
+
+  /* ── VIEW TOGGLE ── */
+  function setView(view) {
+    currentView = view;
+    const grid = document.getElementById('agalMasonry');
+    const list = document.getElementById('agalListView');
+    const btnG = document.getElementById('viewGrid');
+    const btnL = document.getElementById('viewList');
+    if (view === 'grid') {
+      grid.style.display = '';
+      list.classList.remove('active');
+      btnG.classList.add('active');
+      btnL.classList.remove('active');
+    } else {
+      grid.style.display = 'none';
+      list.classList.add('active');
+      btnL.classList.add('active');
+      btnG.classList.remove('active');
+    }
+  }
+
+  /* ── LIGHTBOX (operates on filtered set) ── */
+  function openLightboxFiltered(filteredIndex) {
+    agalCurrent = filteredIndex;
+    const w = agalFiltered[filteredIndex];
     document.getElementById('agalLightboxImg').src = w.src;
     document.getElementById('agalLightboxTitle').textContent = w.title;
     document.getElementById('agalLightboxCat').textContent = w.cat;
+    document.getElementById('agalLightboxCounter').textContent =
+      `${String(filteredIndex + 1).padStart(2,'0')} / ${String(agalFiltered.length).padStart(2,'0')}`;
     document.getElementById('agalLightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+  function openLightbox(index) { openLightboxFiltered(index); }
   function closeLightbox() {
     document.getElementById('agalLightbox').classList.remove('open');
     document.body.style.overflow = '';
   }
   function shiftLightbox(dir) {
-    agalCurrent = (agalCurrent + dir + agalWorks.length) % agalWorks.length;
-    openLightbox(agalCurrent);
+    agalCurrent = (agalCurrent + dir + agalFiltered.length) % agalFiltered.length;
+    openLightboxFiltered(agalCurrent);
   }
   document.getElementById('agalLightbox').addEventListener('click', function(e) {
     if (e.target === this) closeLightbox();
@@ -1059,6 +1044,12 @@
     if (e.key === 'ArrowLeft') shiftLightbox(-1);
     if (e.key === 'ArrowRight') shiftLightbox(1);
   });
+
+  /* ── INIT ── */
+  buildFilters();
+  buildGrid(agalWorks);
+  buildList(agalWorks);
+  document.getElementById('agalCount').textContent = `${agalWorks.length} works`;
 </script>
 
 <!-- ═══════════ AI MUSIC ═══════════ -->
