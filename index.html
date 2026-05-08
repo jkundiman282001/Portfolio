@@ -578,6 +578,48 @@
             </div>
           </div>
         </div>
+
+        <!-- Slide 8: AWS -->
+        <div class="cert-slide" data-modal="awsModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="assets/images/certifications/aws.png" alt="AWS" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">AWS</div>
+              <div class="cert-slide-org-count">1 Certification</div>
+              <ul class="cert-slide-list">
+                <li>Foundations of Prompt Engineering</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('awsModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/21.png')">
+              <img src="assets/images/certifications/21.png" alt="Foundations of Prompt Engineering">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 8: BootDev -->
+        <div class="cert-slide" data-modal="bootdevModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="assets/images/certifications/bootdev.png" alt="BootDev" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">BootDev</div>
+              <div class="cert-slide-org-count">1 Certification</div>
+              <ul class="cert-slide-list">
+                <li>Introduction to Python</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('bootdevModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/22.png')">
+              <img src="assets/images/certifications/22.png" alt="Introduction to Python">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
       </div><!-- end viewport -->
     </div><!-- end stage -->
 
@@ -1677,6 +1719,37 @@
     </div>
   </div>
 </div>
+
+<!-- AWS -->
+<div class="modal" id="awsModal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div><div class="modal-sub">AWS</div><div class="modal-title">1 Certification</div></div>
+      <button class="modal-close" onclick="closeModal('awsModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cert-grid" style="max-width:300px">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/21.png')"><img src="assets/images/certifications/21.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of Prompt Engineering</div><div class="cert-card-type">Prompt Engineering</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BootDev -->
+<div class="modal" id="bootdevModal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div><div class="modal-sub">BootDev</div><div class="modal-title">1 Certification</div></div>
+      <button class="modal-close" onclick="closeModal('bootdevModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cert-grid" style="max-width:300px">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/22.png')"><img src="assets/images/certifications/22.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to Python</div><div class="cert-card-type">Backend Certificate</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Image Viewer -->
 <div class="img-viewer" id="certificateView">
