@@ -195,95 +195,303 @@
     }
 
     /* ═══════════════════════════════
-       AI ART GALLERY
+       AI ART GALLERY — IMMERSIVE
        ═══════════════════════════════ */
-    .art-gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-    }
-    .art-gallery-card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
+
+    /* Section override — edge-to-edge */
+    .art-gallery-section {
+      padding: 0 !important;
       overflow: hidden;
-      aspect-ratio: 4/5;
+    }
+
+    /* ── FEATURED HERO PIECE ── */
+    .agal-hero {
+      position: relative;
+      width: 100%;
+      height: 88vh;
+      min-height: 560px;
+      overflow: hidden;
       cursor: pointer;
-      transition: border-color 0.3s, transform 0.3s;
     }
-    .art-gallery-card:hover {
-      border-color: rgba(200,241,53,0.35);
-      transform: translateY(-4px);
-    }
-    .art-gallery-card.wide {
-      grid-column: span 2;
-      aspect-ratio: 8/5;
-    }
-    .art-gallery-img {
+    .agal-hero-img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
-      filter: saturate(0.85);
-      transition: filter 0.4s, transform 0.4s;
+      filter: saturate(0.7) brightness(0.75);
+      transform: scale(1.04);
+      transition: filter 0.8s ease, transform 6s ease;
     }
-    .art-gallery-card:hover .art-gallery-img {
-      filter: saturate(1.1);
-      transform: scale(1.03);
+    .agal-hero:hover .agal-hero-img {
+      filter: saturate(1) brightness(0.85);
+      transform: scale(1.0);
     }
-    /* Placeholder when no image */
-    .art-gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 0.75rem;
-      background: rgba(10,10,18,0.9);
-    }
-    .art-gallery-placeholder-icon {
-      width: 40px; height: 40px;
-      opacity: 0.2;
-    }
-    .art-gallery-placeholder span {
-      font-family: var(--font-mono);
-      font-size: 0.6rem; letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.3);
-    }
-    .art-gallery-overlay {
+    /* dark gradient bottom */
+    .agal-hero-fog {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(4,4,10,0.85) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex; align-items: flex-end;
-      padding: 1.5rem;
+      background:
+        linear-gradient(to top, rgba(4,4,10,0.95) 0%, rgba(4,4,10,0.3) 40%, transparent 70%),
+        linear-gradient(to right, rgba(4,4,10,0.5) 0%, transparent 50%);
+      pointer-events: none;
     }
-    .art-gallery-card:hover .art-gallery-overlay { opacity: 1; }
-    .art-gallery-meta {
-      display: flex; flex-direction: column; gap: 0.3rem;
+    /* top bar */
+    .agal-hero-topbar {
+      position: absolute; top: 0; left: 0; right: 0;
+      padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      z-index: 3;
     }
-    .art-gallery-meta-label {
+    .agal-hero-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.6);
+      border: 1px solid rgba(200,241,53,0.2);
+      padding: 0.35rem 0.8rem;
+      backdrop-filter: blur(4px);
+    }
+    .agal-hero-count {
       font-family: var(--font-mono);
       font-size: 0.58rem; letter-spacing: 0.18em;
+      color: rgba(240,237,230,0.35);
+    }
+    /* bottom info */
+    .agal-hero-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 3rem 2.5rem 2.5rem;
+      z-index: 3;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    }
+    .agal-hero-text {}
+    .agal-hero-cat {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.65);
+      margin-bottom: 0.6rem;
+    }
+    .agal-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: 0.03em; line-height: 0.9;
+      color: var(--text);
+    }
+    .agal-hero-expand {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border: 1px solid rgba(200,241,53,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--acid);
+      transition: background 0.2s, border-color 0.2s, transform 0.3s;
+      cursor: pointer;
+      background: rgba(4,4,10,0.5);
+      backdrop-filter: blur(4px);
+    }
+    .agal-hero:hover .agal-hero-expand {
+      background: rgba(200,241,53,0.1);
+      border-color: rgba(200,241,53,0.6);
+    }
+    .agal-hero-expand svg { width: 18px; height: 18px; }
+
+    /* ── GRID STRIP BELOW FEATURED ── */
+    .agal-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: rgba(200,241,53,0.05);
+    }
+    .agal-strip-item {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .agal-strip-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.6) brightness(0.7);
+      transform: scale(1.05);
+      transition: filter 0.5s, transform 0.5s;
+    }
+    .agal-strip-item:hover img {
+      filter: saturate(1) brightness(0.9);
+      transform: scale(1.0);
+    }
+    .agal-strip-item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,4,10,0.9) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      display: flex; align-items: flex-end;
+      padding: 1.25rem;
+    }
+    .agal-strip-item:hover .agal-strip-item-overlay { opacity: 1; }
+    .agal-strip-item-meta { display: flex; flex-direction: column; gap: 0.25rem; }
+    .agal-strip-item-cat {
+      font-family: var(--font-mono);
+      font-size: 0.52rem; letter-spacing: 0.2em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.7);
     }
-    .art-gallery-meta-title {
+    .agal-strip-item-title {
       font-family: var(--font-display);
-      font-size: 1.4rem; letter-spacing: 0.04em;
-      color: var(--text);
+      font-size: 1.3rem; letter-spacing: 0.04em;
+      color: var(--text); line-height: 1;
     }
-    .art-gallery-add-note {
-      margin-top: 2rem;
-      display: flex; align-items: center; gap: 1rem;
-      padding: 1.25rem 1.5rem;
-      border: 1px dashed rgba(200,241,53,0.2);
-      background: rgba(200,241,53,0.02);
+
+    /* ── INDEX ROW (list view under grid) ── */
+    .agal-index {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 4rem 2rem 5rem;
     }
-    .art-gallery-add-note span {
+    .agal-index-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(200,241,53,0.08);
+    }
+    .agal-index-title {
       font-family: var(--font-mono);
-      font-size: 0.62rem; letter-spacing: 0.14em;
+      font-size: 0.58rem; letter-spacing: 0.24em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.45);
-      line-height: 1.6;
+    }
+    .agal-index-total {
+      font-family: var(--font-mono);
+      font-size: 0.55rem; letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+    .agal-index-list { display: flex; flex-direction: column; }
+    .agal-index-row {
+      display: grid;
+      grid-template-columns: 3rem 1fr auto auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(200,241,53,0.05);
+      cursor: pointer;
+      position: relative;
+      transition: padding-left 0.25s;
+    }
+    .agal-index-row::before {
+      content: '';
+      position: absolute; left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 1px;
+      background: var(--acid);
+      transition: width 0.25s;
+    }
+    .agal-index-row:hover { padding-left: 1.2rem; }
+    .agal-index-row:hover::before { width: 0.8rem; }
+    .agal-index-num {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; letter-spacing: 0.14em;
+      color: rgba(138,138,138,0.35);
+    }
+    .agal-index-name {
+      font-family: var(--font-body);
+      font-size: 0.95rem; font-weight: 500;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+    .agal-index-row:hover .agal-index-name { color: var(--text); }
+    .agal-index-tag {
+      font-family: var(--font-mono);
+      font-size: 0.52rem; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.4);
+      border: 1px solid rgba(200,241,53,0.1);
+      padding: 0.2rem 0.55rem;
+    }
+    .agal-index-thumb {
+      width: 48px; height: 36px;
+      object-fit: cover;
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    .agal-index-row:hover .agal-index-thumb { opacity: 1; }
+
+    /* ── LIGHTBOX ── */
+    .agal-lightbox {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(4,4,10,0.96);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s;
+      backdrop-filter: blur(8px);
+    }
+    .agal-lightbox.open { opacity: 1; pointer-events: all; }
+    .agal-lightbox-inner {
+      position: relative;
+      max-width: 90vw; max-height: 88vh;
+      display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+    }
+    .agal-lightbox-img {
+      max-width: 100%; max-height: 78vh;
+      object-fit: contain;
+      display: block;
+    }
+    .agal-lightbox-meta {
+      display: flex; align-items: center; gap: 2rem;
+    }
+    .agal-lightbox-cat {
+      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(200,241,53,0.55);
+    }
+    .agal-lightbox-title {
+      font-family: var(--font-display); font-size: 1.6rem; letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .agal-lightbox-close {
+      position: fixed; top: 1.5rem; right: 1.5rem;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(200,241,53,0.3);
+      background: rgba(4,4,10,0.8);
+      color: var(--acid); font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+      z-index: 1000;
+    }
+    .agal-lightbox-close:hover { background: rgba(200,241,53,0.1); }
+    .agal-lightbox-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border: 1px solid rgba(200,241,53,0.2);
+      background: rgba(4,4,10,0.7);
+      color: var(--acid);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      z-index: 1000;
+    }
+    .agal-lightbox-nav:hover { background: rgba(200,241,53,0.1); border-color: rgba(200,241,53,0.5); }
+    .agal-lightbox-nav.prev { left: 1.5rem; }
+    .agal-lightbox-nav.next { right: 1.5rem; }
+    .agal-lightbox-nav svg { width: 16px; height: 16px; }
+
+    /* Placeholder when no image */
+    .agal-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.75rem; background: rgba(10,10,18,0.95);
+    }
+    .agal-placeholder svg { width: 36px; height: 36px; opacity: 0.15; }
+    .agal-placeholder span {
+      font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: rgba(200,241,53,0.25);
+    }
+
+    @media (max-width: 900px) {
+      .agal-strip { grid-template-columns: repeat(2, 1fr); }
+      .agal-index-row { grid-template-columns: 2.5rem 1fr auto; }
+      .agal-index-thumb { display: none; }
+    }
+    @media (max-width: 600px) {
+      .agal-hero { height: 70vh; }
+      .agal-strip { grid-template-columns: repeat(2, 1fr); }
+      .agal-hero-title { font-size: clamp(2.2rem, 10vw, 4rem); }
+      .agal-index-row { grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+      .agal-index-tag { display: none; }
     }
 
     /* ═══════════════════════════════
@@ -608,69 +816,165 @@
   </div>
 </section>
 
-<!-- ═══════════ AI ART GALLERY ═══════════ -->
-<section class="art-section">
-  <div class="art-section-glow"></div>
-  <div class="art-section-inner">
-    <div class="art-section-header">
-      <div class="section-label">01 — AI Art</div>
-      <h2 class="art-section-title reveal">Visual <em>Generations</em></h2>
-      <p class="art-section-subtitle reveal">Character concepts, cinematic scenes, and style explorations generated through prompt iteration. Add your images directly to the grid below.</p>
+<!-- ═══════════ AI ART GALLERY — IMMERSIVE ═══════════ -->
+<section class="art-section art-gallery-section">
+
+  <!-- FEATURED HERO -->
+  <div class="agal-hero" onclick="openLightbox(0)">
+    <img class="agal-hero-img" src="assets/art/X45.png" alt="Featured AI generation X45">
+    <div class="agal-hero-fog"></div>
+    <div class="agal-hero-topbar">
+      <span class="agal-hero-label">01 — AI Art</span>
+      <span class="agal-hero-count">05 works</span>
     </div>
-
-    <div class="art-gallery-grid reveal">
-      <article class="art-gallery-card wide">
-        <img class="art-gallery-img" src="assets/art/X45.png" alt="Featured AI generation X45">
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Featured Work</div>
-            <div class="art-gallery-meta-title">X45</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-gallery-card">
-        <img class="art-gallery-img" src="assets/art/X01.png" alt="AI generation X01">
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Character Concept</div>
-            <div class="art-gallery-meta-title">X01</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-gallery-card">
-        <img class="art-gallery-img" src="assets/art/X02.png" alt="AI generation X02">
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Cinematic Scene</div>
-            <div class="art-gallery-meta-title">X02</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-gallery-card">
-        <img class="art-gallery-img" src="assets/art/X10.png" alt="AI generation X10">
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Style Study</div>
-            <div class="art-gallery-meta-title">X10</div>
-          </div>
-        </div>
-      </article>
-
-      <article class="art-gallery-card">
-        <img class="art-gallery-img" src="assets/art/X13.png" alt="AI generation X13">
-        <div class="art-gallery-overlay">
-          <div class="art-gallery-meta">
-            <div class="art-gallery-meta-label">Poster Study</div>
-            <div class="art-gallery-meta-title">X13</div>
-          </div>
-        </div>
-      </article>
+    <div class="agal-hero-info">
+      <div class="agal-hero-text">
+        <div class="agal-hero-cat">Featured Work</div>
+        <div class="agal-hero-title">X45</div>
+      </div>
+      <div class="agal-hero-expand">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 3h6m0 0v6m0-6L14 10M9 21H3m0 0v-6m0 6l7-7"/></svg>
+      </div>
     </div>
   </div>
+
+  <!-- STRIP GRID -->
+  <div class="agal-strip">
+    <div class="agal-strip-item" onclick="openLightbox(1)">
+      <img src="assets/art/X01.png" alt="X01">
+      <div class="agal-strip-item-overlay">
+        <div class="agal-strip-item-meta">
+          <div class="agal-strip-item-cat">Character Concept</div>
+          <div class="agal-strip-item-title">X01</div>
+        </div>
+      </div>
+    </div>
+    <div class="agal-strip-item" onclick="openLightbox(2)">
+      <img src="assets/art/X02.png" alt="X02">
+      <div class="agal-strip-item-overlay">
+        <div class="agal-strip-item-meta">
+          <div class="agal-strip-item-cat">Cinematic Scene</div>
+          <div class="agal-strip-item-title">X02</div>
+        </div>
+      </div>
+    </div>
+    <div class="agal-strip-item" onclick="openLightbox(3)">
+      <img src="assets/art/X10.png" alt="X10">
+      <div class="agal-strip-item-overlay">
+        <div class="agal-strip-item-meta">
+          <div class="agal-strip-item-cat">Style Study</div>
+          <div class="agal-strip-item-title">X10</div>
+        </div>
+      </div>
+    </div>
+    <div class="agal-strip-item" onclick="openLightbox(4)">
+      <img src="assets/art/X13.png" alt="X13">
+      <div class="agal-strip-item-overlay">
+        <div class="agal-strip-item-meta">
+          <div class="agal-strip-item-cat">Poster Study</div>
+          <div class="agal-strip-item-title">X13</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDEX LIST -->
+  <div class="agal-index">
+    <div class="agal-index-header">
+      <span class="agal-index-title">Full Index</span>
+      <span class="agal-index-total">05 generations</span>
+    </div>
+    <div class="agal-index-list">
+      <div class="agal-index-row" onclick="openLightbox(0)">
+        <span class="agal-index-num">01</span>
+        <span class="agal-index-name">X45</span>
+        <span class="agal-index-tag">Featured</span>
+        <img class="agal-index-thumb" src="assets/art/X45.png" alt="">
+      </div>
+      <div class="agal-index-row" onclick="openLightbox(1)">
+        <span class="agal-index-num">02</span>
+        <span class="agal-index-name">X01</span>
+        <span class="agal-index-tag">Character</span>
+        <img class="agal-index-thumb" src="assets/art/X01.png" alt="">
+      </div>
+      <div class="agal-index-row" onclick="openLightbox(2)">
+        <span class="agal-index-num">03</span>
+        <span class="agal-index-name">X02</span>
+        <span class="agal-index-tag">Cinematic</span>
+        <img class="agal-index-thumb" src="assets/art/X02.png" alt="">
+      </div>
+      <div class="agal-index-row" onclick="openLightbox(3)">
+        <span class="agal-index-num">04</span>
+        <span class="agal-index-name">X10</span>
+        <span class="agal-index-tag">Style</span>
+        <img class="agal-index-thumb" src="assets/art/X10.png" alt="">
+      </div>
+      <div class="agal-index-row" onclick="openLightbox(4)">
+        <span class="agal-index-num">05</span>
+        <span class="agal-index-name">X13</span>
+        <span class="agal-index-tag">Poster</span>
+        <img class="agal-index-thumb" src="assets/art/X13.png" alt="">
+      </div>
+    </div>
+  </div>
+
 </section>
+
+<!-- LIGHTBOX -->
+<div class="agal-lightbox" id="agalLightbox">
+  <button class="agal-lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="agal-lightbox-nav prev" onclick="shiftLightbox(-1)">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <button class="agal-lightbox-nav next" onclick="shiftLightbox(1)">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <div class="agal-lightbox-inner">
+    <img class="agal-lightbox-img" id="agalLightboxImg" src="" alt="">
+    <div class="agal-lightbox-meta">
+      <span class="agal-lightbox-cat" id="agalLightboxCat"></span>
+      <span class="agal-lightbox-title" id="agalLightboxTitle"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const agalWorks = [
+    { src: 'assets/art/X45.png', title: 'X45', cat: 'Featured Work' },
+    { src: 'assets/art/X01.png', title: 'X01', cat: 'Character Concept' },
+    { src: 'assets/art/X02.png', title: 'X02', cat: 'Cinematic Scene' },
+    { src: 'assets/art/X10.png', title: 'X10', cat: 'Style Study' },
+    { src: 'assets/art/X13.png', title: 'X13', cat: 'Poster Study' },
+  ];
+  let agalCurrent = 0;
+
+  function openLightbox(index) {
+    agalCurrent = index;
+    const w = agalWorks[index];
+    document.getElementById('agalLightboxImg').src = w.src;
+    document.getElementById('agalLightboxTitle').textContent = w.title;
+    document.getElementById('agalLightboxCat').textContent = w.cat;
+    document.getElementById('agalLightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('agalLightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function shiftLightbox(dir) {
+    agalCurrent = (agalCurrent + dir + agalWorks.length) % agalWorks.length;
+    openLightbox(agalCurrent);
+  }
+  document.getElementById('agalLightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('agalLightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') shiftLightbox(-1);
+    if (e.key === 'ArrowRight') shiftLightbox(1);
+  });
+</script>
 
 <!-- ═══════════ AI MUSIC ═══════════ -->
 <section class="art-section music-section" id="music">
