@@ -8,83 +8,734 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
+
   <style>
-    /* ── ART PAGE HERO ── */
-    .art-page-hero {
-      min-height: 32vh;
+    /* ═══════════════════════════════
+       PAGE-LEVEL RESETS & TOKENS
+       ═══════════════════════════════ */
+    :root {
+      --acid: #c8f135;
+      --page-bg: #04040a;
+      --surface: rgba(10,10,18,0.80);
+      --border: rgba(200,241,53,0.12);
+      --text: #f0ede6;
+      --text-dim: rgba(240,237,230,0.55);
+      --text-muted: rgba(240,237,230,0.38);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --section-pad: 7rem 2rem;
+      --max-w: 1100px;
+    }
+
+    /* ── NAV ACTIVE ── */
+    .nav-links a.active { color: var(--acid); }
+    .nav-links a.active::after { width: 100%; }
+
+    /* ═══════════════════════════════
+       HERO
+       ═══════════════════════════════ */
+    .art-hero {
+      min-height: 38vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding: 8rem 3rem 3rem;
+      padding: 9rem 2rem 4rem;
       text-align: center;
       position: relative;
+      overflow: hidden;
     }
-    .art-page-hero .hero-grid-bg {
-      position: absolute;
-      inset: 0;
+    .art-hero-grid {
+      position: absolute; inset: 0;
       background-image:
         linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
     }
-    .art-page-hero .art-page-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+    .art-hero-glow {
+      position: absolute; top: 60%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 600px;
-      height: 300px;
+      width: 700px; height: 340px;
+      background: radial-gradient(ellipse at center, rgba(200,241,53,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .art-hero .section-label {
+      position: relative; z-index: 2;
+      margin-bottom: 0.9rem;
+    }
+    .art-hero-title {
+      position: relative; z-index: 2;
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8rem);
+      letter-spacing: 0.03em;
+      line-height: 0.9;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .art-hero-title em {
+      font-style: italic;
+      color: var(--text-dim);
+    }
+    .art-hero-desc {
+      position: relative; z-index: 2;
+      max-width: 560px;
+      color: var(--text-dim);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .art-hero-back {
+      position: relative; z-index: 2;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.62rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.55);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .art-hero-back:hover { color: var(--acid); }
+    .art-hero-back svg { width: 14px; height: 14px; }
+
+    /* ═══════════════════════════════
+       SHARED SECTION LAYOUT
+       ═══════════════════════════════ */
+    .art-section {
+      position: relative;
+      background: var(--page-bg);
+      padding: var(--section-pad);
+      overflow: hidden;
+    }
+    .art-section + .art-section {
+      border-top: 1px solid rgba(200,241,53,0.06);
+    }
+    .art-section-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      position: relative; z-index: 2;
+    }
+    .art-section-header {
+      margin-bottom: 3.5rem;
+    }
+    .art-section-header .section-label {
+      margin-bottom: 0.75rem;
+    }
+    .art-section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.03em;
+      line-height: 0.95;
+      color: var(--text);
+    }
+    .art-section-title em {
+      font-style: italic;
+      color: var(--text-dim);
+    }
+    .art-section-subtitle {
+      margin-top: 1rem;
+      max-width: 580px;
+      color: var(--text-dim);
+      font-size: 0.97rem;
+      line-height: 1.8;
+    }
+    /* Subtle section bg glow */
+    .art-section-glow {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 400px;
       background: radial-gradient(ellipse at center,
-        rgba(200,241,53,0.06) 0%,
+        rgba(200,241,53,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════
+       CATEGORY STRIPS (01 / 02 / 03)
+       ═══════════════════════════════ */
+    .art-cats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(200,241,53,0.08);
+      border: 1px solid rgba(200,241,53,0.08);
+      margin-bottom: 5rem;
+    }
+    .art-cat {
+      background: var(--page-bg);
+      padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      transition: background 0.25s;
+    }
+    .art-cat:hover { background: rgba(200,241,53,0.03); }
+    .art-cat-num {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.45);
+    }
+    .art-cat h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem; letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .art-cat p {
+      font-size: 0.9rem; line-height: 1.7;
+      color: var(--text-dim);
+      flex: 1;
+    }
+    .art-cat-focus {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.7);
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(200,241,53,0.08);
+    }
+
+    /* ═══════════════════════════════
+       AI ART GALLERY
+       ═══════════════════════════════ */
+    .art-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .art-gallery-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .art-gallery-card:hover {
+      border-color: rgba(200,241,53,0.35);
+      transform: translateY(-4px);
+    }
+    .art-gallery-card.wide {
+      grid-column: span 2;
+      aspect-ratio: 8/5;
+    }
+    .art-gallery-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.85);
+      transition: filter 0.4s, transform 0.4s;
+    }
+    .art-gallery-card:hover .art-gallery-img {
+      filter: saturate(1.1);
+      transform: scale(1.03);
+    }
+    /* Placeholder when no image */
+    .art-gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem;
+      background: rgba(10,10,18,0.9);
+    }
+    .art-gallery-placeholder-icon {
+      width: 40px; height: 40px;
+      opacity: 0.2;
+    }
+    .art-gallery-placeholder span {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.3);
+    }
+    .art-gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(4,4,10,0.85) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex; align-items: flex-end;
+      padding: 1.5rem;
+    }
+    .art-gallery-card:hover .art-gallery-overlay { opacity: 1; }
+    .art-gallery-meta {
+      display: flex; flex-direction: column; gap: 0.3rem;
+    }
+    .art-gallery-meta-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.7);
+    }
+    .art-gallery-meta-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem; letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .art-gallery-add-note {
+      margin-top: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px dashed rgba(200,241,53,0.2);
+      background: rgba(200,241,53,0.02);
+    }
+    .art-gallery-add-note span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.45);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════
+       AI MUSIC
+       ═══════════════════════════════ */
+    .music-section { background: rgba(6,6,12,1); }
+
+    .music-tracks {
+      display: flex; flex-direction: column;
+      gap: 1px;
+      background: rgba(200,241,53,0.06);
+      border: 1px solid rgba(200,241,53,0.06);
+    }
+    .music-track {
+      background: var(--page-bg);
+      display: grid;
+      grid-template-columns: 3rem 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .music-track:hover { background: rgba(200,241,53,0.03); }
+    .music-track-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem; letter-spacing: 0.1em;
+      color: rgba(138,138,138,0.45);
+      text-align: center;
+    }
+    .music-track:hover .music-track-num { color: var(--acid); }
+    .music-track-info { display: flex; flex-direction: column; gap: 0.3rem; }
+    .music-track-title {
+      font-family: var(--font-body);
+      font-size: 0.97rem; font-weight: 500;
+      color: var(--text);
+    }
+    .music-track-meta {
+      font-family: var(--font-mono);
+      font-size: 0.6rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.55);
+    }
+    .music-track-right {
+      display: flex; align-items: center;
+      gap: 1.25rem;
+    }
+    .music-track-duration {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: rgba(138,138,138,0.45);
+    }
+    .music-track-play {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(200,241,53,0.25);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--acid);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .music-track-play:hover {
+      background: rgba(200,241,53,0.1);
+      border-color: rgba(200,241,53,0.6);
+    }
+    .music-track-play svg { width: 12px; height: 12px; }
+    /* placeholder track */
+    .music-track.placeholder {
+      opacity: 0.35;
+      cursor: default;
+      pointer-events: none;
+    }
+    .music-coming-note {
+      margin-top: 2rem;
+      padding: 1.25rem 1.5rem;
+      border: 1px dashed rgba(200,241,53,0.18);
+      background: rgba(200,241,53,0.015);
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .music-coming-note span {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.4);
+      line-height: 1.6;
+    }
+
+    /* Waveform placeholder animation */
+    .waveform {
+      display: flex; align-items: center; gap: 2px;
+      height: 24px;
+    }
+    .waveform-bar {
+      width: 2px;
+      background: var(--acid);
+      border-radius: 1px;
+      opacity: 0.4;
+      animation: waveAnim 1.2s ease-in-out infinite;
+    }
+    .waveform-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
+    .waveform-bar:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+    .waveform-bar:nth-child(3) { height: 20px; animation-delay: 0.2s; }
+    .waveform-bar:nth-child(4) { height: 12px; animation-delay: 0.3s; }
+    .waveform-bar:nth-child(5) { height: 18px; animation-delay: 0.15s; }
+    .waveform-bar:nth-child(6) { height: 8px; animation-delay: 0.25s; }
+    @keyframes waveAnim {
+      0%, 100% { opacity: 0.2; transform: scaleY(0.6); }
+      50% { opacity: 0.6; transform: scaleY(1); }
+    }
+
+    /* ═══════════════════════════════
+       CREATIVE EXPERIMENTS
+       ═══════════════════════════════ */
+    .experiments-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    .experiment-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .experiment-card:hover { border-color: rgba(200,241,53,0.3); }
+    .experiment-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,241,53,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .experiment-card:hover::before { opacity: 1; }
+    .experiment-type {
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.5);
+    }
+    .experiment-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.6rem; letter-spacing: 0.04em;
+      color: var(--text);
+    }
+    .experiment-card p {
+      font-size: 0.9rem; line-height: 1.7;
+      color: var(--text-dim);
+      flex: 1;
+    }
+    .experiment-status {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.55);
+    }
+    .experiment-status-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(138,138,138,0.4);
+    }
+    .experiment-status-dot.active {
+      background: var(--acid);
+      animation: bvPulse 2s infinite;
+    }
+
+    /* ═══════════════════════════════
+       BADGES SECTION
+       ═══════════════════════════════ */
+    .badges-section {
+      position: relative;
+      background: var(--page-bg);
+      padding: 7rem 2rem 6rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid rgba(200,241,53,0.06);
+    }
+
+    .badges-bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .badges-bg-glow {
+      position: absolute; top: 30%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(ellipse at center,
+        rgba(200,241,53,0.07) 0%,
+        rgba(200,241,53,0.03) 30%,
         transparent 70%);
       pointer-events: none;
       border-radius: 50%;
     }
-    .art-page-hero .section-label {
-      position: relative;
-      z-index: 2;
-      margin-bottom: 0.75rem;
+
+    .badges-header {
+      position: relative; z-index: 2;
+      text-align: center; margin-bottom: 1rem;
+      width: 100%;
     }
-    .art-page-title {
-      position: relative;
-      z-index: 2;
+    .badges-subsection { margin-top: 5rem; }
+    .art-subtitle {
       font-family: var(--font-display);
-      font-size: clamp(3.5rem, 9vw, 7rem);
-      letter-spacing: 0.03em;
-      line-height: 0.95;
-      color: #f0ede6;
-      margin-bottom: 1.25rem;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      letter-spacing: 0.03em; color: var(--text);
     }
-    .art-page-title em {
-      font-style: italic;
-      color: rgba(240,237,230,0.45);
-    }
-    .art-page-back {
-      position: relative;
-      z-index: 2;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+    .art-subtitle em { font-style: italic; color: var(--text-dim); }
+    .badges-subtitle {
       font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
+      font-size: 0.68rem; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.5);
+      margin-top: 0.75rem; margin-bottom: 0;
+    }
+
+    /* ── 3D CAROUSEL SCENE ── */
+    .badge-carousel-scene {
+      position: relative;
+      width: 100%; max-width: 900px; height: 520px;
+      perspective: 1100px;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+      cursor: grab; user-select: none; touch-action: none;
+    }
+    .badge-carousel-scene:active { cursor: grabbing; }
+    .badge-carousel-ring {
+      position: relative;
+      width: 260px; height: 260px;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .badge-carousel-ring.dragging { will-change: transform; }
+
+    .badge-item {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 200px; height: 200px;
+      margin: -100px 0 0 -100px;
+      transform-style: preserve-3d;
+      cursor: pointer;
+      transition: filter 0.4s;
+      user-select: none; -webkit-user-select: none;
+    }
+    .badge-item-face {
+      width: 100%; height: 100%;
+      background: rgba(10,10,18,0.85);
+      border: 1px solid rgba(200,241,53,0.18);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.8rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      box-shadow:
+        0 0 0 1px rgba(200,241,53,0.05),
+        0 20px 60px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .badge-item.active .badge-item-face {
+      border-color: rgba(200,241,53,0.55);
+      box-shadow:
+        0 0 0 1px rgba(200,241,53,0.3),
+        0 0 40px rgba(200,241,53,0.2),
+        0 30px 80px rgba(0,0,0,0.8),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .badge-item-face img {
+      width: 100%; height: 100%;
+      object-fit: contain; display: block;
+      pointer-events: none; user-select: none; -webkit-user-drag: none;
+      filter: drop-shadow(0 6px 20px rgba(200,241,53,0.25));
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .badge-item.active .badge-item-face img {
+      filter: drop-shadow(0 8px 30px rgba(200,241,53,0.5));
+      transform: scale(1.05);
+    }
+    .badge-item-shine {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+      animation: badgeShine 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes badgeShine {
+      0%,100% { opacity: 0; transform: translateX(-100%); }
+      50% { opacity: 1; transform: translateX(100%); }
+    }
+    .badge-item-glow {
+      position: absolute; inset: -1px;
+      background: transparent;
+      transition: background 0.4s;
+      pointer-events: none; z-index: 0;
+    }
+    .badge-item.active .badge-item-glow {
+      background: radial-gradient(ellipse at 50% 0%, rgba(200,241,53,0.08) 0%, transparent 70%);
+    }
+
+    /* Orbital rings */
+    .badge-orbit-ring {
+      position: absolute; top: 50%; left: 50%;
+      border-radius: 50%; transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .badge-orbit-1 {
+      width: 420px; height: 420px; margin: -210px 0 0 -210px;
+      border: 1px solid rgba(200,241,53,0.06);
+      transform: rotateX(75deg);
+      animation: orbitPulse1 6s ease-in-out infinite;
+    }
+    .badge-orbit-2 {
+      width: 560px; height: 560px; margin: -280px 0 0 -280px;
+      border: 1px solid rgba(200,241,53,0.03);
+      transform: rotateX(75deg) rotateZ(30deg);
+      animation: orbitPulse2 9s ease-in-out infinite;
+    }
+    .badge-orbit-3 {
+      width: 680px; height: 680px; margin: -340px 0 0 -340px;
+      border: 1px dashed rgba(200,241,53,0.02);
+      transform: rotateX(75deg) rotateZ(-20deg);
+      animation: orbitPulse3 12s ease-in-out infinite;
+    }
+    .badge-orbit-4 {
+      width: 780px; height: 780px; margin: -390px 0 0 -390px;
+      border: 1px solid rgba(200,241,53,0.018);
+      transform: rotateX(75deg) rotateZ(48deg);
+      animation: orbitPulse4 15s ease-in-out infinite;
+    }
+    @keyframes orbitPulse1 { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+    @keyframes orbitPulse2 { 0%,100%{opacity:0.4;} 50%{opacity:0.7;} }
+    @keyframes orbitPulse3 { 0%,100%{opacity:0.3;} 50%{opacity:0.5;} }
+    @keyframes orbitPulse4 { 0%,100%{opacity:0.2;} 50%{opacity:0.4;} }
+
+    /* Spotlight */
+    .badge-spotlight {
+      position: absolute; bottom: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 500px;
+      background: conic-gradient(from 270deg at 50% 100%,
+        transparent 75deg, rgba(200,241,53,0.04) 90deg,
+        rgba(200,241,53,0.09) 95deg, rgba(200,241,53,0.04) 100deg,
+        transparent 115deg);
+      pointer-events: none;
+      animation: spotlightBreath 4s ease-in-out infinite;
+    }
+    @keyframes spotlightBreath { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
+
+    .badge-particles {
+      position: absolute; inset: 0;
+      pointer-events: none; width: 100%; height: 100%;
+    }
+
+    /* Info panel */
+    .badge-info-panel {
+      position: relative; z-index: 3;
+      text-align: center; margin-top: 2.5rem;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 0.5rem;
+      min-height: 120px;
+    }
+    .badge-info-issuer {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.7);
+    }
+    .badge-info-issuer img {
+      width: 16px; height: 16px;
+      object-fit: contain; filter: grayscale(50%);
+    }
+    .badge-info-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0.03em; color: var(--text);
+      line-height: 1; transition: opacity 0.3s;
+    }
+    .badge-info-type {
+      font-family: var(--font-mono);
+      font-size: 0.62rem; letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.6);
-      text-decoration: none;
-      margin-top: 0.5rem;
-      transition: color 0.2s;
     }
-    .art-page-back:hover { color: var(--acid); }
-    .art-page-back svg { width: 14px; height: 14px; }
+    .badge-info-actions {
+      display: flex; align-items: center;
+      gap: 1.5rem; margin-top: 0.75rem;
+    }
+    .badge-info-view {
+      font-family: var(--font-mono);
+      font-size: 0.65rem; letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: #c8f135; color: #0a0a0a;
+      border: none; padding: 0.7rem 1.6rem;
+      cursor: none; display: flex; align-items: center;
+      gap: 0.5rem; font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .badge-info-view:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 #e8451a; }
+    .badge-info-verified {
+      display: flex; align-items: center; gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #4ade80;
+    }
+    .badge-verified-dot {
+      width: 6px; height: 6px;
+      background: #4ade80; border-radius: 50%;
+      animation: bvPulse 2s infinite;
+    }
+    @keyframes bvPulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-    /* ── NAV ACTIVE STATE ── */
-    .nav-links a.active {
-      color: var(--acid);
+    .badge-drag-hint {
+      position: absolute; bottom: 3.5rem; left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 0.58rem; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.45);
+      display: flex; align-items: center; gap: 0.5rem;
+      animation: hintFade 3s ease-in-out 2s forwards;
+      z-index: 3;
     }
-    .nav-links a.active::after {
-      width: 100%;
+    @keyframes hintFade { 0%{opacity:1;} 100%{opacity:0;pointer-events:none;} }
+
+    /* ═══════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════ */
+    @media (max-width: 900px) {
+      .art-cats { grid-template-columns: 1fr; }
+      .art-gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .art-gallery-card.wide { grid-column: span 2; }
+      .experiments-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      :root { --section-pad: 5rem 1.25rem; }
+      .art-hero { padding: 8rem 1.25rem 3.5rem; }
+      .art-gallery-grid { grid-template-columns: 1fr; }
+      .art-gallery-card.wide { grid-column: span 1; aspect-ratio: 4/5; }
+      .music-track { grid-template-columns: 2rem 1fr auto; gap: 1rem; padding: 1rem 1.25rem; }
+      .badges-section { padding: 6rem 1.25rem 5rem; }
+      .badges-subsection { margin-top: 3.5rem; }
+      .badge-carousel-scene { height: 380px; perspective: 700px; }
+      .badge-carousel-ring { width: 180px; height: 180px; }
+      .badge-item { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+      .badge-orbit-1 { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
+      .badge-orbit-2 { width: 400px; height: 400px; margin: -200px 0 0 -200px; }
+      .badge-orbit-3, .badge-orbit-4 { display: none; }
     }
   </style>
 </head>
@@ -118,63 +769,282 @@
   <a href="art.html" onclick="closeMobileMenu()">Art</a>
 </div>
 
-<!-- ART PAGE HERO -->
-<div class="art-page-hero">
-  <div class="hero-grid-bg"></div>
-  <div class="art-page-glow"></div>
+<!-- ═══════════ HERO ═══════════ -->
+<div class="art-hero">
+  <div class="art-hero-grid"></div>
+  <div class="art-hero-glow"></div>
   <div class="section-label">Art Lab</div>
-  <h1 class="art-page-title">AI <em>Generations</em></h1>
-  <a href="index.html" class="art-page-back">
+  <h1 class="art-hero-title">AI <em>Generations</em></h1>
+  <p class="art-hero-desc">A space for generative work — AI art, AI music, visual experiments, and synthetic media studies as I keep building my creative workflow.</p>
+  <a href="index.html" class="art-hero-back">
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 5l-7 7 7 7"/></svg>
     Back to Portfolio
   </a>
 </div>
 
-<!-- ART SECTION (formerly #art in index.html) -->
-<section id="art" class="badges-section" style="padding-top:3rem;">
+<!-- ═══════════ CATEGORY OVERVIEW ═══════════ -->
+<section class="art-section">
+  <div class="art-section-glow"></div>
+  <div class="art-section-inner">
+    <div class="art-cats reveal">
+      <div class="art-cat">
+        <div class="art-cat-num">01</div>
+        <h3>AI Art</h3>
+        <p>Character concepts, cinematic scenes, poster studies, and style explorations generated and refined through prompt iteration.</p>
+        <div class="art-cat-focus">Focus: composition, lighting &amp; mood</div>
+      </div>
+      <div class="art-cat">
+        <div class="art-cat-num">02</div>
+        <h3>AI Music</h3>
+        <p>Sound ideas, instrument experiments, and mood tracks built through generative audio tools and careful curation.</p>
+        <div class="art-cat-focus">Focus: atmosphere, hooks &amp; genre</div>
+      </div>
+      <div class="art-cat">
+        <div class="art-cat-num">03</div>
+        <h3>Experiments</h3>
+        <p>Mixed-media outputs: visual identities, concept boards, motion loops, and process-driven generative prototypes.</p>
+        <div class="art-cat-focus">Focus: code, visuals &amp; storytelling</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AI ART GALLERY ═══════════ -->
+<section class="art-section">
+  <div class="art-section-glow"></div>
+  <div class="art-section-inner">
+    <div class="art-section-header">
+      <div class="section-label">01 — AI Art</div>
+      <h2 class="art-section-title reveal">Visual <em>Generations</em></h2>
+      <p class="art-section-subtitle reveal">Character concepts, cinematic scenes, and style explorations generated through prompt iteration. Add your images directly to the grid below.</p>
+    </div>
+
+    <div class="art-gallery-grid reveal">
+      <!-- Featured wide card -->
+      <article class="art-gallery-card wide">
+        <!-- Replace src with your image path -->
+        <!-- <img class="art-gallery-img" src="assets/images/art/featured.jpg" alt="Featured Generation"> -->
+        <div class="art-gallery-placeholder">
+          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Featured · Add Image</span>
+        </div>
+        <div class="art-gallery-overlay">
+          <div class="art-gallery-meta">
+            <div class="art-gallery-meta-label">Featured Work</div>
+            <div class="art-gallery-meta-title">Title Here</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="art-gallery-card">
+        <div class="art-gallery-placeholder">
+          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Add Image</span>
+        </div>
+        <div class="art-gallery-overlay">
+          <div class="art-gallery-meta">
+            <div class="art-gallery-meta-label">Character Concept</div>
+            <div class="art-gallery-meta-title">Title Here</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="art-gallery-card">
+        <div class="art-gallery-placeholder">
+          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Add Image</span>
+        </div>
+        <div class="art-gallery-overlay">
+          <div class="art-gallery-meta">
+            <div class="art-gallery-meta-label">Cinematic Scene</div>
+            <div class="art-gallery-meta-title">Title Here</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="art-gallery-card">
+        <div class="art-gallery-placeholder">
+          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Add Image</span>
+        </div>
+        <div class="art-gallery-overlay">
+          <div class="art-gallery-meta">
+            <div class="art-gallery-meta-label">Style Study</div>
+            <div class="art-gallery-meta-title">Title Here</div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="art-gallery-card">
+        <div class="art-gallery-placeholder">
+          <svg class="art-gallery-placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>Add Image</span>
+        </div>
+        <div class="art-gallery-overlay">
+          <div class="art-gallery-meta">
+            <div class="art-gallery-meta-label">Poster Study</div>
+            <div class="art-gallery-meta-title">Title Here</div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- How to add images note -->
+    <div class="art-gallery-add-note reveal">
+      <svg width="18" height="18" fill="none" stroke="rgba(200,241,53,0.5)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>To add art: replace the placeholder divs with &lt;img class="art-gallery-img" src="your-path.jpg"&gt; inside each .art-gallery-card — the hover overlay and zoom effects apply automatically.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AI MUSIC ═══════════ -->
+<section class="art-section music-section">
+  <div class="art-section-glow"></div>
+  <div class="art-section-inner">
+    <div class="art-section-header">
+      <div class="section-label">02 — AI Music</div>
+      <h2 class="art-section-title reveal">Sound <em>Explorations</em></h2>
+      <p class="art-section-subtitle reveal">Mood tracks, instrument experiments, and generated audio from my generative music workflow. Tracks added as they're made.</p>
+    </div>
+
+    <div class="music-tracks reveal">
+      <!-- Track placeholders — replace href/src with actual audio files -->
+      <div class="music-track placeholder">
+        <div class="music-track-num">01</div>
+        <div class="music-track-info">
+          <div class="music-track-title">Track Title Here</div>
+          <div class="music-track-meta">Genre · Mood · Tool Used</div>
+        </div>
+        <div class="music-track-right">
+          <div class="waveform">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+          <div class="music-track-duration">—:——</div>
+          <button class="music-track-play">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="music-track placeholder">
+        <div class="music-track-num">02</div>
+        <div class="music-track-info">
+          <div class="music-track-title">Track Title Here</div>
+          <div class="music-track-meta">Genre · Mood · Tool Used</div>
+        </div>
+        <div class="music-track-right">
+          <div class="waveform">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+          <div class="music-track-duration">—:——</div>
+          <button class="music-track-play">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="music-track placeholder">
+        <div class="music-track-num">03</div>
+        <div class="music-track-info">
+          <div class="music-track-title">Track Title Here</div>
+          <div class="music-track-meta">Genre · Mood · Tool Used</div>
+        </div>
+        <div class="music-track-right">
+          <div class="waveform">
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+            <div class="waveform-bar"></div>
+          </div>
+          <div class="music-track-duration">—:——</div>
+          <button class="music-track-play">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="music-coming-note reveal">
+      <svg width="18" height="18" fill="none" stroke="rgba(200,241,53,0.5)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <span>To add music: remove the "placeholder" class, set the track title/genre/duration, and hook the play button to an &lt;audio&gt; element or a streaming link.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CREATIVE EXPERIMENTS ═══════════ -->
+<section class="art-section">
+  <div class="art-section-glow"></div>
+  <div class="art-section-inner">
+    <div class="art-section-header">
+      <div class="section-label">03 — Experiments</div>
+      <h2 class="art-section-title reveal">Creative <em>Prototypes</em></h2>
+      <p class="art-section-subtitle reveal">Mixed-media projects combining code, visuals, and storytelling. From visual identities to motion loops and concept boards.</p>
+    </div>
+
+    <div class="experiments-grid reveal">
+      <div class="experiment-card">
+        <div class="experiment-type">Visual Identity</div>
+        <h4>Brand Concepts</h4>
+        <p>AI-assisted brand identity explorations — logotype studies, color system experiments, and visual language prototyping.</p>
+        <div class="experiment-status">
+          <div class="experiment-status-dot"></div>
+          Planned
+        </div>
+      </div>
+
+      <div class="experiment-card">
+        <div class="experiment-type">Motion &amp; Loop</div>
+        <h4>Motion Studies</h4>
+        <p>Short looping animations and motion graphics generated and post-processed through iterative experimentation.</p>
+        <div class="experiment-status">
+          <div class="experiment-status-dot"></div>
+          Planned
+        </div>
+      </div>
+
+      <div class="experiment-card">
+        <div class="experiment-type">Concept Board</div>
+        <h4>Mood Boards</h4>
+        <p>Curated visual collections and aesthetic directions built using generative tools — for films, games, or personal projects.</p>
+        <div class="experiment-status">
+          <div class="experiment-status-dot active"></div>
+          In Progress
+        </div>
+      </div>
+
+      <div class="experiment-card">
+        <div class="experiment-type">Generative Code</div>
+        <h4>Code + Visuals</h4>
+        <p>Creative coding experiments: p5.js sketches, shader explorations, and data-driven generative art pieces.</p>
+        <div class="experiment-status">
+          <div class="experiment-status-dot active"></div>
+          In Progress
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BADGES SECTION ═══════════ -->
+<section class="badges-section">
   <div class="badges-bg-grid"></div>
   <div class="badges-bg-glow"></div>
-
-  <p class="art-intro reveal" style="margin-top:0;">
-    A space for the things I make with generative tools: AI art, AI music, visual experiments, and other synthetic media studies as I keep building my creative workflow.
-  </p>
-
-  <div class="art-overview reveal">
-    <article class="art-track">
-      <div class="art-track-kicker">01</div>
-      <h3>AI Art Generations</h3>
-      <p>Character concepts, cinematic scenes, poster studies, and style explorations generated and refined through prompt iteration.</p>
-      <span>Current focus: composition, lighting, and mood direction</span>
-    </article>
-    <article class="art-track">
-      <div class="art-track-kicker">02</div>
-      <h3>AI Music Generations</h3>
-      <p>Sound ideas, instrument experiments, and mood tracks that I can showcase here as I build out an audio portfolio.</p>
-      <span>Current focus: atmosphere, hooks, and genre exploration</span>
-    </article>
-    <article class="art-track">
-      <div class="art-track-kicker">03</div>
-      <h3>Creative Experiments</h3>
-      <p>Mixed-media outputs like visual identities, concept boards, motion loops, and process-driven generative prototypes.</p>
-      <span>Current focus: combining code, visuals, and storytelling</span>
-    </article>
-  </div>
-
-  <div class="art-showcase-grid reveal">
-    <article class="art-showcase-card art-showcase-featured">
-      <div class="art-showcase-label">Featured Collection</div>
-      <h3>Generative Works Archive</h3>
-      <p>Use this section to rotate in your strongest AI visuals, song drops, and concept pieces. It is structured to grow as you publish more work.</p>
-    </article>
-    <article class="art-showcase-card">
-      <div class="art-showcase-label">Planned Panels</div>
-      <ul class="art-showcase-list">
-        <li>Image gallery for AI art sets</li>
-        <li>Embedded audio players for music generations</li>
-        <li>Process notes and prompt breakdowns</li>
-      </ul>
-    </article>
-  </div>
 
   <div class="badges-header badges-subsection">
     <div class="section-label">Verified Output</div>
@@ -272,20 +1142,14 @@
 
     </div>
 
-    <!-- Orbital ring decorations -->
     <div class="badge-orbit-ring badge-orbit-1"></div>
     <div class="badge-orbit-ring badge-orbit-2"></div>
     <div class="badge-orbit-ring badge-orbit-3"></div>
     <div class="badge-orbit-ring badge-orbit-4"></div>
-
-    <!-- Center spotlight beam -->
     <div class="badge-spotlight"></div>
-
-    <!-- Floating particles -->
     <canvas class="badge-particles" id="badgeParticles"></canvas>
   </div>
 
-  <!-- Info panel — updates on focus -->
   <div class="badge-info-panel" id="badgeInfoPanel">
     <div class="badge-info-issuer" id="badgeInfoIssuer">
       <img src="assets/images/certifications/cisco.png" alt="Cisco" id="badgeInfoLogo">
@@ -305,511 +1169,13 @@
     </div>
   </div>
 
-  <!-- Drag hint -->
   <div class="badge-drag-hint" id="badgeDragHint">
     <svg fill="none" viewBox="0 0 24 24" width="16" height="16"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
     Drag to rotate
   </div>
 </section>
 
-<!-- ── ART PAGE INLINE STYLES (moved from index.html) ── -->
-<style>
-/* ═══════════════════════════════
-   BADGES SECTION — IMMERSIVE 3D
-   ═══════════════════════════════ */
-.badges-section {
-  position: relative;
-  background: #04040a;
-  padding: 8rem 3rem 6rem;
-  overflow: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.badges-bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-}
-
-.badges-bg-glow {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(ellipse at center,
-    rgba(200,241,53,0.07) 0%,
-    rgba(200,241,53,0.03) 30%,
-    transparent 70%);
-  pointer-events: none;
-  border-radius: 50%;
-}
-
-.badges-header {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  margin-bottom: 1rem;
-  width: 100%;
-}
-
-.art-intro {
-  max-width: 760px;
-  margin: -1rem auto 0;
-  color: rgba(240,237,230,0.72);
-  font-size: 1rem;
-  line-height: 1.8;
-}
-
-.badges-subtitle {
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(200,241,53,0.5);
-  margin-top: 0.75rem;
-  margin-bottom: 0;
-}
-
-.badges-subsection {
-  margin-top: 4.5rem;
-}
-
-.art-subtitle {
-  font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  letter-spacing: 0.03em;
-  color: #f0ede6;
-}
-
-.art-subtitle em {
-  font-style: italic;
-  color: rgba(240,237,230,0.55);
-}
-
-.art-overview,
-.art-showcase-grid {
-  position: relative;
-  z-index: 2;
-  width: min(1100px, 100%);
-}
-
-.art-overview {
-  margin-top: 2.5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-
-.art-track,
-.art-showcase-card {
-  background: rgba(10,10,18,0.78);
-  border: 1px solid rgba(200,241,53,0.12);
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.03);
-}
-
-.art-track {
-  padding: 1.5rem;
-  min-height: 240px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.art-track-kicker,
-.art-showcase-label {
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(200,241,53,0.55);
-}
-
-.art-track h3,
-.art-showcase-card h3 {
-  font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: 2rem;
-  letter-spacing: 0.04em;
-  color: #f0ede6;
-}
-
-.art-track p,
-.art-showcase-card p,
-.art-showcase-list {
-  color: rgba(240,237,230,0.72);
-  line-height: 1.75;
-  font-size: 0.98rem;
-}
-
-.art-track span {
-  margin-top: auto;
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(138,138,138,0.85);
-}
-
-.art-showcase-grid {
-  margin-top: 1.25rem;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 1.25rem;
-}
-
-.art-showcase-card {
-  padding: 1.75rem;
-}
-
-.art-showcase-featured {
-  background:
-    linear-gradient(135deg, rgba(200,241,53,0.06), transparent 48%),
-    rgba(10,10,18,0.82);
-}
-
-.art-showcase-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
-  margin-top: 1rem;
-}
-
-.art-showcase-list li {
-  padding-left: 1rem;
-  position: relative;
-}
-
-.art-showcase-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.7rem;
-  width: 6px;
-  height: 1px;
-  background: var(--acid);
-}
-
-/* ── 3D CAROUSEL SCENE ── */
-.badge-carousel-scene {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 520px;
-  perspective: 1100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  cursor: grab;
-  user-select: none;
-  touch-action: none;
-  margin: 2rem auto 0;
-}
-.badge-carousel-scene:active { cursor: grabbing; }
-
-.badge-carousel-ring {
-  position: relative;
-  width: 260px;
-  height: 260px;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-.badge-carousel-ring.dragging { will-change: transform; }
-
-/* ── BADGE ITEMS ── */
-.badge-item {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 200px; height: 200px;
-  margin: -100px 0 0 -100px;
-  transform-style: preserve-3d;
-  cursor: pointer;
-  transition: filter 0.4s;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.badge-item-face {
-  width: 100%; height: 100%;
-  background: rgba(10,10,18,0.85);
-  border: 1px solid rgba(200,241,53,0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.8rem;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
-  box-shadow:
-    0 0 0 1px rgba(200,241,53,0.05),
-    0 20px 60px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.05);
-}
-
-.badge-item.active .badge-item-face {
-  border-color: rgba(200,241,53,0.55);
-  box-shadow:
-    0 0 0 1px rgba(200,241,53,0.3),
-    0 0 40px rgba(200,241,53,0.2),
-    0 30px 80px rgba(0,0,0,0.8),
-    inset 0 1px 0 rgba(255,255,255,0.08);
-}
-
-.badge-item-face img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  filter: drop-shadow(0 6px 20px rgba(200,241,53,0.25));
-  transition: filter 0.3s, transform 0.3s;
-}
-.badge-item.active .badge-item-face img {
-  filter: drop-shadow(0 8px 30px rgba(200,241,53,0.5));
-  transform: scale(1.05);
-}
-
-/* Shimmer shine */
-.badge-item-shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 40%,
-    rgba(255,255,255,0.04) 50%,
-    transparent 60%
-  );
-  animation: badgeShine 4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes badgeShine {
-  0%,100% { opacity: 0; transform: translateX(-100%); }
-  50% { opacity: 1; transform: translateX(100%); }
-}
-
-/* Corner glow on active */
-.badge-item-glow {
-  position: absolute;
-  inset: -1px;
-  background: transparent;
-  transition: background 0.4s;
-  pointer-events: none;
-  z-index: 0;
-}
-.badge-item.active .badge-item-glow {
-  background: radial-gradient(
-    ellipse at 50% 0%,
-    rgba(200,241,53,0.08) 0%,
-    transparent 70%
-  );
-}
-
-/* ── ORBITAL RINGS ── */
-.badge-orbit-ring {
-  position: absolute;
-  top: 50%; left: 50%;
-  border-radius: 50%;
-  transform-style: preserve-3d;
-  pointer-events: none;
-}
-.badge-orbit-1 {
-  width: 420px; height: 420px;
-  margin: -210px 0 0 -210px;
-  border: 1px solid rgba(200,241,53,0.06);
-  transform: rotateX(75deg);
-  animation: orbitPulse1 6s ease-in-out infinite;
-}
-.badge-orbit-2 {
-  width: 560px; height: 560px;
-  margin: -280px 0 0 -280px;
-  border: 1px solid rgba(200,241,53,0.03);
-  transform: rotateX(75deg) rotateZ(30deg);
-  animation: orbitPulse2 9s ease-in-out infinite;
-}
-.badge-orbit-3 {
-  width: 680px; height: 680px;
-  margin: -340px 0 0 -340px;
-  border: 1px dashed rgba(200,241,53,0.02);
-  transform: rotateX(75deg) rotateZ(-20deg);
-  animation: orbitPulse3 12s ease-in-out infinite;
-}
-.badge-orbit-4 {
-  width: 780px; height: 780px;
-  margin: -390px 0 0 -390px;
-  border: 1px solid rgba(200,241,53,0.018);
-  transform: rotateX(75deg) rotateZ(48deg);
-  animation: orbitPulse4 15s ease-in-out infinite;
-}
-@keyframes orbitPulse1 { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
-@keyframes orbitPulse2 { 0%,100%{opacity:0.4;} 50%{opacity:0.7;} }
-@keyframes orbitPulse3 { 0%,100%{opacity:0.3;} 50%{opacity:0.5;} }
-@keyframes orbitPulse4 { 0%,100%{opacity:0.2;} 50%{opacity:0.4;} }
-
-/* ── SPOTLIGHT ── */
-.badge-spotlight {
-  position: absolute;
-  bottom: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 300px;
-  height: 500px;
-  background: conic-gradient(
-    from 270deg at 50% 100%,
-    transparent 75deg,
-    rgba(200,241,53,0.04) 90deg,
-    rgba(200,241,53,0.09) 95deg,
-    rgba(200,241,53,0.04) 100deg,
-    transparent 115deg
-  );
-  pointer-events: none;
-  animation: spotlightBreath 4s ease-in-out infinite;
-}
-@keyframes spotlightBreath { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
-
-/* ── PARTICLES CANVAS ── */
-.badge-particles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-}
-
-/* ── INFO PANEL ── */
-.badge-info-panel {
-  position: relative;
-  z-index: 3;
-  text-align: center;
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 120px;
-}
-.badge-info-issuer {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.6rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(138,138,138,0.7);
-}
-.badge-info-issuer img {
-  width: 16px; height: 16px;
-  object-fit: contain;
-  filter: grayscale(50%);
-}
-.badge-info-title {
-  font-family: var(--font-display, 'Bebas Neue', sans-serif);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  letter-spacing: 0.03em;
-  color: #f0ede6;
-  line-height: 1;
-  transition: opacity 0.3s;
-}
-.badge-info-type {
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(200,241,53,0.6);
-}
-.badge-info-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-top: 0.75rem;
-}
-.badge-info-view {
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  background: #c8f135;
-  color: #0a0a0a;
-  border: none;
-  padding: 0.7rem 1.6rem;
-  cursor: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 500;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.badge-info-view:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 #e8451a; }
-.badge-info-verified {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.58rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #4ade80;
-}
-.badge-verified-dot {
-  width: 6px; height: 6px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: bvPulse 2s infinite;
-}
-@keyframes bvPulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-
-/* ── DRAG HINT ── */
-.badge-drag-hint {
-  position: absolute;
-  bottom: 3.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono, 'DM Mono', monospace);
-  font-size: 0.58rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(138,138,138,0.45);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  animation: hintFade 3s ease-in-out 2s forwards;
-  z-index: 3;
-}
-@keyframes hintFade { 0%{opacity:1;} 100%{opacity:0;pointer-events:none;} }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .badges-section { padding: 6rem 1.5rem 5rem; }
-  .art-intro { margin-top: 0; font-size: 0.95rem; }
-  .art-overview,
-  .art-showcase-grid { grid-template-columns: 1fr; }
-  .art-track,
-  .art-showcase-card { min-height: auto; }
-  .badges-subsection { margin-top: 3rem; }
-  .badge-carousel-scene { height: 380px; perspective: 700px; }
-  .badge-carousel-ring { width: 180px; height: 180px; }
-  .badge-item { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
-  .badge-orbit-1 { width: 300px; height: 300px; margin: -150px 0 0 -150px; }
-  .badge-orbit-2 { width: 400px; height: 400px; margin: -200px 0 0 -200px; }
-  .badge-orbit-3 { display: none; }
-  .badge-orbit-4 { display: none; }
-}
-</style>
-
-<!-- Image Viewer (needed for viewCertificate / viewActiveBadge) -->
+<!-- Image Viewer -->
 <div class="img-viewer" id="certificateView">
   <button class="img-viewer-close" onclick="document.getElementById('certificateView').classList.remove('open')">✕</button>
   <img id="certificateImg" src="" alt="Certificate">
@@ -825,55 +1191,13 @@
 <script>
 (function() {
   const BADGES = [
-    {
-      img: 'assets/images/certifications/cyber.png',
-      title: 'Cyber Threat Management',
-      type: 'Digital Badge · Cybersecurity',
-      issuer: 'Cisco Academy',
-      issuerLogo: 'assets/images/certifications/cisco.png'
-    },
-    {
-      img: 'assets/images/certifications/intro.png',
-      title: 'Introduction to Cybersecurity',
-      type: 'Digital Badge · Cybersecurity',
-      issuer: 'Cisco Academy',
-      issuerLogo: 'assets/images/certifications/cisco.png'
-    },
-    {
-      img: 'assets/images/certifications/network.png',
-      title: 'Network Defence',
-      type: 'Digital Badge · Networking',
-      issuer: 'Cisco Academy',
-      issuerLogo: 'assets/images/certifications/cisco.png'
-    },
-    {
-      img: 'assets/images/certifications/Data Structures.png',
-      title: 'Python (Data Structures)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/File and Error Handling.png',
-      title: 'Python (File and Error Handling)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/Functional Programming.png',
-      title: 'Python (Functional Programming)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/Testing.png',
-      title: 'Python (Testing)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    }
+    { img: 'assets/images/certifications/cyber.png', title: 'Cyber Threat Management', type: 'Digital Badge · Cybersecurity', issuer: 'Cisco Academy', issuerLogo: 'assets/images/certifications/cisco.png' },
+    { img: 'assets/images/certifications/intro.png', title: 'Introduction to Cybersecurity', type: 'Digital Badge · Cybersecurity', issuer: 'Cisco Academy', issuerLogo: 'assets/images/certifications/cisco.png' },
+    { img: 'assets/images/certifications/network.png', title: 'Network Defence', type: 'Digital Badge · Networking', issuer: 'Cisco Academy', issuerLogo: 'assets/images/certifications/cisco.png' },
+    { img: 'assets/images/certifications/Data Structures.png', title: 'Python (Data Structures)', type: 'Digital Badge · Python', issuer: 'Codedex', issuerLogo: 'assets/images/certifications/codedex.png' },
+    { img: 'assets/images/certifications/File and Error Handling.png', title: 'Python (File and Error Handling)', type: 'Digital Badge · Python', issuer: 'Codedex', issuerLogo: 'assets/images/certifications/codedex.png' },
+    { img: 'assets/images/certifications/Functional Programming.png', title: 'Python (Functional Programming)', type: 'Digital Badge · Python', issuer: 'Codedex', issuerLogo: 'assets/images/certifications/codedex.png' },
+    { img: 'assets/images/certifications/Testing.png', title: 'Python (Testing)', type: 'Digital Badge · Python', issuer: 'Codedex', issuerLogo: 'assets/images/certifications/codedex.png' }
   ];
 
   const N = BADGES.length;
@@ -883,21 +1207,12 @@
   const items = ring.querySelectorAll('.badge-item');
 
   items.forEach((item, i) => {
-    const angle = (360 / N) * i;
-    item.style.transform = `rotateY(${angle}deg) translateZ(${RADIUS}px)`;
+    item.style.transform = `rotateY(${(360 / N) * i}deg) translateZ(${RADIUS}px)`;
   });
 
-  let autoAngle = 0;
-  let manualAngle = 0;
-  let tiltX = -8;
-  let isDragging = false;
-  let movedDuringDrag = false;
-  let suppressClickUntil = 0;
-  let lastX = 0;
-  let velocity = 0;
-  let raf;
-  let activeIndex = 0;
-  let autoSpinning = true;
+  let autoAngle = 0, manualAngle = 0, tiltX = -8;
+  let isDragging = false, movedDuringDrag = false, suppressClickUntil = 0;
+  let lastX = 0, velocity = 0, raf, activeIndex = 0, autoSpinning = true;
 
   function getActiveIndex(angle) {
     const step = 360 / N;
@@ -928,58 +1243,27 @@
     const total = autoAngle + manualAngle;
     ring.style.transform = `rotateY(${total}deg) rotateX(${tiltX}deg)`;
     ring.style.animationPlayState = 'paused';
-    const ai = getActiveIndex(total);
-    updateInfo(ai);
+    updateInfo(getActiveIndex(total));
   }
 
   let lastTime = 0;
   function animate(ts) {
-    if (!isDragging && autoSpinning) {
-      const dt = ts - lastTime;
-      lastTime = ts;
-      autoAngle += dt * 0.015;
-    }
-    if (!isDragging && Math.abs(velocity) > 0.05) {
-      manualAngle += velocity;
-      velocity *= 0.94;
-    }
+    if (!isDragging && autoSpinning) { const dt = ts - lastTime; lastTime = ts; autoAngle += dt * 0.015; }
+    if (!isDragging && Math.abs(velocity) > 0.05) { manualAngle += velocity; velocity *= 0.94; }
     applyTransform();
     raf = requestAnimationFrame(animate);
   }
   lastTime = performance.now();
   raf = requestAnimationFrame(animate);
 
-  function startDrag(clientX) {
-    isDragging = true;
-    movedDuringDrag = false;
-    lastX = clientX;
-    velocity = 0;
-    ring.classList.add('dragging');
-    autoSpinning = false;
-  }
-  function moveDrag(clientX) {
-    if (!isDragging) return;
-    const dx = clientX - lastX;
-    if (Math.abs(dx) > 2) movedDuringDrag = true;
-    manualAngle += dx * 0.35;
-    velocity = dx * 0.35;
-    lastX = clientX;
-  }
-  function endDrag() {
-    if (!isDragging) return;
-    isDragging = false;
-    ring.classList.remove('dragging');
-    if (movedDuringDrag) suppressClickUntil = performance.now() + 250;
-    autoAngle += manualAngle;
-    manualAngle = 0;
-    autoSpinning = true;
-    lastTime = performance.now();
-  }
+  function startDrag(cx) { isDragging = true; movedDuringDrag = false; lastX = cx; velocity = 0; ring.classList.add('dragging'); autoSpinning = false; }
+  function moveDrag(cx) { if (!isDragging) return; const dx = cx - lastX; if (Math.abs(dx) > 2) movedDuringDrag = true; manualAngle += dx * 0.35; velocity = dx * 0.35; lastX = cx; }
+  function endDrag() { if (!isDragging) return; isDragging = false; ring.classList.remove('dragging'); if (movedDuringDrag) suppressClickUntil = performance.now() + 250; autoAngle += manualAngle; manualAngle = 0; autoSpinning = true; lastTime = performance.now(); }
 
   scene.addEventListener('pointerdown', e => { startDrag(e.clientX); scene.setPointerCapture(e.pointerId); e.preventDefault(); });
-  scene.addEventListener('pointermove', e => { moveDrag(e.clientX); });
-  scene.addEventListener('pointerup', () => { endDrag(); });
-  scene.addEventListener('pointercancel', () => { endDrag(); });
+  scene.addEventListener('pointermove', e => moveDrag(e.clientX));
+  scene.addEventListener('pointerup', () => endDrag());
+  scene.addEventListener('pointercancel', () => endDrag());
 
   items.forEach((item, i) => {
     item.addEventListener('click', e => {
@@ -1019,9 +1303,8 @@
       p.flicker += 0.025; p.x += p.vx; p.y += p.vy;
       if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
       if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
-      const alpha = p.o * (0.6 + 0.4 * Math.sin(p.flicker));
       ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(200,241,53,${alpha})`; ctx.fill();
+      ctx.fillStyle = `rgba(200,241,53,${p.o * (0.6 + 0.4 * Math.sin(p.flicker))})`; ctx.fill();
     });
     requestAnimationFrame(drawParticles);
   }
