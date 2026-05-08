@@ -348,7 +348,7 @@
     <!-- Track bar -->
     <div class="cert-track-bar">
       <div class="cert-total-badge">
-        <strong>14</strong>
+        <strong>17</strong>
         total credentials earned
       </div>
       <div class="cert-slide-controls">
@@ -544,10 +544,11 @@
             <div>
               <img src="assets/images/certifications/coursera.png" alt="Coursera" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Coursera</div>
-              <div class="cert-slide-org-count">2 Certifications</div>
+              <div class="cert-slide-org-count">3 Certifications</div>
               <ul class="cert-slide-list">
                 <li>Foundations: Data, Data, Everywhere</li>
                 <li>Foundations of User Experience (UX) Design</li>
+                <li>Introduction to Game Design</li>
               </ul>
             </div>
             <button class="cert-slide-cta" onclick="openModal('courseraModal')">View All Credentials →</button>
@@ -559,6 +560,10 @@
             </div>
             <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/6.png')">
               <img src="assets/images/certifications/6.png" alt="Foundations of User Experience (UX) Design">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/18.png')">
+              <img src="assets/images/certifications/18.png" alt="Introduction to Game Design">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -581,7 +586,7 @@
 <section id="art" class="badges-section">
   <div class="badges-bg-grid"></div>
   <div class="badges-bg-glow"></div>
-  
+
   <div class="badges-header badges-subsection">
     <div class="section-label">Verified Output</div>
     <h3 class="art-subtitle reveal">Digital <em>Badges</em></h3>
@@ -1647,13 +1652,15 @@
 <div class="modal" id="courseraModal">
   <div class="modal-inner">
     <div class="modal-header">
-      <div><div class="modal-sub">Coursera</div><div class="modal-title">2 Certifications</div></div>
+      <div><div class="modal-sub">Coursera</div><div class="modal-title">3 Certifications</div></div>
       <button class="modal-close" onclick="closeModal('courseraModal')">✕</button>
     </div>
     <div class="modal-body">
       <div class="cert-grid">
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/5.png')"><img src="assets/images/certifications/5.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations: Data, Data, Everywhere</div><div class="cert-card-type">Data Analytics</div></div></div>
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/6.png')"><img src="assets/images/certifications/6.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of User Experience (UX) Design</div><div class="cert-card-type">UX Design</div></div></div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/18.png')"><img src="assets/images/certifications/18.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to Game Design</div><div class="cert-card-type">Game Design</div></div></div>
+      </div>
       </div>
     </div>
   </div>
