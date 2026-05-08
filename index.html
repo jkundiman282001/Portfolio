@@ -26,7 +26,7 @@
   <a href="#home" class="nav-logo">JK<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#home">Home</a></li>
-    <li><a href="#badges">Art</a></li>
+    <li><a href="#art">Art</a></li>
   </ul>
   <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
   <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()">
@@ -37,7 +37,7 @@
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#home" onclick="closeMobileMenu()">Home</a>
-  <a href="#badges" onclick="closeMobileMenu()">Art</a>
+  <a href="#art" onclick="closeMobileMenu()">Art</a>
 </div>
 
 <!-- HERO -->
@@ -578,13 +578,58 @@
 </section>
 
 <!-- BADGES -->
-<section id="badges" class="badges-section">
+<section id="art" class="badges-section">
   <div class="badges-bg-grid"></div>
   <div class="badges-bg-glow"></div>
 
   <div class="badges-header">
-    <div class="section-label">Digital Credentials</div>
-    <h2 class="section-title reveal">Badge <em>Showcase</em></h2>
+    <div class="section-label">Art Lab</div>
+    <h2 class="section-title reveal">AI <em>Generations</em></h2>
+    <p class="art-intro reveal">
+      A space for the things I make with generative tools: AI art, AI music, visual experiments, and other synthetic media studies as I keep building my creative workflow.
+    </p>
+  </div>
+
+  <div class="art-overview reveal">
+    <article class="art-track">
+      <div class="art-track-kicker">01</div>
+      <h3>AI Art Generations</h3>
+      <p>Character concepts, cinematic scenes, poster studies, and style explorations generated and refined through prompt iteration.</p>
+      <span>Current focus: composition, lighting, and mood direction</span>
+    </article>
+    <article class="art-track">
+      <div class="art-track-kicker">02</div>
+      <h3>AI Music Generations</h3>
+      <p>Sound ideas, instrument experiments, and mood tracks that I can showcase here as I build out an audio portfolio.</p>
+      <span>Current focus: atmosphere, hooks, and genre exploration</span>
+    </article>
+    <article class="art-track">
+      <div class="art-track-kicker">03</div>
+      <h3>Creative Experiments</h3>
+      <p>Mixed-media outputs like visual identities, concept boards, motion loops, and process-driven generative prototypes.</p>
+      <span>Current focus: combining code, visuals, and storytelling</span>
+    </article>
+  </div>
+
+  <div class="art-showcase-grid reveal">
+    <article class="art-showcase-card art-showcase-featured">
+      <div class="art-showcase-label">Featured Collection</div>
+      <h3>Generative Works Archive</h3>
+      <p>Use this section to rotate in your strongest AI visuals, song drops, and concept pieces. It is structured to grow as you publish more work.</p>
+    </article>
+    <article class="art-showcase-card">
+      <div class="art-showcase-label">Planned Panels</div>
+      <ul class="art-showcase-list">
+        <li>Image gallery for AI art sets</li>
+        <li>Embedded audio players for music generations</li>
+        <li>Process notes and prompt breakdowns</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="badges-header badges-subsection">
+    <div class="section-label">Verified Output</div>
+    <h3 class="art-subtitle reveal">Digital <em>Badges</em></h3>
     <p class="badges-subtitle reveal">Drag to spin · Click any badge to inspect</p>
   </div>
 
@@ -766,6 +811,14 @@
   width: 100%;
 }
 
+.art-intro {
+  max-width: 760px;
+  margin: -1rem auto 0;
+  color: rgba(240,237,230,0.72);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
 .badges-subtitle {
   font-family: var(--font-mono, 'DM Mono', monospace);
   font-size: 0.68rem;
@@ -774,6 +827,127 @@
   color: rgba(200,241,53,0.5);
   margin-top: -2.5rem;
   margin-bottom: 0;
+}
+
+.badges-subsection {
+  margin-top: 4.5rem;
+}
+
+.art-subtitle {
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: 0.03em;
+  color: #f0ede6;
+}
+
+.art-subtitle em {
+  font-style: italic;
+  color: rgba(240,237,230,0.55);
+}
+
+.art-overview,
+.art-showcase-grid {
+  position: relative;
+  z-index: 2;
+  width: min(1100px, 100%);
+}
+
+.art-overview {
+  margin-top: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.art-track,
+.art-showcase-card {
+  background: rgba(10,10,18,0.78);
+  border: 1px solid rgba(200,241,53,0.12);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.art-track {
+  padding: 1.5rem;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.art-track-kicker,
+.art-showcase-label {
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(200,241,53,0.55);
+}
+
+.art-track h3,
+.art-showcase-card h3 {
+  font-family: var(--font-display, 'Bebas Neue', sans-serif);
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  color: #f0ede6;
+}
+
+.art-track p,
+.art-showcase-card p,
+.art-showcase-list {
+  color: rgba(240,237,230,0.72);
+  line-height: 1.75;
+  font-size: 0.98rem;
+}
+
+.art-track span {
+  margin-top: auto;
+  font-family: var(--font-mono, 'DM Mono', monospace);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(138,138,138,0.85);
+}
+
+.art-showcase-grid {
+  margin-top: 1.25rem;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.25rem;
+}
+
+.art-showcase-card {
+  padding: 1.75rem;
+}
+
+.art-showcase-featured {
+  background:
+    linear-gradient(135deg, rgba(200,241,53,0.06), transparent 48%),
+    rgba(10,10,18,0.82);
+}
+
+.art-showcase-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.art-showcase-list li {
+  padding-left: 1rem;
+  position: relative;
+}
+
+.art-showcase-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.7rem;
+  width: 6px;
+  height: 1px;
+  background: var(--acid);
 }
 
 /* ── 3D CAROUSEL SCENE ── */
@@ -1069,6 +1243,12 @@
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   .badges-section { padding: 6rem 1.5rem 5rem; }
+  .art-intro { margin-top: 0; font-size: 0.95rem; }
+  .art-overview,
+  .art-showcase-grid { grid-template-columns: 1fr; }
+  .art-track,
+  .art-showcase-card { min-height: auto; }
+  .badges-subsection { margin-top: 3rem; }
   .badge-carousel-scene { height: 380px; perspective: 700px; }
   .badge-carousel-ring { width: 180px; height: 180px; }
   .badge-item { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
