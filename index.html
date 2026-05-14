@@ -698,6 +698,18 @@
         </div>
       </div>
 
+      <div class="badge-item" data-index="4"
+           data-title="Build Your Own Chatbot — Level 1"
+           data-type="Digital Badge · AI"
+           data-issuer="OpenAI"
+           data-img="assets/images/certifications/build-your-own-chatbot-level-1.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
+          <img src="assets/images/certifications/build-your-own-chatbot-level-1.png" alt="Build Your Own Chatbot Level 1 Badge">
+          <div class="badge-item-shine"></div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Orbital ring decorations -->
@@ -1266,11 +1278,18 @@
       type: 'Digital Badge · Web Development',
       issuer: 'Pearson',
       issuerLogo: 'assets/images/certifications/ITS.png'
+    },
+    {
+      img: 'assets/images/certifications/build-your-own-chatbot-level-1.png',
+      title: 'Build Your Own Chatbot — Level 1',
+      type: 'Digital Badge · AI',
+      issuer: 'OpenAI',
+      issuerLogo: 'assets/images/branding/Logo.png'
     }
   ];
 
   const N = BADGES.length;
-  const RADIUS = N <= 4 ? 220 : 260;
+  const RADIUS = N <= 4 ? 220 : N === 5 ? 240 : 260;
   const ring = document.getElementById('badgeRing');
   const scene = document.getElementById('badgeScene');
   const items = ring.querySelectorAll('.badge-item');
