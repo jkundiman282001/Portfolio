@@ -686,7 +686,7 @@
       </div>
 
 
-      <div class="badge-item" data-index="4"
+      <div class="badge-item" data-index="3"
            data-title="IT Specialist — HTML and CSS"
            data-type="Digital Badge · Web Development"
            data-issuer="Pearson"
@@ -1261,34 +1261,6 @@
       issuerLogo: 'assets/images/certifications/cisco.png'
     },
     {
-      img: 'assets/images/certifications/Data Structures.png',
-      title: 'Python (Data Structures)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/File and Error Handling.png',
-      title: 'Python (File and Error Handling)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/Functional Programming.png',
-      title: 'Python (Functional Programming)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
-      img: 'assets/images/certifications/Testing.png',
-      title: 'Python (Testing)',
-      type: 'Digital Badge · Python',
-      issuer: 'Codedex',
-      issuerLogo: 'assets/images/certifications/codedex.png'
-    },
-    {
       img: 'assets/images/certifications/ITS-HTML-CSS.png',
       title: 'IT Specialist — HTML and CSS',
       type: 'Digital Badge · Web Development',
@@ -1298,7 +1270,7 @@
   ];
 
   const N = BADGES.length;
-  const RADIUS = 260;
+  const RADIUS = N <= 4 ? 220 : 260;
   const ring = document.getElementById('badgeRing');
   const scene = document.getElementById('badgeScene');
   const items = ring.querySelectorAll('.badge-item');
