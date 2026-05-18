@@ -116,19 +116,6 @@ document.querySelectorAll('.count-up').forEach(el => {
   }
 });
 
-// ── Skill bars standalone observer ──
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-        bar.style.width = bar.dataset.width + '%';
-      });
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.2 });
-document.querySelectorAll('.skill-category').forEach(el => skillObserver.observe(el));
-
 // ── Modals ──
 function openModal(id) { const el = document.getElementById(id); if(el){ el.classList.add('open'); document.body.style.overflow='hidden'; } }
 function closeModal(id) { const el = document.getElementById(id); if(el){ el.classList.remove('open'); document.body.style.overflow=''; } }
