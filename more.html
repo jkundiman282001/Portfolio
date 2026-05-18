@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>More — Japhet Kundiman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .nav-links a.active { color: var(--acid); }
+    .nav-links a.active::after { width: 100%; }
+
+    .more-hero {
+      min-height: 42vh;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 9rem 2rem 4rem;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(4, 4, 10, 0.75), rgba(4, 4, 10, 1));
+    }
+    .more-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .more-hero::after {
+      content: '';
+      position: absolute;
+      width: 760px;
+      height: 340px;
+      left: 50%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, rgba(200,241,53,0.08) 0%, transparent 72%);
+      pointer-events: none;
+    }
+    .more-hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+    .more-hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 8rem);
+      letter-spacing: 0.03em;
+      line-height: 0.9;
+      margin-bottom: 1rem;
+      color: var(--paper);
+    }
+    .more-hero-title em {
+      font-style: italic;
+      color: rgba(240,237,230,0.48);
+    }
+    .more-hero-copy {
+      color: rgba(240,237,230,0.72);
+      line-height: 1.8;
+      max-width: 620px;
+      margin: 0 auto 1.8rem;
+    }
+    .more-hero-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.58);
+      text-decoration: none;
+    }
+    .more-hero-back:hover { color: var(--acid); }
+    .more-hero-back svg { width: 14px; height: 14px; }
+
+    .more-section {
+      position: relative;
+      padding: 6rem 2rem;
+      background: #04040a;
+      overflow: hidden;
+    }
+    .more-section + .more-section {
+      border-top: 1px solid rgba(200,241,53,0.06);
+    }
+    .more-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .more-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 1.5rem;
+    }
+    .more-card,
+    .more-panel,
+    .more-list-card {
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)),
+        rgba(8,10,15,0.92);
+      border: 1px solid rgba(200,241,53,0.08);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.03),
+        0 24px 60px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+    .more-card::before,
+    .more-panel::before,
+    .more-list-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(200,241,53,0.08), transparent 36%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .more-card:hover::before,
+    .more-panel:hover::before,
+    .more-list-card:hover::before { opacity: 1; }
+    .more-card,
+    .more-panel { padding: 2rem; }
+    .more-kicker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.48);
+      margin-bottom: 0.85rem;
+    }
+    .more-card h3,
+    .more-panel h3,
+    .more-list-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--paper);
+      margin-bottom: 0.9rem;
+    }
+    .more-card p,
+    .more-panel p,
+    .more-list-card p {
+      color: rgba(240,237,230,0.72);
+      line-height: 1.8;
+    }
+    .more-bullets {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1.4rem;
+    }
+    .more-bullets div {
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(200,241,53,0.08);
+      background: rgba(200,241,53,0.02);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.78);
+    }
+    .more-stack {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .more-stack-item {
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.015);
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+    .more-stack-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(200,241,53,0.28);
+      background: rgba(200,241,53,0.04);
+    }
+    .more-stack-item strong {
+      display: block;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      color: var(--acid);
+      margin-bottom: 0.25rem;
+    }
+    .more-stack-item span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(138,138,138,0.7);
+    }
+    .more-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .more-list-card {
+      padding: 1.5rem;
+    }
+    .more-list-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.45);
+      margin-bottom: 0.7rem;
+    }
+    @media (max-width: 980px) {
+      .more-grid,
+      .more-list { grid-template-columns: 1fr; }
+      .more-stack { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .more-hero { padding: 8rem 1.5rem 3.5rem; }
+      .more-section { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="more.html" class="active">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="more.html" onclick="closeMobileMenu()">More</a>
+</div>
+
+<section class="more-hero">
+  <div class="more-hero-inner">
+    <div class="section-label">Extended Profile</div>
+    <h1 class="more-hero-title">More <em>About Me</em></h1>
+    <p class="more-hero-copy">A dedicated page for the things that sit around the main portfolio: background, interests, creative direction, personal principles, and the details that give more context to how I work.</p>
+    <a href="index.html" class="more-hero-back">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+</section>
+
+<section class="more-section">
+  <div class="more-inner">
+    <div class="section-label">Page Structure</div>
+    <h2 class="section-title reveal">Built To Hold <em>More Context</em></h2>
+    <div class="more-grid">
+      <div class="more-card reveal">
+        <div class="more-kicker">Overview</div>
+        <h3>Personal Profile Layer</h3>
+        <p>This page is now structured as a deeper profile space instead of an art showcase. It is ready for personal details, background, values, routines, motivations, and anything that gives stronger context to your portfolio.</p>
+        <div class="more-bullets">
+          <div>Personal story and background</div>
+          <div>Goals, interests, and motivations</div>
+          <div>Work style, habits, and creative process</div>
+        </div>
+      </div>
+      <div class="more-panel reveal">
+        <div class="more-kicker">Sections Ready</div>
+        <h3>Expandable Layout</h3>
+        <p>The layout is intentionally modular so you can keep adding detail without the page becoming messy. Each block can become a standalone section later if needed.</p>
+        <div class="more-stack">
+          <div class="more-stack-item">
+            <strong>01</strong>
+            <span>Background</span>
+          </div>
+          <div class="more-stack-item">
+            <strong>02</strong>
+            <span>Mindset</span>
+          </div>
+          <div class="more-stack-item">
+            <strong>03</strong>
+            <span>Interests</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="more-section">
+  <div class="more-inner">
+    <div class="section-label">Content Blocks</div>
+    <h2 class="section-title reveal">Prepared <em>Sections</em></h2>
+    <div class="more-list">
+      <article class="more-list-card reveal">
+        <div class="more-list-meta">Block 01</div>
+        <div class="more-list-title">Journey</div>
+        <p>A place for your personal path, milestones, turning points, and how you got into technology.</p>
+      </article>
+      <article class="more-list-card reveal">
+        <div class="more-list-meta">Block 02</div>
+        <div class="more-list-title">Interests</div>
+        <p>A section for what you enjoy outside the core portfolio: hobbies, creative interests, experiments, or side pursuits.</p>
+      </article>
+      <article class="more-list-card reveal">
+        <div class="more-list-meta">Block 03</div>
+        <div class="more-list-title">Principles</div>
+        <p>A section for the values or standards that shape how you design, build, learn, and collaborate.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>
