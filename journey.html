@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Journey — Japhet Kundiman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .nav-links a.active { color: var(--acid); }
+    .nav-links a.active::after { width: 100%; }
+    .subpage-hero, .subpage-body { background: #04040a; }
+    .subpage-hero {
+      min-height: 40vh;
+      padding: 9rem 2rem 4rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .subpage-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .subpage-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+    .subpage-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 7rem);
+      letter-spacing: 0.03em;
+      line-height: 0.92;
+      color: var(--paper);
+      margin-bottom: 1rem;
+    }
+    .subpage-copy { color: rgba(240,237,230,0.72); line-height: 1.8; max-width: 620px; margin: 0 auto; }
+    .subpage-body { padding: 5rem 2rem 6rem; }
+    .subpage-panel {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      border: 1px solid rgba(200,241,53,0.08);
+      background: rgba(8,10,15,0.92);
+      color: rgba(240,237,230,0.72);
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg></button>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="more.html" class="active">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="more.html" onclick="closeMobileMenu()">More</a>
+</div>
+<section class="subpage-hero">
+  <div class="subpage-inner">
+    <div class="section-label">More / 01</div>
+    <h1 class="subpage-title">Journey</h1>
+    <p class="subpage-copy">This page is ready for your background, story, milestones, and path into technology.</p>
+  </div>
+</section>
+<section class="subpage-body">
+  <div class="subpage-panel">Structure ready. Send what you want added here next.</div>
+</section>
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+<script src="assets/js/script.js"></script>
+</body>
+</html>

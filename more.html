@@ -81,30 +81,32 @@
     .more-hero-back:hover { color: var(--acid); }
     .more-hero-back svg { width: 14px; height: 14px; }
 
-    .more-section {
+    .menu-section {
       position: relative;
       padding: 6rem 2rem;
       background: #04040a;
       overflow: hidden;
     }
-    .more-section + .more-section {
-      border-top: 1px solid rgba(200,241,53,0.06);
-    }
-    .more-inner {
+    .menu-inner {
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
       z-index: 2;
     }
-    .more-grid {
+    .menu-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
-    .more-card,
-    .more-panel,
-    .more-list-card {
+    .menu-card {
       position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 260px;
+      padding: 2rem;
+      text-decoration: none;
+      color: inherit;
       background:
         linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01)),
         rgba(8,10,15,0.92);
@@ -113,10 +115,9 @@
         inset 0 1px 0 rgba(255,255,255,0.03),
         0 24px 60px rgba(0,0,0,0.22);
       overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
-    .more-card::before,
-    .more-panel::before,
-    .more-list-card::before {
+    .menu-card::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -125,105 +126,51 @@
       transition: opacity 0.25s ease;
       pointer-events: none;
     }
-    .more-card:hover::before,
-    .more-panel:hover::before,
-    .more-list-card:hover::before { opacity: 1; }
-    .more-card,
-    .more-panel { padding: 2rem; }
-    .more-kicker {
+    .menu-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,241,53,0.28);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        rgba(8,10,15,0.96);
+    }
+    .menu-card:hover::before { opacity: 1; }
+    .menu-kicker {
       font-family: 'DM Mono', monospace;
       font-size: 0.58rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(200,241,53,0.48);
-      margin-bottom: 0.85rem;
     }
-    .more-card h3,
-    .more-panel h3,
-    .more-list-title {
+    .menu-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
+      font-size: 2.4rem;
       letter-spacing: 0.04em;
       color: var(--paper);
-      margin-bottom: 0.9rem;
+      line-height: 0.95;
     }
-    .more-card p,
-    .more-panel p,
-    .more-list-card p {
+    .menu-copy {
       color: rgba(240,237,230,0.72);
       line-height: 1.8;
+      font-size: 0.95rem;
+      flex: 1;
     }
-    .more-bullets {
-      display: grid;
-      gap: 0.85rem;
-      margin-top: 1.4rem;
-    }
-    .more-bullets div {
-      padding: 0.95rem 1rem;
-      border: 1px solid rgba(200,241,53,0.08);
-      background: rgba(200,241,53,0.02);
+    .menu-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
       font-family: 'DM Mono', monospace;
       font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(240,237,230,0.78);
-    }
-    .more-stack {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1.5rem;
-    }
-    .more-stack-item {
-      padding: 1rem;
-      border: 1px solid rgba(255,255,255,0.05);
-      background: rgba(255,255,255,0.015);
-      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-    }
-    .more-stack-item:hover {
-      transform: translateY(-4px);
-      border-color: rgba(200,241,53,0.28);
-      background: rgba(200,241,53,0.04);
-    }
-    .more-stack-item strong {
-      display: block;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.04em;
-      color: var(--acid);
-      margin-bottom: 0.25rem;
-    }
-    .more-stack-item span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(138,138,138,0.7);
-    }
-    .more-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    .more-list-card {
-      padding: 1.5rem;
-    }
-    .more-list-meta {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.56rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(200,241,53,0.45);
-      margin-bottom: 0.7rem;
+      color: var(--acid);
     }
+    .menu-arrow svg { width: 14px; height: 14px; }
     @media (max-width: 980px) {
-      .more-grid,
-      .more-list { grid-template-columns: 1fr; }
-      .more-stack { grid-template-columns: 1fr; }
+      .menu-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 768px) {
       .more-hero { padding: 8rem 1.5rem 3.5rem; }
-      .more-section { padding: 4rem 1.5rem; }
+      .menu-section { padding: 4rem 1.5rem; }
     }
   </style>
 </head>
@@ -257,7 +204,7 @@
   <div class="more-hero-inner">
     <div class="section-label">Extended Profile</div>
     <h1 class="more-hero-title">More <em>About Me</em></h1>
-    <p class="more-hero-copy">A dedicated page for the things that sit around the main portfolio: background, interests, creative direction, personal principles, and the details that give more context to how I work.</p>
+    <p class="more-hero-copy">This page now works as a simple directory. Choose a section below to open a dedicated page for more personal context beyond the main portfolio.</p>
     <a href="index.html" class="more-hero-back">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5M12 5l-7 7 7 7"/></svg>
       Back to Portfolio
@@ -265,64 +212,35 @@
   </div>
 </section>
 
-<section class="more-section">
-  <div class="more-inner">
-    <div class="section-label">Page Structure</div>
-    <h2 class="section-title reveal">Built To Hold <em>More Context</em></h2>
-    <div class="more-grid">
-      <div class="more-card reveal">
-        <div class="more-kicker">Overview</div>
-        <h3>Personal Profile Layer</h3>
-        <p>This page is now structured as a deeper profile space instead of an art showcase. It is ready for personal details, background, values, routines, motivations, and anything that gives stronger context to your portfolio.</p>
-        <div class="more-bullets">
-          <div>Personal story and background</div>
-          <div>Goals, interests, and motivations</div>
-          <div>Work style, habits, and creative process</div>
+<section class="menu-section">
+  <div class="menu-inner">
+    <div class="section-label">Menu</div>
+    <h2 class="section-title reveal">Choose A <em>Section</em></h2>
+    <div class="menu-grid">
+      <a href="journey.html" class="menu-card reveal">
+        <div class="menu-kicker">01</div>
+        <div class="menu-title">Journey</div>
+        <div class="menu-copy">A dedicated page for background, story, milestones, and how I got into technology.</div>
+        <div class="menu-arrow">Open Page
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </div>
-      </div>
-      <div class="more-panel reveal">
-        <div class="more-kicker">Sections Ready</div>
-        <h3>Expandable Layout</h3>
-        <p>The layout is intentionally modular so you can keep adding detail without the page becoming messy. Each block can become a standalone section later if needed.</p>
-        <div class="more-stack">
-          <div class="more-stack-item">
-            <strong>01</strong>
-            <span>Background</span>
-          </div>
-          <div class="more-stack-item">
-            <strong>02</strong>
-            <span>Mindset</span>
-          </div>
-          <div class="more-stack-item">
-            <strong>03</strong>
-            <span>Interests</span>
-          </div>
+      </a>
+      <a href="interest.html" class="menu-card reveal">
+        <div class="menu-kicker">02</div>
+        <div class="menu-title">Interest</div>
+        <div class="menu-copy">A dedicated page for hobbies, personal interests, creative influences, and things I enjoy outside direct project work.</div>
+        <div class="menu-arrow">Open Page
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="more-section">
-  <div class="more-inner">
-    <div class="section-label">Content Blocks</div>
-    <h2 class="section-title reveal">Prepared <em>Sections</em></h2>
-    <div class="more-list">
-      <article class="more-list-card reveal">
-        <div class="more-list-meta">Block 01</div>
-        <div class="more-list-title">Journey</div>
-        <p>A place for your personal path, milestones, turning points, and how you got into technology.</p>
-      </article>
-      <article class="more-list-card reveal">
-        <div class="more-list-meta">Block 02</div>
-        <div class="more-list-title">Interests</div>
-        <p>A section for what you enjoy outside the core portfolio: hobbies, creative interests, experiments, or side pursuits.</p>
-      </article>
-      <article class="more-list-card reveal">
-        <div class="more-list-meta">Block 03</div>
-        <div class="more-list-title">Principles</div>
-        <p>A section for the values or standards that shape how you design, build, learn, and collaborate.</p>
-      </article>
+      </a>
+      <a href="projects.html" class="menu-card reveal">
+        <div class="menu-kicker">03</div>
+        <div class="menu-title">Projects</div>
+        <div class="menu-copy">A dedicated page reserved for a deeper look at selected projects, process, screenshots, and supporting details.</div>
+        <div class="menu-arrow">Open Page
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </a>
     </div>
   </div>
 </section>
