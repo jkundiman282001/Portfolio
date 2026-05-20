@@ -1016,7 +1016,7 @@
     <!-- Track bar -->
     <div class="cert-track-bar">
       <div class="cert-total-badge">
-        <strong>17</strong>
+        <strong>18</strong>
         total credentials earned
       </div>
       <div class="cert-slide-controls">
@@ -1288,6 +1288,27 @@
             </div>
           </div>
         </div>
+
+        <!-- Slide 10: Databricks -->
+        <div class="cert-slide" data-modal="databricksModal">
+          <div class="cert-slide-info">
+            <div>
+              <img src="assets/images/certifications/generative ai.png" alt="Databricks" class="cert-slide-org-logo">
+              <div class="cert-slide-org-name">Databricks</div>
+              <div class="cert-slide-org-count">1 Certification</div>
+              <ul class="cert-slide-list">
+                <li>Databricks Accredited Generative AI Fundamentals</li>
+              </ul>
+            </div>
+            <button class="cert-slide-cta" onclick="openModal('databricksModal')">View Credential →</button>
+          </div>
+          <div class="cert-slide-gallery one-cert">
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/23.png')">
+              <img src="assets/images/certifications/23.png" alt="Databricks Accredited Generative AI Fundamentals">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+          </div>
+        </div>
       </div><!-- end viewport -->
     </div><!-- end stage -->
 
@@ -1374,6 +1395,18 @@
         <div class="badge-item-face">
           <div class="badge-item-glow"></div>
           <img src="assets/images/certifications/build-your-own-chatbot-level-1.png" alt="Build Your Own Chatbot Level 1 Badge">
+          <div class="badge-item-shine"></div>
+        </div>
+      </div>
+
+      <div class="badge-item" data-index="5"
+           data-title="Generative AI Fundamentals"
+           data-type="Digital Badge · AI"
+           data-issuer="Databricks"
+           data-img="assets/images/certifications/generative ai.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
+          <img src="assets/images/certifications/generative ai.png" alt="Generative AI Fundamentals Badge">
           <div class="badge-item-shine"></div>
         </div>
       </div>
@@ -1953,11 +1986,18 @@
       type: 'Digital Badge · AI',
       issuer: 'OpenAI',
       issuerLogo: 'assets/images/branding/Logo.png'
+    },
+    {
+      img: 'assets/images/certifications/generative ai.png',
+      title: 'Generative AI Fundamentals',
+      type: 'Digital Badge · AI',
+      issuer: 'Databricks',
+      issuerLogo: 'assets/images/certifications/generative ai.png'
     }
   ];
 
   const N = BADGES.length;
-  const RADIUS = N <= 4 ? 220 : N === 5 ? 240 : 260;
+  const RADIUS = N <= 4 ? 220 : N === 5 ? 240 : N === 6 ? 250 : 260;
   const ring = document.getElementById('badgeRing');
   const scene = document.getElementById('badgeScene');
   const items = ring.querySelectorAll('.badge-item');
@@ -2376,6 +2416,21 @@
     <div class="modal-body">
       <div class="cert-grid" style="max-width:300px">
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/22.png')"><img src="assets/images/certifications/22.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to Python</div><div class="cert-card-type">Backend Certificate</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Databricks -->
+<div class="modal" id="databricksModal">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div><div class="modal-sub">Databricks</div><div class="modal-title">1 Certification</div></div>
+      <button class="modal-close" onclick="closeModal('databricksModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="cert-grid" style="max-width:300px">
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/23.png')"><img src="assets/images/certifications/23.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Databricks Accredited Generative AI Fundamentals</div><div class="cert-card-type">Generative AI</div></div></div>
       </div>
     </div>
   </div>
