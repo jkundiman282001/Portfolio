@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
   <style>
-    /* ─── BASE RESETS ─────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -23,11 +22,10 @@
 
     body { background: var(--ink); color: var(--paper); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
 
-    /* ─── NAV ─────────────────────────────────────────────────── */
     .nav-links a.active { color: var(--acid); }
     .nav-links a.active::after { width: 100%; }
 
-    /* ─── HERO ────────────────────────────────────────────────── */
+    /* ── HERO ─────────────────────────────────────────────────── */
     .journey-hero {
       min-height: 100vh;
       display: flex;
@@ -40,8 +38,6 @@
       padding: 8rem 2rem 6rem;
       background: var(--ink);
     }
-
-    /* grid overlay */
     .journey-hero::before {
       content: '';
       position: absolute;
@@ -52,489 +48,245 @@
       background-size: 60px 60px;
       pointer-events: none;
     }
-
-    /* radial glow */
     .journey-hero::after {
       content: '';
       position: absolute;
-      width: 700px;
-      height: 700px;
+      width: 700px; height: 700px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(200,241,53,0.07) 0%, transparent 70%);
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -60%);
       pointer-events: none;
     }
 
     .hero-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 1.4rem;
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(14px);
+      font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--acid); margin-bottom: 1.4rem;
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateY(14px);
       animation: fadeUp 0.7s 0.2s forwards;
     }
-
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(5rem, 16vw, 11rem);
-      letter-spacing: 0.02em;
-      line-height: 0.88;
-      color: var(--paper);
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(20px);
+      letter-spacing: 0.02em; line-height: 0.88;
+      color: var(--paper); position: relative; z-index: 2;
+      opacity: 0; transform: translateY(20px);
       animation: fadeUp 0.8s 0.4s forwards;
     }
-
     .hero-title .accent { color: var(--acid); }
-
     .hero-sub {
-      margin-top: 1.8rem;
-      color: var(--muted);
-      line-height: 1.9;
-      max-width: 560px;
-      font-size: 0.97rem;
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(16px);
+      margin-top: 1.8rem; color: var(--muted); line-height: 1.9;
+      max-width: 540px; font-size: 0.97rem;
+      position: relative; z-index: 2;
+      opacity: 0; transform: translateY(16px);
       animation: fadeUp 0.8s 0.6s forwards;
     }
-
     .hero-scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
+      position: absolute; bottom: 2.5rem; left: 50%;
       transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      z-index: 2;
-      opacity: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      z-index: 2; opacity: 0;
       animation: fadeUp 0.8s 1s forwards;
     }
-
     .hero-scroll-hint span {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--muted);
+      font-family: 'DM Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
     }
-
     .scroll-line {
-      width: 1px;
-      height: 48px;
+      width: 1px; height: 48px;
       background: linear-gradient(to bottom, var(--acid), transparent);
       animation: scrollPulse 2s ease-in-out infinite;
     }
 
-    /* ─── STATS STRIP ─────────────────────────────────────────── */
+    /* ── STATS ────────────────────────────────────────────────── */
     .stats-strip {
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       background: rgba(8,10,18,0.9);
     }
-
     .stat-item {
-      padding: 2rem 2.5rem;
-      text-align: center;
+      padding: 2rem 2.5rem; text-align: center;
       border-right: 1px solid var(--border);
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 0; transform: translateY(20px);
       transition: background 0.3s;
     }
-
     .stat-item:last-child { border-right: none; }
     .stat-item:hover { background: rgba(200,241,53,0.03); }
-
     .stat-num {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      color: var(--acid);
-      line-height: 1;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      color: var(--acid); line-height: 1;
     }
-
     .stat-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 0.4rem;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--muted); margin-top: 0.4rem;
     }
 
-    /* ─── SECTION WRAPPER ─────────────────────────────────────── */
-    .section {
-      padding: 7rem 2rem;
-      max-width: 1060px;
-      margin: 0 auto;
-    }
-
+    /* ── SECTION ──────────────────────────────────────────────── */
+    .section { padding: 7rem 2rem; max-width: 1060px; margin: 0 auto; }
     .section-header {
-      margin-bottom: 4rem;
-      opacity: 0;
-      transform: translateY(24px);
+      margin-bottom: 4rem; opacity: 0; transform: translateY(24px);
       transition: opacity 0.7s, transform 0.7s;
     }
-
     .section-header.visible { opacity: 1; transform: none; }
-
     .section-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.8rem;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--acid); margin-bottom: 0.8rem;
     }
-
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2.6rem, 6vw, 4.5rem);
-      letter-spacing: 0.02em;
-      line-height: 0.92;
-      color: var(--paper);
+      letter-spacing: 0.02em; line-height: 0.92; color: var(--paper);
     }
 
-    /* ─── ORIGIN BLOCK ────────────────────────────────────────── */
+    /* ── ORIGIN ───────────────────────────────────────────────── */
     .origin-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      border: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; border: 1px solid var(--border);
     }
-
     .origin-text {
-      padding: 3rem;
-      background: var(--card-bg);
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 0.97rem;
-      opacity: 0;
-      transform: translateX(-20px);
+      padding: 3rem; background: var(--card-bg);
+      color: var(--muted); line-height: 1.9; font-size: 0.97rem;
+      opacity: 0; transform: translateX(-20px);
       transition: opacity 0.7s 0.1s, transform 0.7s 0.1s;
     }
-
     .origin-text.visible { opacity: 1; transform: none; }
-
     .origin-text p + p { margin-top: 1.2rem; }
-
     .origin-text strong { color: var(--paper); font-weight: 500; }
-
     .origin-highlight {
-      padding: 3rem;
-      background: rgba(200,241,53,0.04);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 2rem;
+      padding: 3rem; background: rgba(200,241,53,0.04);
+      display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;
       border-left: 1px solid var(--border);
-      opacity: 0;
-      transform: translateX(20px);
+      opacity: 0; transform: translateX(20px);
       transition: opacity 0.7s 0.2s, transform 0.7s 0.2s;
     }
-
     .origin-highlight.visible { opacity: 1; transform: none; }
-
     .pull-quote {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      line-height: 1.1;
-      color: var(--paper);
-      border-left: 2px solid var(--acid);
-      padding-left: 1.2rem;
+      font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.1;
+      color: var(--paper); border-left: 2px solid var(--acid); padding-left: 1.2rem;
     }
-
     .trait-list { display: flex; flex-direction: column; gap: 0.6rem; }
-
     .trait-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.88rem;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
+      display: flex; align-items: center; gap: 0.8rem;
+      font-size: 0.88rem; color: var(--muted); font-family: 'DM Mono', monospace;
     }
+    .trait-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--acid); flex-shrink: 0; }
 
-    .trait-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--acid);
-      flex-shrink: 0;
-    }
-
-    /* ─── TIMELINE ────────────────────────────────────────────── */
-    .timeline-wrap {
-      position: relative;
-      padding-left: 2rem;
-    }
-
-    /* vertical line */
+    /* ── TIMELINE ─────────────────────────────────────────────── */
+    .timeline-wrap { position: relative; padding-left: 2rem; }
     .timeline-wrap::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1px;
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
       background: linear-gradient(to bottom, var(--acid), rgba(200,241,53,0.05));
     }
-
     .tl-item {
-      position: relative;
-      padding: 0 0 3.5rem 2.5rem;
-      opacity: 0;
-      transform: translateX(-16px);
+      position: relative; padding: 0 0 3.5rem 2.5rem;
+      opacity: 0; transform: translateX(-16px);
       transition: opacity 0.6s, transform 0.6s;
     }
-
     .tl-item.visible { opacity: 1; transform: none; }
-
     .tl-item::before {
-      content: '';
-      position: absolute;
-      left: -4px;
-      top: 6px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--acid);
-      box-shadow: 0 0 0 3px rgba(200,241,53,0.15);
+      content: ''; position: absolute; left: -4px; top: 6px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--acid); box-shadow: 0 0 0 3px rgba(200,241,53,0.15);
       transition: box-shadow 0.3s;
     }
-
-    .tl-item:hover::before {
-      box-shadow: 0 0 0 6px rgba(200,241,53,0.2);
-    }
-
+    .tl-item:hover::before { box-shadow: 0 0 0 6px rgba(200,241,53,0.2); }
     .tl-year {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.5rem;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--acid); margin-bottom: 0.5rem;
     }
-
     .tl-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.7rem;
-      letter-spacing: 0.03em;
-      color: var(--paper);
-      margin-bottom: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.7rem;
+      letter-spacing: 0.03em; color: var(--paper); margin-bottom: 0.5rem;
     }
-
-    .tl-body {
-      color: var(--muted);
-      font-size: 0.93rem;
-      line-height: 1.85;
-      max-width: 580px;
-    }
-
-    .tl-tags {
-      margin-top: 0.9rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
+    .tl-body { color: var(--muted); font-size: 0.93rem; line-height: 1.85; max-width: 620px; }
+    .tl-tags { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .tl-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--acid);
-      border: 1px solid rgba(200,241,53,0.25);
-      padding: 0.25rem 0.65rem;
-      border-radius: 2px;
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--acid); border: 1px solid rgba(200,241,53,0.25);
+      padding: 0.25rem 0.65rem; border-radius: 2px;
     }
 
-    /* ─── SKILLS GRID ─────────────────────────────────────────── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1px;
-      border: 1px solid var(--border);
-      background: var(--border);
-    }
-
-    .skill-card {
-      background: var(--card-bg);
-      padding: 2rem 2rem 2rem;
-      transition: background 0.3s;
-      cursor: default;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.5s, transform 0.5s, background 0.3s;
-    }
-
-    .skill-card.visible { opacity: 1; transform: none; }
-    .skill-card:hover { background: rgba(200,241,53,0.04); }
-
-    .skill-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .skill-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.5rem;
-    }
-
-    .skill-desc {
-      font-size: 0.88rem;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .skill-bar-wrap {
-      margin-top: 1.2rem;
-      height: 2px;
-      background: rgba(200,241,53,0.1);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .skill-bar {
-      height: 100%;
-      background: var(--acid);
-      width: 0;
-      border-radius: 2px;
-      transition: width 1s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    /* ─── PHILOSOPHY ──────────────────────────────────────────── */
+    /* ── PHILOSOPHY / GOAL ────────────────────────────────────── */
     .philosophy-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      border: 1px solid var(--border);
-      background: var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2px; border: 1px solid var(--border); background: var(--border);
     }
-
     .phil-item {
-      background: var(--card-bg);
-      padding: 2.5rem;
-      opacity: 0;
-      transform: translateY(20px);
+      background: var(--card-bg); padding: 2.5rem;
+      opacity: 0; transform: translateY(20px);
       transition: opacity 0.6s, transform 0.6s, background 0.3s;
     }
-
     .phil-item:hover { background: rgba(200,241,53,0.03); }
     .phil-item.visible { opacity: 1; transform: none; }
-
     .phil-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem;
-      color: rgba(200,241,53,0.12);
-      line-height: 1;
-      margin-bottom: 0.5rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
+      color: rgba(200,241,53,0.12); line-height: 1; margin-bottom: 0.5rem;
     }
-
     .phil-title {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.7rem;
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--acid); margin-bottom: 0.7rem;
     }
+    .phil-body { font-size: 0.93rem; color: var(--muted); line-height: 1.85; }
 
-    .phil-body {
-      font-size: 0.93rem;
-      color: var(--muted);
-      line-height: 1.85;
-    }
-
-    /* ─── CTA STRIP ───────────────────────────────────────────── */
+    /* ── CTA ──────────────────────────────────────────────────── */
     .cta-strip {
-      padding: 6rem 2rem;
-      text-align: center;
+      padding: 6rem 2rem; text-align: center;
       background: rgba(8,10,18,0.96);
       border-top: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
     .cta-strip::before {
-      content: '';
-      position: absolute;
-      inset: 0;
+      content: ''; position: absolute; inset: 0;
       background-image:
         linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
       background-size: 60px 60px;
     }
-
     .cta-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
-
     .cta-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2.8rem, 7vw, 5rem);
-      line-height: 0.92;
-      color: var(--paper);
-      margin-bottom: 1.2rem;
+      line-height: 0.92; color: var(--paper); margin-bottom: 1.2rem;
     }
-
     .cta-title .accent { color: var(--acid); }
-
     .cta-body { color: var(--muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 2.5rem; }
-
     .cta-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      background: var(--acid);
-      color: var(--ink);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 0.95rem 2rem;
-      border: none;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      background: var(--acid); color: var(--ink);
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.95rem 2rem; border: none; cursor: pointer;
       text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
     }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,241,53,0.25); }
 
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(200,241,53,0.25);
-    }
-
-    /* ─── ANIMATIONS ──────────────────────────────────────────── */
-    @keyframes fadeUp {
-      to { opacity: 1; transform: none; }
-    }
-
+    /* ── KEYFRAMES ────────────────────────────────────────────── */
+    @keyframes fadeUp { to { opacity: 1; transform: none; } }
     @keyframes scrollPulse {
       0%,100% { opacity: 0.4; transform: scaleY(0.8); }
       50% { opacity: 1; transform: scaleY(1); }
     }
 
-    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
     @media (max-width: 760px) {
       .origin-grid { grid-template-columns: 1fr; }
       .origin-highlight { border-left: none; border-top: 1px solid var(--border); }
-      .stats-strip { grid-template-columns: 1fr; }
-      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+      .stat-item:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
       .philosophy-grid { grid-template-columns: 1fr; }
       .timeline-wrap { padding-left: 1.2rem; }
       .tl-item { padding-left: 1.8rem; }
@@ -549,7 +301,6 @@
   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
 </button>
 
-<!-- NAV -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">JK<span>.</span></a>
   <ul class="nav-links">
@@ -566,119 +317,131 @@
 
 <!-- ═══ HERO ═══════════════════════════════════════════════════ -->
 <section class="journey-hero">
-  <div class="hero-label">More / 01 — The Journey</div>
+  <div class="hero-label">More / 01 — My Story</div>
   <h1 class="hero-title">My<br><span class="accent">Journey</span></h1>
-  <p class="hero-sub">From curiosity to craft. A look into the path that shaped who I am as a developer, designer, and problem solver.</p>
+  <p class="hero-sub">Games sparked the curiosity. Code became the craft. Here's the story of how a gamer became a developer — one line at a time.</p>
   <div class="hero-scroll-hint">
     <span>Scroll</span>
     <div class="scroll-line"></div>
   </div>
 </section>
 
-<!-- ═══ STATS STRIP ══════════════════════════════════════════════ -->
+<!-- ═══ STATS STRIP ══════════════════════════════════════════ -->
 <div class="stats-strip">
   <div class="stat-item" data-reveal>
+    <div class="stat-num" data-count="4">0</div>
+    <div class="stat-label">Years Coding</div>
+  </div>
+  <div class="stat-item" data-reveal>
     <div class="stat-num" data-count="3">0</div>
-    <div class="stat-label">Years in Tech</div>
+    <div class="stat-label">Hackathon / Convention</div>
   </div>
   <div class="stat-item" data-reveal>
-    <div class="stat-num" data-count="20">0</div>
-    <div class="stat-label">Projects Shipped</div>
+    <div class="stat-num" data-count="1">0</div>
+    <div class="stat-label">Org Presidency</div>
   </div>
   <div class="stat-item" data-reveal>
-    <div class="stat-num" data-count="8">0</div>
-    <div class="stat-label">Technologies Mastered</div>
+    <div class="stat-num" data-count="1">0</div>
+    <div class="stat-label">Capstone for IPs</div>
   </div>
 </div>
 
-<!-- ═══ ORIGIN ═══════════════════════════════════════════════════ -->
+<!-- ═══ ORIGIN ═════════════════════════════════════════════════ -->
 <div style="background: var(--ink); border-bottom: 1px solid var(--border);">
   <div class="section">
     <div class="section-header" data-reveal>
-      <div class="section-eyebrow">Chapter 01</div>
-      <div class="section-title">Where It<br>All Began</div>
+      <div class="section-eyebrow">Chapter 00</div>
+      <div class="section-title">It Started<br>With Games</div>
     </div>
     <div class="origin-grid">
       <div class="origin-text" data-reveal>
-        <p>Growing up in the Philippines, I was drawn to computers long before I understood what they were truly capable of. There was something magnetic about the idea that a blank screen could become anything — a game, a tool, a story, a business.</p>
-        <p>I started tinkering with design first. <strong>Layouts, colors, typography</strong> — the visual logic of things. Then code found me, and everything clicked. The ability to make something <em>real</em> from nothing but logic and intention felt like a superpower.</p>
-        <p>That feeling hasn't left me. It's the reason I build the way I do — with both <strong>aesthetic precision</strong> and technical depth, treating every project as a chance to do something that actually matters.</p>
+        <p>All my life has been about games — and games, and games. I've been deeply into video games since childhood. Playing all day and all-nighters with friends, getting lost in other worlds, obsessing over mechanics and design.</p>
+        <p>Curiosity about <strong>game development</strong> hit me in the summer of 2021. I had always dreamed of making my own cool game — and that dream is what pulled me into coding. I researched the process, the tools, the languages. That was my first day of coding.</p>
+        <p>I knew one truth immediately: <strong>I can't make a game if I can't even code.</strong> So I started there.</p>
       </div>
       <div class="origin-highlight" data-reveal>
-        <div class="pull-quote">"Make it work. Make it beautiful. Make it matter."</div>
+        <div class="pull-quote">"I can't make a game if I can't even code. So I learned to code."</div>
         <div class="trait-list">
-          <div class="trait-item"><div class="trait-dot"></div>Self-taught foundation, constantly expanding</div>
+          <div class="trait-item"><div class="trait-dot"></div>Lifelong gamer, motivated by creation</div>
+          <div class="trait-item"><div class="trait-dot"></div>Self-taught before college even started</div>
           <div class="trait-item"><div class="trait-dot"></div>Davao City, Philippines based</div>
-          <div class="trait-item"><div class="trait-dot"></div>Design-first, code-second thinking</div>
-          <div class="trait-item"><div class="trait-dot"></div>Open to remote & global opportunities</div>
-          <div class="trait-item"><div class="trait-dot"></div>Driven by craft, not just output</div>
+          <div class="trait-item"><div class="trait-dot"></div>PSITS President, community leader</div>
+          <div class="trait-item"><div class="trait-dot"></div>Currently interning at Infosoft, Matina</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ TIMELINE ══════════════════════════════════════════════════ -->
+<!-- ═══ TIMELINE ═══════════════════════════════════════════════ -->
 <div style="background: rgba(4,4,10,0.97); border-bottom: 1px solid var(--border);">
   <div class="section">
     <div class="section-header" data-reveal>
-      <div class="section-eyebrow">Chapter 02</div>
-      <div class="section-title">Milestones &<br>Moments</div>
+      <div class="section-eyebrow">Chapter 01 – 05</div>
+      <div class="section-title">The Timeline</div>
     </div>
     <div class="timeline-wrap">
 
       <div class="tl-item" data-reveal>
-        <div class="tl-year">2021 — Start</div>
+        <div class="tl-year">Summer 2021 — Day One</div>
         <div class="tl-title">First Line of Code</div>
-        <div class="tl-body">Opened a YouTube tutorial, typed "Hello World," and felt something shift. HTML and CSS became an obsession almost overnight — rebuilding sites I liked from scratch just to understand how they worked.</div>
+        <div class="tl-body">I spent that entire summer studying Java, Python, and a bit of C++. I also got my hands on the Unity Game Engine, which was genuinely exciting. I loved how the internet rewards learning — those certificates and digital badges from study platforms kept me going. Getting them felt like leveling up for real.</div>
         <div class="tl-tags">
-          <span class="tl-tag">HTML</span>
-          <span class="tl-tag">CSS</span>
-          <span class="tl-tag">Self-taught</span>
+          <span class="tl-tag">Java</span>
+          <span class="tl-tag">Python</span>
+          <span class="tl-tag">C++</span>
+          <span class="tl-tag">Unity</span>
+          <span class="tl-tag">Self-Taught</span>
         </div>
       </div>
 
       <div class="tl-item" data-reveal>
-        <div class="tl-year">2022 — Growth</div>
-        <div class="tl-title">Into JavaScript & Design Systems</div>
-        <div class="tl-body">JavaScript unlocked interactivity. I started building small tools, animated interfaces, and diving into design principles — typography, grids, color theory. This was when design and development merged for me into a single discipline.</div>
+        <div class="tl-year">2023 — 1st Year I.T Student</div>
+        <div class="tl-title">College, Hackathons & a Receipt System</div>
+        <div class="tl-body">Starting college as an I.T student, I wasn't overwhelmed — I'd already studied coding through summer. That head start let me help my colleagues with their assignments too. I built a receipt system in Java as a class project, then joined a university hackathon and placed <strong style="color:var(--paper)">3rd</strong>. Competing with the brightest programmers there was a thrill, even if it was my first time on that stage.</div>
         <div class="tl-tags">
-          <span class="tl-tag">JavaScript</span>
-          <span class="tl-tag">UI Design</span>
-          <span class="tl-tag">Figma</span>
+          <span class="tl-tag">Java</span>
+          <span class="tl-tag">Hackathon 3rd Place</span>
+          <span class="tl-tag">I.T Student</span>
         </div>
       </div>
 
       <div class="tl-item" data-reveal>
-        <div class="tl-year">2023 — Momentum</div>
-        <div class="tl-title">First Real Projects & React</div>
-        <div class="tl-body">Started building for real clients and personal projects that shipped. Picked up React and modern tooling. Began to understand the difference between code that works and code that <em>lasts</em>.</div>
+        <div class="tl-year">2024 — 2nd Year</div>
+        <div class="tl-title">Design, Mobile Dev & Attendify</div>
+        <div class="tl-body">This was the year of design. I made my first portfolio layouts, résumés, and UI mockups for various systems. Then we dove into mobile app development — I built <strong style="color:var(--paper)">Attendify</strong>, an attendance QR checker system, entirely on my own. It used APIs and Firebase as the database. I pitched it at CodeCraft, a campus mobile app convention, and it landed well with my colleagues and professors. I also visited tech companies in Cebu on an educational tour, and it genuinely shifted my perspective on this industry.</div>
         <div class="tl-tags">
-          <span class="tl-tag">React</span>
-          <span class="tl-tag">Node.js</span>
-          <span class="tl-tag">Client Work</span>
+          <span class="tl-tag">UI/UX Design</span>
+          <span class="tl-tag">Mobile Dev</span>
+          <span class="tl-tag">Firebase</span>
+          <span class="tl-tag">APIs</span>
+          <span class="tl-tag">CodeCraft Pitch</span>
+          <span class="tl-tag">Cebu Tech Tour</span>
         </div>
       </div>
 
       <div class="tl-item" data-reveal>
-        <div class="tl-year">2024 — Depth</div>
-        <div class="tl-title">Full-Stack & Product Thinking</div>
-        <div class="tl-body">Expanded into backend, databases, and APIs. Started thinking less about features and more about products — user flows, business logic, the whole picture. Built systems that others actually use daily.</div>
+        <div class="tl-year">2025 — 3rd Year</div>
+        <div class="tl-title">PSITS President, Laravel & the Capstone</div>
+        <div class="tl-body">I became President of PSITS — the Philippine Society of Information Technology Students. Being surrounded by talented I.T people, competing in games, sports, and mind challenges, sharpened my leadership and people skills. A colleague introduced me to <strong style="color:var(--paper)">Laravel</strong>, and web development became my main focus. Then in summer, I started our capstone: <strong style="color:var(--paper)">NCIP-EAP</strong> — an educational assistance portal for Indigenous People students in Davao del Sur. It lets scholars track their status digitally, solving real problems: missing files, drenched documents, zero notifications. A system that actually matters to real people.</div>
         <div class="tl-tags">
-          <span class="tl-tag">Full-Stack</span>
-          <span class="tl-tag">Databases</span>
-          <span class="tl-tag">REST APIs</span>
+          <span class="tl-tag">Laravel</span>
+          <span class="tl-tag">Web Systems</span>
+          <span class="tl-tag">PSITS President</span>
+          <span class="tl-tag">NCIP-EAP Capstone</span>
+          <span class="tl-tag">Leadership</span>
         </div>
       </div>
 
       <div class="tl-item" data-reveal>
-        <div class="tl-year">2025 — Now</div>
-        <div class="tl-title">Refining the Craft</div>
-        <div class="tl-body">Focused on production-quality work — performance, accessibility, and the kind of polish that separates good from memorable. Open to collaborations and opportunities that push me further.</div>
+        <div class="tl-year">Present Day</div>
+        <div class="tl-title">Internship at Infosoft</div>
+        <div class="tl-body">Right now I'm doing my internship at <strong style="color:var(--paper)">Infosoft</strong> in Matina, Davao City — putting everything I've learned into a real professional environment, building real things for real clients. The loop continues.</div>
         <div class="tl-tags">
-          <span class="tl-tag">Open to Work</span>
-          <span class="tl-tag">Collaboration</span>
-          <span class="tl-tag">Growth</span>
+          <span class="tl-tag">Infosoft</span>
+          <span class="tl-tag">Internship</span>
+          <span class="tl-tag">Matina, Davao</span>
+          <span class="tl-tag">Active</span>
         </div>
       </div>
 
@@ -686,96 +449,47 @@
   </div>
 </div>
 
-<!-- ═══ SKILLS ════════════════════════════════════════════════════ -->
+<!-- ═══ GOALS / PHILOSOPHY ═════════════════════════════════════ -->
 <div style="background: var(--ink); border-bottom: 1px solid var(--border);">
   <div class="section">
     <div class="section-header" data-reveal>
-      <div class="section-eyebrow">Chapter 03</div>
-      <div class="section-title">Tools of<br>the Trade</div>
-    </div>
-    <div class="skills-grid">
-      <div class="skill-card" data-reveal data-delay="0">
-        <div class="skill-icon">⬡</div>
-        <div class="skill-name">Frontend</div>
-        <div class="skill-desc">React, HTML/CSS, JavaScript — building interfaces that feel alive.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="90"></div></div>
-      </div>
-      <div class="skill-card" data-reveal data-delay="1">
-        <div class="skill-icon">◈</div>
-        <div class="skill-name">Design</div>
-        <div class="skill-desc">Figma, typography, layout systems — aesthetics with intention.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="85"></div></div>
-      </div>
-      <div class="skill-card" data-reveal data-delay="2">
-        <div class="skill-icon">⬡</div>
-        <div class="skill-name">Backend</div>
-        <div class="skill-desc">Node.js, REST APIs, server logic — the machinery under the hood.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="72"></div></div>
-      </div>
-      <div class="skill-card" data-reveal data-delay="3">
-        <div class="skill-icon">◈</div>
-        <div class="skill-name">Databases</div>
-        <div class="skill-desc">SQL, NoSQL, data modeling — structured thinking applied to data.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="68"></div></div>
-      </div>
-      <div class="skill-card" data-reveal data-delay="4">
-        <div class="skill-icon">⬡</div>
-        <div class="skill-name">Tooling</div>
-        <div class="skill-desc">Git, Vite, npm — the workflow that keeps everything moving cleanly.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="80"></div></div>
-      </div>
-      <div class="skill-card" data-reveal data-delay="5">
-        <div class="skill-icon">◈</div>
-        <div class="skill-name">Problem Solving</div>
-        <div class="skill-desc">Systems thinking, debugging, pattern recognition — the meta-skill.</div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="88"></div></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ PHILOSOPHY ════════════════════════════════════════════════ -->
-<div style="background: rgba(4,4,10,0.97); border-bottom: 1px solid var(--border);">
-  <div class="section">
-    <div class="section-header" data-reveal>
-      <div class="section-eyebrow">Chapter 04</div>
-      <div class="section-title">How I<br>Think</div>
+      <div class="section-eyebrow">What's Next</div>
+      <div class="section-title">Goals &<br>Direction</div>
     </div>
     <div class="philosophy-grid">
       <div class="phil-item" data-reveal data-delay="0">
         <div class="phil-num">01</div>
-        <div class="phil-title">Craft Over Speed</div>
-        <div class="phil-body">Fast shipping matters, but not at the cost of quality that embarrasses you later. I'd rather take the extra hour to make it right than spend a week undoing it.</div>
+        <div class="phil-title">More Languages, More Power</div>
+        <div class="phil-body">The plan is to keep expanding my programming toolkit — learning more languages so I can implement them with any project I have in mind and meet the demands of bigger companies and teams.</div>
       </div>
       <div class="phil-item" data-reveal data-delay="1">
         <div class="phil-num">02</div>
-        <div class="phil-title">Empathy as UX</div>
-        <div class="phil-body">Great interfaces come from genuinely caring about the person on the other end. Every decision — font size, hover state, error message — is a conversation with a human.</div>
+        <div class="phil-title">Build My Own Game</div>
+        <div class="phil-body">The dream that started it all. Step by step — learning game development properly, from design and assets to backend and everything in between. One day, a game that's entirely mine.</div>
       </div>
       <div class="phil-item" data-reveal data-delay="2">
         <div class="phil-num">03</div>
-        <div class="phil-title">Never Stop Unlearning</div>
-        <div class="phil-body">The best developers I know hold their opinions loosely. The field evolves. What made sense two years ago might be tech debt today. Stay curious, stay humble.</div>
+        <div class="phil-title">Build Things That Matter</div>
+        <div class="phil-body">NCIP-EAP showed me that code can solve real, painful problems for real people. That's the standard I hold myself to — not just shipping features, but making a difference.</div>
       </div>
       <div class="phil-item" data-reveal data-delay="3">
         <div class="phil-num">04</div>
-        <div class="phil-title">Build With Purpose</div>
-        <div class="phil-body">Code without context is just noise. I want to work on things that solve actual problems — for real people, in real situations, with outcomes that outlast the sprint.</div>
+        <div class="phil-title">Never Stop Playing</div>
+        <div class="phil-body">Games taught me systems thinking, patience, iteration, and the obsession needed to master something. Those lessons didn't stay in the game — they came with me into every line of code.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ CTA ═══════════════════════════════════════════════════════ -->
+<!-- ═══ CTA ════════════════════════════════════════════════════ -->
 <div class="cta-strip">
   <div class="cta-inner">
-    <div class="cta-title">Let's Build<br>Something <span class="accent">Real.</span></div>
-    <p class="cta-body">The journey's ongoing — and I'm always looking for work that pushes me further. If you've got something worth building, let's talk.</p>
+    <div class="cta-title">The Story<br>Isn't Over <span class="accent">Yet.</span></div>
+    <p class="cta-body">Every chapter's been a level-up. If you want to build something worth adding to the story — let's connect.</p>
     <a href="index.html#contact" class="cta-btn">Get in Touch →</a>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="foot-brand">JK<span>.</span></div>
   <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
@@ -784,56 +498,35 @@
 
 <script src="assets/js/script.js"></script>
 <script>
-  /* ─── INTERSECTION OBSERVER: REVEAL ─────────────────────── */
+  /* ── SCROLL REVEAL ─────────────────────────────────────────── */
   const revealEls = document.querySelectorAll('[data-reveal]');
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const el = entry.target;
-      const delay = el.dataset.delay ? el.dataset.delay * 120 : 0;
-
+      const delay = el.dataset.delay ? el.dataset.delay * 130 : 0;
       setTimeout(() => {
         el.classList.add('visible');
-
-        /* animate count-up numbers */
+        /* count-up */
         const countEl = el.querySelector('[data-count]');
         if (countEl) {
           const target = +countEl.dataset.count;
           let start = 0;
-          const dur = 1200;
-          const step = (timestamp) => {
-            if (!step.start) step.start = timestamp;
-            const prog = Math.min((timestamp - step.start) / dur, 1);
-            countEl.textContent = Math.floor(prog * target);
-            if (prog < 1) requestAnimationFrame(step);
+          const dur = 1000;
+          const step = (ts) => {
+            if (!step.s) step.s = ts;
+            const p = Math.min((ts - step.s) / dur, 1);
+            countEl.textContent = Math.floor(p * target);
+            if (p < 1) requestAnimationFrame(step);
             else countEl.textContent = target;
           };
           requestAnimationFrame(step);
         }
-
-        /* animate skill bars */
-        const bar = el.querySelector('.skill-bar');
-        if (bar) {
-          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 200);
-        }
-
       }, delay);
-
       observer.unobserve(el);
     });
   }, { threshold: 0.15 });
-
   revealEls.forEach(el => observer.observe(el));
-
-  /* ─── PARALLAX HERO GLOW ─────────────────────────────────── */
-  const hero = document.querySelector('.journey-hero');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (hero && y < window.innerHeight) {
-      hero.style.backgroundPositionY = y * 0.3 + 'px';
-    }
-  }, { passive: true });
 </script>
 </body>
 </html>
