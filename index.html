@@ -1238,16 +1238,17 @@
             <div>
               <img src="assets/images/certifications/coursera.png" alt="Coursera" class="cert-slide-org-logo">
               <div class="cert-slide-org-name">Coursera</div>
-              <div class="cert-slide-org-count">3 Certifications</div>
+              <div class="cert-slide-org-count">4 Certifications</div>
               <ul class="cert-slide-list">
                 <li>Foundations: Data, Data, Everywhere</li>
                 <li>Foundations of User Experience (UX) Design</li>
                 <li>Introduction to Game Design</li>
+                <li>Introduction to Web Development with HTML, CSS, JavaScript</li>
               </ul>
             </div>
             <button class="cert-slide-cta" onclick="openModal('courseraModal')">View All Credentials →</button>
           </div>
-          <div class="cert-slide-gallery few-certs">
+          <div class="cert-slide-gallery">
             <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/5.png')">
               <img src="assets/images/certifications/5.png" alt="Foundations: Data, Data, Everywhere">
               <div class="cert-thumb-overlay"><span>View</span></div>
@@ -1258,6 +1259,10 @@
             </div>
             <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/18.png')">
               <img src="assets/images/certifications/18.png" alt="Introduction to Game Design">
+              <div class="cert-thumb-overlay"><span>View</span></div>
+            </div>
+            <div class="cert-thumb" onclick="viewCertificate('assets/images/certifications/24.png')">
+              <img src="assets/images/certifications/24.png" alt="Introduction to Web Development with HTML, CSS, JavaScript">
               <div class="cert-thumb-overlay"><span>View</span></div>
             </div>
           </div>
@@ -1423,6 +1428,18 @@
         <div class="badge-item-face">
           <div class="badge-item-glow"></div>
           <img src="assets/images/certifications/generative ai.png" alt="Generative AI Fundamentals Badge">
+          <div class="badge-item-shine"></div>
+        </div>
+      </div>
+
+      <div class="badge-item" data-index="6"
+           data-title="Web Development with HTML, CSS, JavaScript Essentials"
+           data-type="Digital Badge · Web Development"
+           data-issuer="IBM"
+           data-img="assets/images/certifications/web_dev.png">
+        <div class="badge-item-face">
+          <div class="badge-item-glow"></div>
+          <img src="assets/images/certifications/web_dev.png" alt="Web Development with HTML, CSS, JavaScript Essentials Badge">
           <div class="badge-item-shine"></div>
         </div>
       </div>
@@ -2009,6 +2026,13 @@
       type: 'Digital Badge · AI',
       issuer: 'Databricks',
       issuerLogo: 'assets/images/certifications/generative ai.png'
+    },
+    {
+      img: 'assets/images/certifications/web_dev.png',
+      title: 'Web Development with HTML, CSS, JavaScript Essentials',
+      type: 'Digital Badge · Web Development',
+      issuer: 'IBM',
+      issuerLogo: 'assets/images/certifications/web_dev.png'
     }
   ];
 
@@ -2393,7 +2417,7 @@
 <div class="modal" id="courseraModal">
   <div class="modal-inner">
     <div class="modal-header">
-      <div><div class="modal-sub">Coursera</div><div class="modal-title">3 Certifications</div></div>
+      <div><div class="modal-sub">Coursera</div><div class="modal-title">4 Certifications</div></div>
       <button class="modal-close" onclick="closeModal('courseraModal')">✕</button>
     </div>
     <div class="modal-body">
@@ -2401,10 +2425,11 @@
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/5.png')"><img src="assets/images/certifications/5.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations: Data, Data, Everywhere</div><div class="cert-card-type">Data Analytics</div></div></div>
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/6.png')"><img src="assets/images/certifications/6.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Foundations of User Experience (UX) Design</div><div class="cert-card-type">UX Design</div></div></div>
         <div class="cert-card" onclick="viewCertificate('assets/images/certifications/18.png')"><img src="assets/images/certifications/18.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to Game Design</div><div class="cert-card-type">Game Design</div></div></div>
-      </div>
+        <div class="cert-card" onclick="viewCertificate('assets/images/certifications/24.png')"><img src="assets/images/certifications/24.png" alt="Cert"><div class="cert-card-info"><div class="cert-card-name">Introduction to Web Development with HTML, CSS, JavaScript</div><div class="cert-card-type">Web Development</div></div></div>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <!-- AWS -->
