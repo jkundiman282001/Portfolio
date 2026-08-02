@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NCIP-EAP — Project Case Study | Japhet Kundiman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #04040a; color: #f0ede6; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* ── CASE STUDY HERO ─────────────────────────────────────── */
+    .case-hero {
+      padding: 9rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #04040a 0%, #080a12 100%);
+      border-bottom: 1px solid rgba(200,241,53,0.1);
+    }
+    .case-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .case-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--acid);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: transform 0.2s ease;
+    }
+    .back-btn:hover { transform: translateX(-4px); }
+    
+    .case-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 0.8rem;
+    }
+    .case-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+    .case-tagline {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: rgba(240,237,230,0.8);
+      line-height: 1.6;
+      max-width: 800px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── META SPECS GRID ─────────────────────────────────────── */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(200,241,53,0.12);
+      border-radius: 16px;
+      padding: 1.8rem 2.2rem;
+      margin-bottom: 4rem;
+    }
+    .spec-item-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.8);
+      margin-bottom: 0.4rem;
+    }
+    .spec-item-value {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--paper);
+    }
+
+    /* ── MAIN IMAGE SHOWCASE ────────────────────────────────── */
+    .showcase-banner {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(200,241,53,0.2);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(200,241,53,0.08);
+      background: #000;
+    }
+    .showcase-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── CONTENT SECTIONS ────────────────────────────────────── */
+    .case-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem 8rem;
+    }
+    .section-block {
+      margin-bottom: 5rem;
+    }
+    .block-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 0.8rem;
+    }
+    .block-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: 0.02em;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+    .block-text {
+      color: rgba(240,237,230,0.78);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      max-width: 880px;
+    }
+
+    /* ── MODULES & FEATURES GRID ────────────────────────────── */
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .feature-card {
+      background: rgba(8,10,18,0.85);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: rgba(200,241,53,0.3);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .feature-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+      color: var(--paper);
+      margin-bottom: 0.6rem;
+    }
+    .feature-desc {
+      color: rgba(240,237,230,0.68);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ── TECH STACK TABLE ────────────────────────────────────── */
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(8,10,18,0.85);
+      border: 1px solid rgba(200,241,53,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .tech-table th, .tech-table td {
+      padding: 1.2rem 1.8rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .tech-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--acid);
+      background: rgba(200,241,53,0.04);
+    }
+    .tech-table td {
+      font-size: 0.95rem;
+      color: rgba(240,237,230,0.82);
+    }
+    .tech-table tr:last-child td { border-bottom: none; }
+
+    /* ── CASE FOOTER NAV ─────────────────────────────────────── */
+    .case-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(200,241,53,0.15);
+      margin-top: 6rem;
+    }
+    .case-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--acid);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .case-nav-link:hover {
+      color: var(--paper);
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html" class="active">Projects</a></li>
+    <li><a href="../more.html">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+</nav>
+
+<!-- CASE STUDY HERO -->
+<section class="case-hero">
+  <div class="case-hero-inner">
+    <a href="../projects.html" class="back-btn">← Back to Projects Hub</a>
+    <div class="case-category">Case Study 03 // Government Scholar Management Portal</div>
+    <h1 class="case-title">NCIP-EAP</h1>
+    <p class="case-tagline">An end-to-end scholarship management portal built for the National Commission on Indigenous Peoples — streamlining applicant filing, document verification, and educational grant disbursements.</p>
+
+    <!-- METADATA SPECS GRID -->
+    <div class="specs-grid">
+      <div>
+        <div class="spec-item-label">Role</div>
+        <div class="spec-item-value">Full-Stack Web Developer</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Category</div>
+        <div class="spec-item-value">Government Portal & Scholar Management</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Tech Stack</div>
+        <div class="spec-item-value">PHP, MySQL, Web Portal, Document Management</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Deployment</div>
+        <div class="spec-item-value">Portal Web Application</div>
+      </div>
+    </div>
+
+    <!-- MAIN SHOWCASE BANNER -->
+    <div class="showcase-banner">
+      <img src="../assets/images/projects/Ncip.png" alt="NCIP-EAP Banner">
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY BODY -->
+<main class="case-body">
+
+  <!-- OVERVIEW & CHALLENGE -->
+  <section class="section-block">
+    <div class="block-label">// Executive Summary</div>
+    <h2 class="block-title">The Challenge & Vision</h2>
+    <div class="block-text">
+      <p>The Educational Assistance Program (EAP) under the National Commission on Indigenous Peoples (NCIP) provides critical financial aid to students belonging to Indigenous Cultural Communities (ICCs/IPs). Processing applications manually involved mountain loads of physical paperwork across distant regional offices, resulting in delayed evaluations and disbursement backlogs.</p>
+      <br>
+      <p><strong>NCIP-EAP</strong> was developed to digitize and centralize the entire scholarship workflow. Applicants can submit forms and requirement documents online, while regional administrators gain real-time tools to audit documents, verify tribal memberships, and disburse grants accurately.</p>
+    </div>
+  </section>
+
+  <!-- KEY MODULES & CAPABILITIES -->
+  <section class="section-block">
+    <div class="block-label">// System Modules</div>
+    <h2 class="block-title">Core Capabilities & Portal Architecture</h2>
+    <div class="features-container">
+      
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3 class="feature-name">Online Scholar Application</h3>
+        <p class="feature-desc">Accessible application portal for IP scholars with step-by-step guidance and real-time status tracking throughout evaluation phases.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📁</div>
+        <h3 class="feature-name">Document Audit & Verification</h3>
+        <p class="feature-desc">Secure digital submission and audit trail for grade slips, Certificate of Tribal Membership (CTM), and school registration proofs.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3 class="feature-name">Central Admin Dashboard</h3>
+        <p class="feature-desc">Multi-region management portal enabling officers to process applications, review qualifications, and audit scholar records efficiently.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💸</div>
+        <h3 class="feature-name">Grant Disbursement Tracker</h3>
+        <p class="feature-desc">Financial ledger module tracking scholarship fund releases, term disbursements, and payout verification across regional branches.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3 class="feature-name">Status Tracking & Alerts</h3>
+        <p class="feature-desc">Automated application feedback keeping applicants and regional handlers synced on missing requirements and grant releases.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-name">Multi-Region Reporting</h3>
+        <p class="feature-desc">Automated reporting tools generating demographic distributions, scholar retention metrics, and annual funding reports for government oversight.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECHNICAL STACK BREAKDOWN -->
+  <section class="section-block">
+    <div class="block-label">// Engineering</div>
+    <h2 class="block-title">Technology Stack</h2>
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology Used</th>
+          <th>Description & Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Backend Core</strong></td>
+          <td>PHP 8.x</td>
+          <td>Server-side validation, document upload handling, and status workflow transitions.</td>
+        </tr>
+        <tr>
+          <td><strong>Database Layer</strong></td>
+          <td>MySQL</td>
+          <td>Relational storage for applicant profiles, tribal certification logs, regional quotas, and financial transactions.</td>
+        </tr>
+        <tr>
+          <td><strong>Document Security</strong></td>
+          <td>File Encryption & Access Controls</td>
+          <td>Ensures uploaded sensitive documents (grade slips, tribal certs) are only accessible by authorized evaluators.</td>
+        </tr>
+        <tr>
+          <td><strong>UI & Frontend</strong></td>
+          <td>HTML5, CSS3, JavaScript</td>
+          <td>Clean, accessible web interface optimized for low-bandwidth connections in remote provinces.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="case-nav">
+    <a href="attendify.html" class="case-nav-link">← Previous: Attendify</a>
+    <a href="../projects.html" class="case-nav-link">Back to All Projects →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>

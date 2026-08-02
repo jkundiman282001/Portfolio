@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UM Org Connect — Project Case Study | Japhet Kundiman</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #04040a; color: #f0ede6; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* ── CASE STUDY HERO ─────────────────────────────────────── */
+    .case-hero {
+      padding: 9rem 2rem 5rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #04040a 0%, #080a12 100%);
+      border-bottom: 1px solid rgba(200,241,53,0.1);
+    }
+    .case-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .case-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--acid);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: transform 0.2s ease;
+    }
+    .back-btn:hover { transform: translateX(-4px); }
+    
+    .case-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 0.8rem;
+    }
+    .case-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 6.5rem);
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+    .case-tagline {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: rgba(240,237,230,0.8);
+      line-height: 1.6;
+      max-width: 800px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── META SPECS GRID ─────────────────────────────────────── */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(200,241,53,0.12);
+      border-radius: 16px;
+      padding: 1.8rem 2.2rem;
+      margin-bottom: 4rem;
+    }
+    .spec-item-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(200,241,53,0.8);
+      margin-bottom: 0.4rem;
+    }
+    .spec-item-value {
+      font-size: 0.98rem;
+      font-weight: 500;
+      color: var(--paper);
+    }
+
+    /* ── MAIN IMAGE SHOWCASE ────────────────────────────────── */
+    .showcase-banner {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(200,241,53,0.2);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(200,241,53,0.08);
+      background: #000;
+    }
+    .showcase-banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── CONTENT SECTIONS ────────────────────────────────────── */
+    .case-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5rem 2rem 8rem;
+    }
+    .section-block {
+      margin-bottom: 5rem;
+    }
+    .block-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 0.8rem;
+    }
+    .block-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: 0.02em;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+    .block-text {
+      color: rgba(240,237,230,0.78);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      max-width: 880px;
+    }
+
+    /* ── MODULES & FEATURES GRID ────────────────────────────── */
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .feature-card {
+      background: rgba(8,10,18,0.85);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: rgba(200,241,53,0.3);
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .feature-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+      color: var(--paper);
+      margin-bottom: 0.6rem;
+    }
+    .feature-desc {
+      color: rgba(240,237,230,0.68);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* ── TECH STACK TABLE ────────────────────────────────────── */
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(8,10,18,0.85);
+      border: 1px solid rgba(200,241,53,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+    .tech-table th, .tech-table td {
+      padding: 1.2rem 1.8rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .tech-table th {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--acid);
+      background: rgba(200,241,53,0.04);
+    }
+    .tech-table td {
+      font-size: 0.95rem;
+      color: rgba(240,237,230,0.82);
+    }
+    .tech-table tr:last-child td { border-bottom: none; }
+
+    /* ── CASE FOOTER NAV ─────────────────────────────────────── */
+    .case-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 4rem;
+      border-top: 1px solid rgba(200,241,53,0.15);
+      margin-top: 6rem;
+    }
+    .case-nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--acid);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .case-nav-link:hover {
+      color: var(--paper);
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html" class="active">Projects</a></li>
+    <li><a href="../more.html">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+</nav>
+
+<!-- CASE STUDY HERO -->
+<section class="case-hero">
+  <div class="case-hero-inner">
+    <a href="../projects.html" class="back-btn">← Back to Projects Hub</a>
+    <div class="case-category">Case Study 01 // Student Governance System</div>
+    <h1 class="case-title">UM ORG CONNECT</h1>
+    <p class="case-tagline">A comprehensive web application designed to streamline student organization event planning, budget proposals, document clearances, and QR-based attendance tracking.</p>
+
+    <!-- METADATA SPECS GRID -->
+    <div class="specs-grid">
+      <div>
+        <div class="spec-item-label">Role</div>
+        <div class="spec-item-value">Lead Web Developer</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Category</div>
+        <div class="spec-item-value">Student Governance & Web Management</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Tech Stack</div>
+        <div class="spec-item-value">PHP, MySQL, JavaScript, QR Code API</div>
+      </div>
+      <div>
+        <div class="spec-item-label">Deployment</div>
+        <div class="spec-item-value">Internal Web Server</div>
+      </div>
+    </div>
+
+    <!-- MAIN SHOWCASE BANNER -->
+    <div class="showcase-banner">
+      <img src="../assets/images/projects/UmOrg.png" alt="UM Org Connect Banner">
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY BODY -->
+<main class="case-body">
+
+  <!-- OVERVIEW & CHALLENGE -->
+  <section class="section-block">
+    <div class="block-label">// Executive Summary</div>
+    <h2 class="block-title">The Challenge & Vision</h2>
+    <div class="block-text">
+      <p>University student organizations process dozens of event approvals, financial liquidations, and attendance rosters every semester. Traditionally, these processes relied on physical paper clearance forms, manual sign-in sheets, and fragmented communications across spreadsheet files.</p>
+      <br>
+      <p><strong>UM Org Connect</strong> was engineered to solve these administrative bottlenecks by creating a single, cohesive web platform. It digitizes student organization workflows — allowing officers to submit proposals online, advisers to review budgets in real-time, and event organizers to mark attendance instantly via QR code scanning.</p>
+    </div>
+  </section>
+
+  <!-- KEY MODULES & CAPABILITIES -->
+  <section class="section-block">
+    <div class="block-label">// System Modules</div>
+    <h2 class="block-title">Core Capabilities & Architecture</h2>
+    <div class="features-container">
+      
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-name">QR Attendance Engine</h3>
+        <p class="feature-desc">Generates dynamic QR codes for each approved activity. Event personnel can scan member badges or mobile screens to record timestamped attendance automatically.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-name">Budgeting & Financial Tracking</h3>
+        <p class="feature-desc">Provides a structured module for submitting budget breakdowns, tracking organization fund balances, and auditing post-event expenses with receipts.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📑</div>
+        <h3 class="feature-name">Document Approval Workflow</h3>
+        <p class="feature-desc">Replaces physical paper trails with digital document submissions. Allows campus administrators to approve or request revisions on activity permits online.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <h3 class="feature-name">Role-Based Access Control (RBAC)</h3>
+        <p class="feature-desc">Multi-tenant architecture enforcing strict permissions for Student Members, Executive Officers, Faculty Advisors, and University Administrators.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3 class="feature-name">Organization Event Calendar</h3>
+        <p class="feature-desc">Centralized campus-wide activity calendar preventing schedule conflicts between organizations and displaying upcoming student events.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-name">Reports & Analytics</h3>
+        <p class="feature-desc">Automates semester-end organizational evaluation reports, generating downloadable attendance statistics and financial compliance summaries.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TECHNICAL STACK BREAKDOWN -->
+  <section class="section-block">
+    <div class="block-label">// Engineering</div>
+    <h2 class="block-title">Technology Stack</h2>
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology Used</th>
+          <th>Description & Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Backend Architecture</strong></td>
+          <td>PHP 8.x (MVC structure)</td>
+          <td>Core application logic, session management, and server-side request processing.</td>
+        </tr>
+        <tr>
+          <td><strong>Database</strong></td>
+          <td>MySQL / MariaDB</td>
+          <td>Relational database schema storing student profiles, organization accounts, logs, and activity records.</td>
+        </tr>
+        <tr>
+          <td><strong>Frontend Interface</strong></td>
+          <td>HTML5, CSS3, JavaScript (ES6)</td>
+          <td>Responsive custom UI built with modern CSS custom properties and asynchronous fetch API requests.</td>
+        </tr>
+        <tr>
+          <td><strong>QR Integration</strong></td>
+          <td>JavaScript QR Code Library</td>
+          <td>Client-side and server-side QR generation and browser-based camera scanning for attendance check-ins.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER NAVIGATION -->
+  <div class="case-nav">
+    <a href="../projects.html" class="case-nav-link">← All Projects</a>
+    <a href="attendify.html" class="case-nav-link">Next Case Study: Attendify →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+</body>
+</html>
