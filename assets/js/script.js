@@ -150,7 +150,7 @@ document.querySelectorAll('.video-modal').forEach(modal => {
 // ── Resume Download ──
 function downloadResume() {
   const link = document.createElement('a');
-  link.href = 'assets/docs/Kundiman Resume.pdf';
+  link.href = 'assets/docs/ATS Resume Kundiman.pdf';
   link.download = 'Japhet_Kundiman_Resume.pdf';
   document.body.appendChild(link);
   link.click();

@@ -232,7 +232,7 @@ document.addEventListener('click', function(event) {
 
 function downloadResume() {
   const link = document.createElement('a');
-  link.href = 'Kundiman Resume.pdf';
+  link.href = 'assets/docs/ATS Resume Kundiman.pdf';
   link.download = 'Japhet_Kundiman_Resume.pdf';
   document.body.appendChild(link);
   link.click();
