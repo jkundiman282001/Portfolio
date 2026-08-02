@@ -1,0 +1,435 @@
+/*
+ * PROJECT CASE STUDY — Shared Design System
+ * Used by: um-org-connect.html, attendify.html, ncip-eap.html
+ * ─────────────────────────────────────────────────────────────
+ */
+
+/* ── BASE ──────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: #04040a;
+  color: #f0ede6;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.nav-links a.active { color: var(--acid); }
+.nav-links a.active::after { width: 100%; }
+
+/* ── CASE HERO ─────────────────────────────────────────────── */
+.case-hero {
+  padding: 9rem 2rem 6rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #04040a 0%, #07080f 100%);
+  border-bottom: 1px solid rgba(200,241,53,0.1);
+}
+
+.case-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  animation: gridDrift 30s linear infinite;
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+/* Radial glow */
+.case-hero::after {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,241,53,0.06) 0%, transparent 65%);
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.case-hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── BACK BUTTON ───────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--acid);
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid rgba(200,241,53,0.2);
+  border-radius: 100px;
+  background: rgba(200,241,53,0.05);
+  transition: all 0.3s ease;
+}
+.back-btn:hover {
+  background: rgba(200,241,53,0.12);
+  border-color: rgba(200,241,53,0.45);
+  transform: translateX(-3px);
+}
+.back-btn svg {
+  width: 14px; height: 14px;
+  transition: transform 0.3s ease;
+}
+.back-btn:hover svg { transform: translateX(-3px); }
+
+/* ── HERO TEXT ─────────────────────────────────────────────── */
+.case-category {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.2s forwards;
+}
+
+.case-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.8rem, 9vw, 7.5rem);
+  letter-spacing: 0.02em;
+  line-height: 0.92;
+  color: var(--paper);
+  margin-bottom: 1.4rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.35s forwards;
+}
+
+.case-tagline {
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  color: rgba(240,237,230,0.78);
+  line-height: 1.7;
+  max-width: 780px;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── META SPECS GRID ───────────────────────────────────────── */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(200,241,53,0.14);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 4.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.65s forwards;
+}
+
+.spec-item {
+  padding: 1.6rem 2rem;
+  border-right: 1px solid rgba(200,241,53,0.1);
+  transition: background 0.3s ease;
+}
+.spec-item:last-child { border-right: none; }
+.spec-item:hover { background: rgba(200,241,53,0.04); }
+
+.spec-item-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(200,241,53,0.75);
+  margin-bottom: 0.5rem;
+}
+
+.spec-item-value {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--paper);
+  line-height: 1.4;
+}
+
+/* ── SHOWCASE BANNER ───────────────────────────────────────── */
+.showcase-banner {
+  width: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(200,241,53,0.22);
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.9),
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 0 60px rgba(200,241,53,0.07);
+  background: #000;
+  opacity: 0;
+  animation: fadeUp 1s 0.8s forwards;
+}
+
+.showcase-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── CASE STUDY BODY ───────────────────────────────────────── */
+.case-body {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem 9rem;
+}
+
+.section-block {
+  margin-bottom: 6rem;
+}
+
+/* ── SECTION HEADERS ───────────────────────────────────────── */
+.block-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 0.7rem;
+}
+
+.block-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  letter-spacing: 0.02em;
+  color: var(--paper);
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+/* Decorative underline on title */
+.block-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--acid);
+  border-radius: 2px;
+}
+
+.block-text {
+  color: rgba(240,237,230,0.78);
+  font-size: 1.05rem;
+  line-height: 1.9;
+  max-width: 880px;
+}
+
+.block-text p + p { margin-top: 1.2rem; }
+
+/* ── HIGHLIGHT STATS ROW ───────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+  padding: 2rem;
+  background: rgba(200,241,53,0.04);
+  border: 1px solid rgba(200,241,53,0.14);
+  border-radius: 18px;
+}
+
+.stat-item { text-align: center; }
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem;
+  letter-spacing: 0.02em;
+  color: var(--acid);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(240,237,230,0.55);
+  margin-top: 0.4rem;
+}
+
+/* ── FEATURES GRID ─────────────────────────────────────────── */
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.feature-card {
+  background: rgba(8,10,18,0.9);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 2rem 2.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Acid corner accent */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at top right, rgba(200,241,53,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.feature-card:hover {
+  border-color: rgba(200,241,53,0.32);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(200,241,53,0.06);
+}
+
+.feature-icon {
+  font-size: 1.9rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  filter: drop-shadow(0 0 8px rgba(200,241,53,0.3));
+}
+
+.feature-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 0.02em;
+  color: var(--paper);
+  margin-bottom: 0.65rem;
+}
+
+.feature-desc {
+  color: rgba(240,237,230,0.65);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ── TECH STACK TABLE ──────────────────────────────────────── */
+.tech-table-wrap {
+  margin-top: 2rem;
+  border: 1px solid rgba(200,241,53,0.14);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(8,10,18,0.9);
+}
+
+.tech-table th,
+.tech-table td {
+  padding: 1.2rem 1.8rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.tech-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--acid);
+  background: rgba(200,241,53,0.05);
+  border-bottom: 1px solid rgba(200,241,53,0.14);
+}
+
+.tech-table tr:last-child td { border-bottom: none; }
+.tech-table tr:hover td { background: rgba(200,241,53,0.03); }
+
+.tech-table td {
+  font-size: 0.94rem;
+  color: rgba(240,237,230,0.8);
+  vertical-align: top;
+}
+
+.tech-table td strong {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.tech-table td:nth-child(2) {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(200,241,53,0.88);
+}
+
+/* ── DIVIDER ───────────────────────────────────────────────── */
+.case-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,241,53,0.2), transparent);
+  margin: 5rem 0;
+}
+
+/* ── CASE FOOTER NAV ───────────────────────────────────────── */
+.case-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid rgba(200,241,53,0.15);
+  margin-top: 6rem;
+  flex-wrap: wrap;
+}
+
+.case-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--acid);
+  text-decoration: none;
+  padding: 0.75rem 1.4rem;
+  border: 1px solid rgba(200,241,53,0.2);
+  border-radius: 100px;
+  transition: all 0.3s ease;
+}
+
+.case-nav-link:hover {
+  background: rgba(200,241,53,0.1);
+  border-color: rgba(200,241,53,0.5);
+  color: var(--paper);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .case-hero { padding: 8rem 1.5rem 4rem; }
+  .specs-grid { grid-template-columns: 1fr 1fr; }
+  .spec-item { border-right: none; border-bottom: 1px solid rgba(200,241,53,0.1); }
+  .spec-item:last-child { border-bottom: none; }
+  .case-body { padding: 4rem 1.5rem 6rem; }
+  .case-nav { justify-content: center; }
+}
+
+@media (max-width: 600px) {
+  .specs-grid { grid-template-columns: 1fr; }
+  .features-container { grid-template-columns: 1fr; }
+  .tech-table th, .tech-table td { padding: 1rem 1.2rem; }
+}

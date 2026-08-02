@@ -3,241 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Attendify — Project Case Study | Japhet Kundiman</title>
+  <meta name="description" content="Case study for Attendify — a real-time QR-based classroom attendance tracking platform by Japhet Kundiman.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="../assets/images/branding/Logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/styles.css">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    body { background: #04040a; color: #f0ede6; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
-
-    /* ── CASE STUDY HERO ─────────────────────────────────────── */
-    .case-hero {
-      padding: 9rem 2rem 5rem;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(180deg, #04040a 0%, #080a12 100%);
-      border-bottom: 1px solid rgba(200,241,53,0.1);
-    }
-    .case-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-    .case-hero-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--acid);
-      text-decoration: none;
-      margin-bottom: 2rem;
-      transition: transform 0.2s ease;
-    }
-    .back-btn:hover { transform: translateX(-4px); }
-    
-    .case-category {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.8rem;
-    }
-    .case-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.5rem, 8vw, 6.5rem);
-      letter-spacing: 0.02em;
-      line-height: 0.95;
-      color: var(--paper);
-      margin-bottom: 1.5rem;
-    }
-    .case-tagline {
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
-      color: rgba(240,237,230,0.8);
-      line-height: 1.6;
-      max-width: 800px;
-      margin-bottom: 3rem;
-    }
-
-    /* ── META SPECS GRID ─────────────────────────────────────── */
-    .specs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(200,241,53,0.12);
-      border-radius: 16px;
-      padding: 1.8rem 2.2rem;
-      margin-bottom: 4rem;
-    }
-    .spec-item-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(200,241,53,0.8);
-      margin-bottom: 0.4rem;
-    }
-    .spec-item-value {
-      font-size: 0.98rem;
-      font-weight: 500;
-      color: var(--paper);
-    }
-
-    /* ── MAIN IMAGE SHOWCASE ────────────────────────────────── */
-    .showcase-banner {
-      width: 100%;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid rgba(200,241,53,0.2);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(200,241,53,0.08);
-      background: #000;
-    }
-    .showcase-banner img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* ── CONTENT SECTIONS ────────────────────────────────────── */
-    .case-body {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 5rem 2rem 8rem;
-    }
-    .section-block {
-      margin-bottom: 5rem;
-    }
-    .block-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--acid);
-      margin-bottom: 0.8rem;
-    }
-    .block-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      letter-spacing: 0.02em;
-      color: var(--paper);
-      margin-bottom: 1.5rem;
-    }
-    .block-text {
-      color: rgba(240,237,230,0.78);
-      font-size: 1.05rem;
-      line-height: 1.85;
-      max-width: 880px;
-    }
-
-    /* ── MODULES & FEATURES GRID ────────────────────────────── */
-    .features-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .feature-card {
-      background: rgba(8,10,18,0.85);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 2rem;
-      transition: border-color 0.3s ease, transform 0.3s ease;
-    }
-    .feature-card:hover {
-      border-color: rgba(200,241,53,0.3);
-      transform: translateY(-4px);
-    }
-    .feature-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      display: inline-block;
-    }
-    .feature-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 0.02em;
-      color: var(--paper);
-      margin-bottom: 0.6rem;
-    }
-    .feature-desc {
-      color: rgba(240,237,230,0.68);
-      font-size: 0.92rem;
-      line-height: 1.6;
-    }
-
-    /* ── TECH STACK TABLE ────────────────────────────────────── */
-    .tech-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(8,10,18,0.85);
-      border: 1px solid rgba(200,241,53,0.12);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-top: 1.5rem;
-    }
-    .tech-table th, .tech-table td {
-      padding: 1.2rem 1.8rem;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .tech-table th {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--acid);
-      background: rgba(200,241,53,0.04);
-    }
-    .tech-table td {
-      font-size: 0.95rem;
-      color: rgba(240,237,230,0.82);
-    }
-    .tech-table tr:last-child td { border-bottom: none; }
-
-    /* ── CASE FOOTER NAV ─────────────────────────────────────── */
-    .case-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 4rem;
-      border-top: 1px solid rgba(200,241,53,0.15);
-      margin-top: 6rem;
-    }
-    .case-nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--acid);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-    .case-nav-link:hover {
-      color: var(--paper);
-    }
-  </style>
+  <link rel="stylesheet" href="project-case.css">
 </head>
 <body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
 
 <nav id="navbar">
   <a href="../index.html" class="nav-logo">JK<span>.</span></a>
@@ -247,63 +27,77 @@
     <li><a href="../more.html">More</a></li>
   </ul>
   <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- CASE STUDY HERO -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="../projects.html" onclick="closeMobileMenu()">Projects</a>
+  <a href="../more.html" onclick="closeMobileMenu()">More</a>
+</div>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
 <section class="case-hero">
   <div class="case-hero-inner">
-    <a href="../projects.html" class="back-btn">← Back to Projects Hub</a>
+
+    <a href="../projects.html" class="back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Back to Projects Hub
+    </a>
+
     <div class="case-category">Case Study 02 // EdTech & Classroom Automation</div>
-    <h1 class="case-title">ATTENDIFY</h1>
+    <h1 class="case-title">Attendify</h1>
     <p class="case-tagline">A real-time QR-based attendance tracking platform built to eliminate manual roll calls, prevent proxy attendance, and provide instructors with instant analytical insights.</p>
 
-    <!-- METADATA SPECS GRID -->
+    <!-- META SPECS -->
     <div class="specs-grid">
-      <div>
+      <div class="spec-item">
         <div class="spec-item-label">Role</div>
         <div class="spec-item-value">Full-Stack Web Developer</div>
       </div>
-      <div>
+      <div class="spec-item">
         <div class="spec-item-label">Category</div>
         <div class="spec-item-value">EdTech & Attendance Analytics</div>
       </div>
-      <div>
+      <div class="spec-item">
         <div class="spec-item-label">Tech Stack</div>
         <div class="spec-item-value">PHP, MySQL, JavaScript, QR Scanner</div>
       </div>
-      <div>
+      <div class="spec-item">
         <div class="spec-item-label">Deployment</div>
         <div class="spec-item-value">Web Application</div>
       </div>
     </div>
 
-    <!-- MAIN SHOWCASE BANNER -->
+    <!-- SHOWCASE BANNER -->
     <div class="showcase-banner">
-      <img src="../assets/images/projects/Attendify.png" alt="Attendify Banner">
+      <img src="../assets/images/projects/Attendify.png" alt="Attendify — Classroom Attendance Platform">
     </div>
+
   </div>
 </section>
 
-<!-- CASE STUDY BODY -->
+<!-- ── BODY ──────────────────────────────────────────────────── -->
 <main class="case-body">
 
-  <!-- OVERVIEW & CHALLENGE -->
+  <!-- OVERVIEW -->
   <section class="section-block">
     <div class="block-label">// Executive Summary</div>
     <h2 class="block-title">The Challenge & Vision</h2>
     <div class="block-text">
       <p>Taking daily attendance in large classes consumes up to 10–15 minutes of valuable instructional time per session. Paper sign-in sheets are prone to handwriting errors, lost records, and proxy signatures ("buddy signing") where absent students are marked present.</p>
-      <br>
-      <p><strong>Attendify</strong> solves this by turning classroom attendance into a seamless, digital experience. Instructors launch a dynamic session QR code, and students check in within seconds using their smartphone camera. The system logs timestamps, calculates attendance percentages, and generates department-ready reports automatically.</p>
+      <p><strong>Attendify</strong> solves this by turning classroom attendance into a seamless digital experience. Instructors launch a dynamic session QR code, and students check in within seconds using their smartphone camera. The system logs timestamps, calculates attendance percentages, and generates department-ready reports automatically.</p>
     </div>
   </section>
 
-  <!-- KEY MODULES & CAPABILITIES -->
+  <div class="case-divider"></div>
+
+  <!-- FEATURES -->
   <section class="section-block">
     <div class="block-label">// Core Features</div>
     <h2 class="block-title">Capabilities & Security Architecture</h2>
     <div class="features-container">
-      
+
       <div class="feature-card">
         <div class="feature-icon">📱</div>
         <h3 class="feature-name">Contactless QR Check-In</h3>
@@ -331,7 +125,7 @@
       <div class="feature-card">
         <div class="feature-icon">👤</div>
         <h3 class="feature-name">Student Self-Service Dashboard</h3>
-        <p class="feature-desc">Enables students to check their personal attendance history, review excused absences, and monitor attendance percentages across enrolled courses.</p>
+        <p class="feature-desc">Enables students to check their personal attendance history, review excused absences, and monitor percentages across enrolled courses.</p>
       </div>
 
       <div class="feature-card">
@@ -343,47 +137,57 @@
     </div>
   </section>
 
-  <!-- TECHNICAL STACK BREAKDOWN -->
+  <div class="case-divider"></div>
+
+  <!-- TECH STACK -->
   <section class="section-block">
     <div class="block-label">// Engineering</div>
     <h2 class="block-title">Technology Stack</h2>
-    <table class="tech-table">
-      <thead>
-        <tr>
-          <th>Layer</th>
-          <th>Technology Used</th>
-          <th>Description & Purpose</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Backend Logic</strong></td>
-          <td>PHP 8.x</td>
-          <td>Handles session authentication, QR validation algorithms, and database queries.</td>
-        </tr>
-        <tr>
-          <td><strong>Database</strong></td>
-          <td>MySQL</td>
-          <td>Stores course rosters, enrollment mapping, session tokens, and timestamped attendance logs.</td>
-        </tr>
-        <tr>
-          <td><strong>Client Scanner</strong></td>
-          <td>HTML5 Camera API & JS Scanner</td>
-          <td>In-browser QR code scanner operating across mobile phones, tablets, and laptops without app downloads.</td>
-        </tr>
-        <tr>
-          <td><strong>Data Visualization</strong></td>
-          <td>CSS Grid & JS Analytics</td>
-          <td>Interactive charts visualizing attendance distribution across class terms.</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="tech-table-wrap">
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+            <th>Description & Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Backend Logic</strong></td>
+            <td>PHP 8.x</td>
+            <td>Handles session authentication, QR validation algorithms, and database queries.</td>
+          </tr>
+          <tr>
+            <td><strong>Database</strong></td>
+            <td>MySQL</td>
+            <td>Stores course rosters, enrollment mapping, session tokens, and timestamped attendance logs.</td>
+          </tr>
+          <tr>
+            <td><strong>Client Scanner</strong></td>
+            <td>HTML5 Camera API & JS</td>
+            <td>In-browser QR code scanner operating across mobile phones and laptops without app downloads.</td>
+          </tr>
+          <tr>
+            <td><strong>Data Visualization</strong></td>
+            <td>CSS Grid & JS Analytics</td>
+            <td>Interactive charts visualizing attendance distribution across class terms.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <!-- FOOTER NAVIGATION -->
+  <!-- FOOTER NAV -->
   <div class="case-nav">
-    <a href="um-org-connect.html" class="case-nav-link">← Previous: UM Org Connect</a>
-    <a href="ncip-eap.html" class="case-nav-link">Next Case Study: NCIP-EAP →</a>
+    <a href="um-org-connect.html" class="case-nav-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Previous: UM Org Connect
+    </a>
+    <a href="ncip-eap.html" class="case-nav-link">
+      Next: NCIP-EAP
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
   </div>
 
 </main>
