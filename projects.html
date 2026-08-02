@@ -6,25 +6,233 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="assets/images/branding/Logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/styles.css">
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #04040a; color: #f0ede6; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
     .nav-links a.active { color: var(--acid); }
     .nav-links a.active::after { width: 100%; }
-    .subpage-hero, .subpage-body { background: #04040a; }
-    .subpage-hero { min-height: 40vh; padding: 9rem 2rem 4rem; display: flex; align-items: flex-end; justify-content: center; text-align: center; position: relative; overflow: hidden; }
-    .subpage-hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+
+    /* ── SUBPAGE HERO ────────────────────────────────────────── */
+    .subpage-hero {
+      min-height: 44vh;
+      padding: 9rem 2rem 4rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: #04040a;
+    }
+    .subpage-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(200,241,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200,241,53,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .subpage-hero::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,241,53,0.06) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
     .subpage-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
-    .subpage-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 10vw, 7rem); letter-spacing: 0.03em; line-height: 0.92; color: var(--paper); margin-bottom: 1rem; }
-    .subpage-copy { color: rgba(240,237,230,0.72); line-height: 1.8; max-width: 620px; margin: 0 auto; }
-    .subpage-body { padding: 5rem 2rem 6rem; }
-    .subpage-panel { max-width: 900px; margin: 0 auto; padding: 2rem; border: 1px solid rgba(200,241,53,0.08); background: rgba(8,10,15,0.92); color: rgba(240,237,230,0.72); line-height: 1.8; }
+    .subpage-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 7.5rem);
+      letter-spacing: 0.03em; line-height: 0.92;
+      color: var(--paper); margin-bottom: 1rem;
+    }
+    .subpage-title .accent { color: var(--acid); }
+    .subpage-copy {
+      color: rgba(240,237,230,0.72);
+      line-height: 1.8;
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* ── PROJECTS BODY ────────────────────────────────────────── */
+    .projects-body { padding: 4rem 2rem 8rem; max-width: 1100px; margin: 0 auto; }
+    .projects-list { display: flex; flex-direction: column; gap: 4rem; }
+
+    /* ── PROJECT DETAIL CARD ──────────────────────────────────── */
+    .project-card {
+      background: rgba(8,10,18,0.85);
+      border: 1px solid rgba(200,241,53,0.12);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+    .project-card:hover {
+      border-color: rgba(200,241,53,0.35);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(200,241,53,0.06);
+    }
+    .project-card-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .project-card-header { grid-template-columns: 1fr; gap: 2rem; padding: 1.8rem; }
+    }
+    .project-card-thumb-wrap {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #000;
+      aspect-ratio: 16 / 10;
+    }
+    .project-card-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card:hover .project-card-thumb-wrap img {
+      transform: scale(1.04);
+    }
+    .project-card-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--acid);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .project-card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: var(--paper);
+      margin-bottom: 0.4rem;
+    }
+    .project-card-subtitle {
+      font-size: 0.92rem;
+      color: rgba(200,241,53,0.85);
+      font-weight: 500;
+      margin-bottom: 1.2rem;
+    }
+    .project-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+    .project-card-tags .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(200,241,53,0.08);
+      border: 1px solid rgba(200,241,53,0.18);
+      color: var(--paper);
+    }
+
+    .project-card-body {
+      padding: 0 2.5rem 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 0.5rem;
+      padding-top: 2rem;
+    }
+    @media (max-width: 900px) {
+      .project-card-body { padding: 1.5rem 1.8rem 1.8rem; }
+    }
+    .project-card-overview {
+      color: rgba(240,237,230,0.8);
+      line-height: 1.8;
+      font-size: 0.98rem;
+      margin-bottom: 1.8rem;
+    }
+    .project-features-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--acid);
+      margin-bottom: 1rem;
+    }
+    .project-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+    }
+    .feature-item-title {
+      font-weight: 500;
+      color: var(--paper);
+      font-size: 0.92rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .feature-item-title span { color: var(--acid); }
+    .feature-item-desc {
+      font-size: 0.84rem;
+      color: rgba(240,237,230,0.62);
+      line-height: 1.5;
+    }
+
+    /* ── ADD NEW PROJECT PLACEHOLDER ─────────────────────────── */
+    .add-project-box {
+      border: 2px dashed rgba(200,241,53,0.2);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      text-align: center;
+      background: rgba(8,10,18,0.4);
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .add-project-box:hover {
+      border-color: rgba(200,241,53,0.4);
+      background: rgba(8,10,18,0.7);
+    }
+    .add-project-icon {
+      font-size: 2rem;
+      color: var(--acid);
+      margin-bottom: 0.8rem;
+    }
+    .add-project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--paper);
+      margin-bottom: 0.4rem;
+    }
+    .add-project-desc {
+      color: rgba(240,237,230,0.6);
+      font-size: 0.9rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg></button>
+
 <nav id="navbar">
   <a href="index.html" class="nav-logo">JK<span>.</span></a>
   <ul class="nav-links">
@@ -34,25 +242,178 @@
   <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
   <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
 </nav>
+
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" onclick="closeMobileMenu()">Home</a>
   <a href="more.html" onclick="closeMobileMenu()">More</a>
 </div>
+
 <section class="subpage-hero">
   <div class="subpage-inner">
     <div class="section-label">More / 03</div>
-    <h1 class="subpage-title">Projects</h1>
-    <p class="subpage-copy">This page is ready for deeper project breakdowns, process notes, screenshots, architecture details, and extended case studies.</p>
+    <h1 class="subpage-title">PROJECT<span class="accent">S</span></h1>
+    <p class="subpage-copy">Detailed breakdowns, system architectures, key features, and technology stacks for my software engineering projects.</p>
   </div>
 </section>
-<section class="subpage-body">
-  <div class="subpage-panel">Structure ready. Send what you want added here next.</div>
+
+<section class="projects-body">
+  <div class="projects-list">
+
+    <!-- PROJECT 01: UM Org Connect -->
+    <article class="project-card">
+      <div class="project-card-header">
+        <div class="project-card-thumb-wrap">
+          <img src="assets/images/projects/UmOrg.png" alt="UM Org Connect">
+        </div>
+        <div class="project-card-meta">
+          <div class="project-card-num">01 / Featured Project</div>
+          <h2 class="project-card-title">UM Org Connect</h2>
+          <div class="project-card-subtitle">Student Organization Event Management & Governance System</div>
+          <div class="project-card-tags">
+            <span class="tag">PHP</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">QR Code API</span>
+            <span class="tag">HTML5 / CSS3</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">RBAC</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <p class="project-card-overview">
+          <strong>UM Org Connect</strong> is a centralized web-based management system designed specifically for campus student organizations. It automates event management, attendance tracking, financial budgeting requests, and administrative document clearance workflows into a single unified platform.
+        </p>
+        <div class="project-features-title">// Key Capabilities & Modules</div>
+        <div class="project-features-grid">
+          <div class="feature-item">
+            <div class="feature-item-title"><span>⚡</span> QR Attendance System</div>
+            <div class="feature-item-desc">Generates unique QR codes for events and enables instant mobile scanning for attendee check-ins and time logs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>📊</span> Budgeting & Financial Tracker</div>
+            <div class="feature-item-desc">Modules for student officers to submit expense proposals, monitor organization funds, and audit event expenditures.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>📑</span> Document Clearance Workflow</div>
+            <div class="feature-item-desc">Digital submission of event permits, venue requests, and post-activity evaluation reports to university administration.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>🔐</span> Multi-Tenant RBAC</div>
+            <div class="feature-item-desc">Granular permissions tailored for Student Members, Officers, Organization Advisors, and School Administrators.</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 02: Attendify -->
+    <article class="project-card">
+      <div class="project-card-header">
+        <div class="project-card-thumb-wrap">
+          <img src="assets/images/projects/Attendify.png" alt="Attendify">
+        </div>
+        <div class="project-card-meta">
+          <div class="project-card-num">02 / Featured Project</div>
+          <h2 class="project-card-title">Attendify</h2>
+          <div class="project-card-subtitle">Smart Classroom Attendance & Analytics Platform</div>
+          <div class="project-card-tags">
+            <span class="tag">PHP</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">QR Scanner</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Analytics</span>
+            <span class="tag">Responsive UI</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <p class="project-card-overview">
+          <strong>Attendify</strong> is a real-time QR-based attendance tracking platform created to modernize classroom attendance monitoring. By eliminating paper sign-in sheets, it saves valuable instructional time, prevents proxy attendance, and provides instructors with live attendance trends and automated reports.
+        </p>
+        <div class="project-features-title">// Key Capabilities & Modules</div>
+        <div class="project-features-grid">
+          <div class="feature-item">
+            <div class="feature-item-title"><span>📱</span> Contactless QR Check-In</div>
+            <div class="feature-item-desc">Dynamic QR code generation per class session enabling rapid student scanning directly from mobile screens.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>📈</span> Real-Time Analytics</div>
+            <div class="feature-item-desc">Visual dashboards detailing student presence rates, tardiness logs, and attendance percentages across terms.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>⚡</span> Automated Export & Reporting</div>
+            <div class="feature-item-desc">One-click export of complete attendance records into spreadsheet and PDF formats for academic reporting.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>👤</span> Student Self-Service Portal</div>
+            <div class="feature-item-desc">Allows students to track their own attendance standing and receive low-attendance warning alerts.</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 03: NCIP-EAP -->
+    <article class="project-card">
+      <div class="project-card-header">
+        <div class="project-card-thumb-wrap">
+          <img src="assets/images/projects/Ncip.png" alt="NCIP-EAP">
+        </div>
+        <div class="project-card-meta">
+          <div class="project-card-num">03 / Featured Project</div>
+          <h2 class="project-card-title">NCIP-EAP</h2>
+          <div class="project-card-subtitle">National Commission on Indigenous Peoples — Scholar Portal</div>
+          <div class="project-card-tags">
+            <span class="tag">PHP</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Web Portal</span>
+            <span class="tag">Document Management</span>
+            <span class="tag">Database Architecture</span>
+            <span class="tag">Admin Dashboard</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card-body">
+        <p class="project-card-overview">
+          <strong>NCIP-EAP</strong> (Educational Assistance Program) is an end-to-end scholarship management portal built for the National Commission on Indigenous Peoples. It streamlines the scholarship lifecycle for Indigenous Cultural Communities (ICCs/IPs) — from online application filing to document verification and educational grant disbursement tracking.
+        </p>
+        <div class="project-features-title">// Key Capabilities & Modules</div>
+        <div class="project-features-grid">
+          <div class="feature-item">
+            <div class="feature-item-title"><span>🎓</span> Online Scholar Application</div>
+            <div class="feature-item-desc">Accessible application portal for IP scholars with real-time status tracking throughout the evaluation phases.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>📁</span> Document Audit & Verification</div>
+            <div class="feature-item-desc">Digital upload and verification system for grade slips, Certificate of Tribal Membership (CTM), and enrollment proofs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>🛡️</span> Central Admin Dashboard</div>
+            <div class="feature-item-desc">Comprehensive administrative portal for regional officers to manage scholar quotas, approvals, and grant disbursement logs.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title"><span>🔔</span> Status Tracking & Alerts</div>
+            <div class="feature-item-desc">Automated application feedback keeping applicants and regional handlers synced on missing requirements and grant releases.</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- FUTURE PROJECTS PLACEHOLDER -->
+    <!-- Ready for additional project cards -->
+    <div class="add-project-box">
+      <div class="add-project-icon">+</div>
+      <div class="add-project-title">Ready for Next Projects</div>
+      <div class="add-project-desc">Structure is set for additional project additions and expanded case studies.</div>
+    </div>
+
+  </div>
 </section>
+
 <footer>
   <div class="foot-brand">JK<span>.</span></div>
   <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
   <div class="available-dot">Available for Work</div>
 </footer>
+
 <script src="assets/js/script.js"></script>
 </body>
 </html>
