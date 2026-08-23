@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkmate Chess — Project Case Study | Japhet Kundiman</title>
+  <meta name="description" content="Case study for Checkmate Chess — a modern online chess and Stockfish AI platform by Japhet Kundiman.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="project-case.css">
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html" class="active">Projects</a></li>
+    <li><a href="../more.html">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="../projects.html" onclick="closeMobileMenu()">Projects</a>
+  <a href="../more.html" onclick="closeMobileMenu()">More</a>
+</div>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="case-hero">
+  <div class="case-hero-inner">
+
+    <a href="../projects.html" class="back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Back to Projects Hub
+    </a>
+
+    <div class="case-category">Case Study 05 // Web Gaming &amp; Chess AI Engine</div>
+    <h1 class="case-title">CHECKMATE</h1>
+    <p class="case-tagline">A sleek, high-performance web chess and matchmaking platform combining Stockfish AI engine difficulty tiers, customizable blitz/increment clocks, player progression systems, and unlockable cosmetic themes.</p>
+
+    <!-- META SPECS -->
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-item-label">Role</div>
+        <div class="spec-item-value">Lead Game &amp; Frontend Developer</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Category</div>
+        <div class="spec-item-value">Web Gaming &amp; Chess AI Engine</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Tech Stack</div>
+        <div class="spec-item-value">JavaScript, Stockfish AI, Web Audio, CSS3</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Deployment</div>
+        <div class="spec-item-value">Interactive Web Application</div>
+      </div>
+    </div>
+
+    <!-- SHOWCASE BANNER -->
+    <div class="showcase-banner">
+      <img src="../assets/images/projects/Chess.png" alt="Checkmate — Clean, Fast, Competitive Web Chess">
+    </div>
+
+  </div>
+</section>
+
+<!-- ── BODY ──────────────────────────────────────────────────── -->
+<main class="case-body">
+
+  <!-- OVERVIEW -->
+  <section class="section-block">
+    <div class="block-label">// Executive Summary</div>
+    <h2 class="block-title">The Challenge &amp; Vision</h2>
+    <div class="block-text">
+      <p>Traditional browser chess applications often feel either too cluttered with intrusive ads and heavy UI elements or overly bare-bones without engaging player retention mechanics. Players seeking focused practice need responsive move execution, configurable AI difficulty, and meaningful progression incentives.</p>
+      <p><strong>Checkmate</strong> was built to deliver a modern, dark-themed competitive chess hub. It integrates the industry-standard <strong>Stockfish engine</strong> across 10 granular skill levels, provides smooth drag-and-drop piece interactions, and layers a full RPG-like progression loop — including daily quests, achievement milestones, ranked ELO tracking, and custom collectible piece/board cosmetic bundles.</p>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHT STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Stockfish AI Skill Levels</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">ELO</div>
+      <div class="stat-label">Ranked Rating System</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Custom Piece &amp; Board Sets</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Responsive Move Engine</div>
+    </div>
+  </div>
+
+  <div class="case-divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section-block">
+    <div class="block-label">// System Modules</div>
+    <h2 class="block-title">Core Capabilities &amp; Engine Architecture</h2>
+    <div class="features-container">
+
+      <div class="feature-card">
+        <div class="feature-icon">♟️</div>
+        <h3 class="feature-name">Stockfish AI Engine Integration</h3>
+        <p class="feature-desc">Scalable AI opponent powered by Stockfish with 10 difficulty tiers — enabling beginner friendly practice up to Grandmaster-level tactical computation.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3 class="feature-name">Precision Clocks &amp; Increments</h3>
+        <p class="feature-desc">Configurable time control formats (Blitz, Rapid, Custom) with secondary Fischer increment timers (e.g. 600s + 5s increment) and active move notation logs.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3 class="feature-name">Ranked ELO &amp; Tier Progression</h3>
+        <p class="feature-desc">Dynamic ELO rating calculation tracking player skill growth across matches, complete with competitive division tiers (e.g. Gold II) and XP level advancement.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛍️</div>
+        <h3 class="feature-name">Cosmetic Store &amp; Loadouts</h3>
+        <p class="feature-desc">Visual-only cosmetic store featuring rarity tiers (Common, Rare, Epic, Legendary) for board textures and piece skins such as Fire Spirit, Zeus, Obsidian Knights, and Royal Kingdom.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3 class="feature-name">Daily Missions &amp; Coin Rewards</h3>
+        <p class="feature-desc">Daily quest system offering gold coins and XP bonuses for completing match objectives like Warm-Up Game, Daily Victory, and Multi-Match completions.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎖️</div>
+        <h3 class="feature-name">Trophy Achievements</h3>
+        <p class="feature-desc">Milestone tracking rewarding player breakthroughs including First Victory, Hot Streak win runs, Regular Player milestones, and the prestigious Giant Slayer badge for defeating AI level 10.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="case-divider"></div>
+
+  <!-- SCREENSHOT GALLERY -->
+  <section class="section-block">
+    <div class="block-label">// Visual Showcase</div>
+    <h2 class="block-title">Application Screenshots</h2>
+    <p class="block-text">Click on any screenshot to examine the board mechanics, cosmetic store, and dashboard systems in high resolution.</p>
+
+    <div class="gallery-grid">
+
+      <!-- Gallery Item 1 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Chess.png', 'Checkmate — Platform Landing &amp; Live Match Preview')">
+          <span class="gallery-badge">Platform Landing</span>
+          <img src="../assets/images/projects/Chess.png" alt="Checkmate Landing Page Screen">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Landing &amp; Match Focus</h3>
+          <p class="gallery-desc">Cinematic landing portal displaying live active matches, rapid play modes, ranked status, and high-contrast board focus previews.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 2 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Chess (Dashoard).png', 'Checkmate — Player Dashboard &amp; AI Match Setup')">
+          <span class="gallery-badge">Player Hub</span>
+          <img src="../assets/images/projects/Chess (Dashoard).png" alt="Checkmate Dashboard Overview">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Dashboard &amp; Match Setup</h3>
+          <p class="gallery-desc">Main player hub featuring coin balances, level progression, AI skill level slider (1–10), time controls, and recent match activity logs.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 3 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Chess (Game Room).png', 'Checkmate — Live Game Room with Fire Spirit Pieces')">
+          <span class="gallery-badge">Live Game Room</span>
+          <img src="../assets/images/projects/Chess (Game Room).png" alt="Checkmate Live Game Room">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Interactive Game Room</h3>
+          <p class="gallery-desc">Full-screen chessboard interface equipped with custom Fire Spirit piece skins, Stockfish engine opponent, live move logger, and resignation actions.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 4 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Chess (Store).png', 'Checkmate — Cosmetic Store &amp; Rarity Loadouts')">
+          <span class="gallery-badge">Cosmetic Store</span>
+          <img src="../assets/images/projects/Chess (Store).png" alt="Checkmate Cosmetic Store">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Cosmetics &amp; Piece Loadouts</h3>
+          <p class="gallery-desc">In-game shop allowing players to unlock and equip custom board materials and piece sets (Zeus Legendary, Fire Spirit Epic, Royal Kingdom Rare) using earned coins.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 5 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Chess (Dashboard) 2.png', 'Checkmate — Daily Missions &amp; Achievement Trophies')">
+          <span class="gallery-badge">Quests &amp; Trophies</span>
+          <img src="../assets/images/projects/Chess (Dashboard) 2.png" alt="Checkmate Missions and Achievements">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Daily Missions &amp; Achievements</h3>
+          <p class="gallery-desc">Gamified progress system with daily recurring challenges (Warm-Up, Daily Victory) and milestone achievements (Giant Slayer, Hot Streak) granting coins and XP.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="case-divider"></div>
+
+  <!-- TECH STACK -->
+  <section class="section-block">
+    <div class="block-label">// Engineering</div>
+    <h2 class="block-title">Technology Stack</h2>
+    <div class="tech-table-wrap">
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+            <th>Description &amp; Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Chess AI Engine</strong></td>
+            <td>Stockfish Engine / WebAssembly</td>
+            <td>Client-side chess computation evaluating positions, legal move trees, and configurable depth difficulties.</td>
+          </tr>
+          <tr>
+            <td><strong>Frontend Interface</strong></td>
+            <td>HTML5, CSS3 Custom Properties, JavaScript (ES6+)</td>
+            <td>Fluid drag-and-drop board interaction, animations, dark-themed responsive layout, and interactive HUD.</td>
+          </tr>
+          <tr>
+            <td><strong>Gamification State</strong></td>
+            <td>Local / Session State Architecture</td>
+            <td>Tracks player XP curve, rank tiers, coin balances, unlocked cosmetics, and daily quest completion states.</td>
+          </tr>
+          <tr>
+            <td><strong>Asset Rendering</strong></td>
+            <td>SVG / High-Res Alpha Sprites</td>
+            <td>Custom piece skins and board textures rendered with crisp anti-aliasing across standard and Retina displays.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <div class="case-nav">
+    <a href="sipspot-ims.html" class="case-nav-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Previous: Sipspot Cafe POS &amp; IMS
+    </a>
+    <a href="um-org-connect.html" class="case-nav-link">
+      Next: UM Org Connect
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+
+</main>
+
+<!-- Lightbox Modal -->
+<div class="image-lightbox" id="imageLightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightboxDirect()">&times;</button>
+    <img src="" alt="Enlarged Preview" id="lightboxImg" class="lightbox-img">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+<script>
+  function openLightbox(src, caption) {
+    const box = document.getElementById('imageLightbox');
+    const img = document.getElementById('lightboxImg');
+    const cap = document.getElementById('lightboxCaption');
+    if (box && img) {
+      img.src = src;
+      if (cap) cap.textContent = caption || '';
+      box.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeLightbox(e) {
+    if (e.target.id === 'imageLightbox') {
+      closeLightboxDirect();
+    }
+  }
+  function closeLightboxDirect() {
+    const box = document.getElementById('imageLightbox');
+    if (box) {
+      box.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightboxDirect();
+  });
+</script>
+</body>
+</html>

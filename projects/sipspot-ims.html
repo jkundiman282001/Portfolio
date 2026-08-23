@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sipspot Cafe POS & IMS — Project Case Study | Japhet Kundiman</title>
+  <meta name="description" content="Case study for Sipspot Cafe POS & IMS — a cloud-synced Point of Sale and Inventory Management System by Japhet Kundiman.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="../assets/images/branding/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="project-case.css">
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+</button>
+
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">JK<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../projects.html" class="active">Projects</a></li>
+    <li><a href="../more.html">More</a></li>
+  </ul>
+  <button class="nav-cta" onclick="downloadResume()">Resume ↓</button>
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileMenu()"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="../projects.html" onclick="closeMobileMenu()">Projects</a>
+  <a href="../more.html" onclick="closeMobileMenu()">More</a>
+</div>
+
+<!-- ── HERO ──────────────────────────────────────────────────── -->
+<section class="case-hero">
+  <div class="case-hero-inner">
+
+    <a href="../projects.html" class="back-btn">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Back to Projects Hub
+    </a>
+
+    <div class="case-category">Case Study 04 // Point of Sale &amp; Inventory ERP</div>
+    <h1 class="case-title">SIPSPOT CAFE POS &amp; IMS</h1>
+    <p class="case-tagline">An intelligent, cloud-synced Point of Sale and Inventory Management System designed for modern coffee shops — featuring automated Bill of Materials (BOM) ingredient deduction, gross profit margin analytics, and wireless thermal receipt printing.</p>
+
+    <!-- META SPECS -->
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-item-label">Role</div>
+        <div class="spec-item-value">Lead Full-Stack Developer</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Category</div>
+        <div class="spec-item-value">Cafe POS &amp; Inventory Management</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Tech Stack</div>
+        <div class="spec-item-value">JavaScript, PHP, MySQL, Bluetooth ESC/POS</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-item-label">Deployment</div>
+        <div class="spec-item-value">Cloud-Synced Web Application</div>
+      </div>
+    </div>
+
+    <!-- SHOWCASE BANNER -->
+    <div class="showcase-banner">
+      <img src="../assets/images/projects/Sipspot IMS (POS Register).png" alt="Sipspot Cafe POS &amp; IMS Register Interface">
+    </div>
+
+  </div>
+</section>
+
+<!-- ── BODY ──────────────────────────────────────────────────── -->
+<main class="case-body">
+
+  <!-- OVERVIEW -->
+  <section class="section-block">
+    <div class="block-label">// Executive Summary</div>
+    <h2 class="block-title">The Challenge &amp; Vision</h2>
+    <div class="block-text">
+      <p>Coffee shops and food &amp; beverage establishments operate under tight margins where food cost variance, recipe inconsistency, and manual inventory audits directly eat into profitability. Traditional off-the-shelf POS software often lacks granular ingredient-level deduction, leaving business owners blind to real-time ingredient shrinkage and actual product margins.</p>
+      <p><strong>Sipspot Cafe POS &amp; IMS</strong> was engineered to bridge cashier operations directly with raw warehouse inventory. When an order is placed on the register, the system dynamically calculates unit costs, applies modifier price adjustments, prints receipts via Bluetooth thermal printers, and deducts the exact grams of powder, dairy, syrups, and packaging materials from live stock in real time.</p>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHT STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Tracked Ingredient SKUs</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Live BOM Deduction</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">&lt; 1s</div>
+      <div class="stat-label">Register Transaction Speed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">ESC/POS</div>
+      <div class="stat-label">BT Thermal Printing</div>
+    </div>
+  </div>
+
+  <div class="case-divider"></div>
+
+  <!-- FEATURES -->
+  <section class="section-block">
+    <div class="block-label">// System Modules</div>
+    <h2 class="block-title">Core Capabilities &amp; Architecture</h2>
+    <div class="features-container">
+
+      <div class="feature-card">
+        <div class="feature-icon">☕</div>
+        <h3 class="feature-name">Touch-Optimized POS Register</h3>
+        <p class="feature-desc">Lightning-fast order entry with visual category filtering (Iced Coffee, Matcha, Cloudy Series, Frappes, Rice Bowls), multi-channel support (Dine-In, Take-Out, Delivery), and automated PWD / Senior Citizen discount calculation.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3 class="feature-name">Raw Stock &amp; SKU Valuation</h3>
+        <p class="feature-desc">Centralized stock tracking for raw ingredients with real-time valuation, package-to-unit cost breakdown (₱/gram, ₱/piece), par level safety thresholds, and direct supplier management.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧪</div>
+        <h3 class="feature-name">Recipe BOM &amp; Margin Costing</h3>
+        <p class="feature-desc">Interactive Bill of Materials builder mapping raw ingredients to menu products. Automatically computes live Cost of Goods Sold (COGS) and gross profit margins (e.g. 67.8% margin) per recipe and drink modifier.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <h3 class="feature-name">Par Level &amp; Low-Stock Warnings</h3>
+        <p class="feature-desc">Automated threshold warnings that flag critical inventory levels across all connected terminals before ingredients run out during peak hours.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-name">Sales &amp; Revenue Intelligence</h3>
+        <p class="feature-desc">Live financial dashboards displaying gross revenue, hourly sales velocity curves, average raw ingredient costs per order, and one-click CSV report exports.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖨️</div>
+        <h3 class="feature-name">Hardware &amp; Thermal Printing</h3>
+        <p class="feature-desc">Direct Web Bluetooth integration for 58mm/80mm ESC/POS thermal receipt printers, cash drawer kick triggers, and shift reconciliation audit trails.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="case-divider"></div>
+
+  <!-- SCREENSHOT GALLERY -->
+  <section class="section-block">
+    <div class="block-label">// Visual Showcase</div>
+    <h2 class="block-title">Application Screenshots</h2>
+    <p class="block-text">Click on any screenshot to view the high-resolution interface breakdown.</p>
+
+    <div class="gallery-grid">
+
+      <!-- Gallery Item 1 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Sipspot IMS (POS Register).png', 'Sipspot POS — Touch Register &amp; Live Cart')">
+          <span class="gallery-badge">POS Terminal</span>
+          <img src="../assets/images/projects/Sipspot IMS (POS Register).png" alt="Sipspot POS Register Screen">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Live POS Register</h3>
+          <p class="gallery-desc">Touch-friendly ordering terminal with quick category filtering, customer table assigner, promo discount toggles, and instant order cart.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 2 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Sipspot IMS (Inventory).png', 'Sipspot IMS — Raw Stock &amp; SKU Valuation')">
+          <span class="gallery-badge">Inventory Control</span>
+          <img src="../assets/images/projects/Sipspot IMS (Inventory).png" alt="Sipspot Inventory Screen">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Stock Valuation &amp; Par Levels</h3>
+          <p class="gallery-desc">Comprehensive raw ingredient table displaying real-time stock weights, unit pricing formulas, total inventory valuation, and supplier links.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 3 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Sipspot IMS (Recipes).png', 'Sipspot IMS — Recipe BOM &amp; Costing Matrix')">
+          <span class="gallery-badge">BOM &amp; Costing</span>
+          <img src="../assets/images/projects/Sipspot IMS (Recipes).png" alt="Sipspot Recipes Screen">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Recipe BOM &amp; Modifiers</h3>
+          <p class="gallery-desc">Bill of Materials configuration mapping ingredient quantities to size variants and modifiers with live COGS calculation and profit margin percentages.</p>
+        </div>
+      </div>
+
+      <!-- Gallery Item 4 -->
+      <div class="gallery-card">
+        <div class="gallery-thumb-wrap" onclick="openLightbox('../assets/images/projects/Sipspot IMS (Stats).png', 'Sipspot IMS — Real-Time Sales &amp; Revenue Analytics')">
+          <span class="gallery-badge">Financial Analytics</span>
+          <img src="../assets/images/projects/Sipspot IMS (Stats).png" alt="Sipspot Stats Screen">
+          <span class="gallery-zoom-hint">🔍 Expand</span>
+        </div>
+        <div class="gallery-body">
+          <h3 class="gallery-title">Sales &amp; Revenue Reports</h3>
+          <p class="gallery-desc">Executive dashboard with real-time gross revenue tracking, profit margin graphs, food cost COGS metrics, and hourly sales curve analysis.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="case-divider"></div>
+
+  <!-- TECH STACK -->
+  <section class="section-block">
+    <div class="block-label">// Engineering</div>
+    <h2 class="block-title">Technology Stack</h2>
+    <div class="tech-table-wrap">
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+            <th>Description &amp; Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Frontend Interface</strong></td>
+            <td>HTML5, Modern CSS3, JavaScript (ES6+)</td>
+            <td>Touch-optimized responsive user interface designed for high-throughput counter cashiering.</td>
+          </tr>
+          <tr>
+            <td><strong>Backend Services</strong></td>
+            <td>PHP 8.x / REST API</td>
+            <td>Handles till operations, recipe costing logic, stock transaction logs, and cloud synchronization.</td>
+          </tr>
+          <tr>
+            <td><strong>Database Architecture</strong></td>
+            <td>MySQL</td>
+            <td>Relational database storing multi-table schemas for raw ingredients, recipes, orders, shifts, and transaction logs.</td>
+          </tr>
+          <tr>
+            <td><strong>Hardware Integration</strong></td>
+            <td>Web Bluetooth API &amp; ESC/POS</td>
+            <td>Direct browser-to-printer thermal receipt printing and automated cash drawer kick commands.</td>
+          </tr>
+          <tr>
+            <td><strong>Costing Engine</strong></td>
+            <td>Dynamic BOM Calculator</td>
+            <td>Real-time client/server calculation of drink unit costs and gross profit margins based on live raw ingredient purchase prices.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FOOTER NAV -->
+  <div class="case-nav">
+    <a href="ncip-eap.html" class="case-nav-link">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+      Previous: NCIP-EAP
+    </a>
+    <a href="checkmate-chess.html" class="case-nav-link">
+      Next: Checkmate Chess
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+
+</main>
+
+<!-- Lightbox Modal -->
+<div class="image-lightbox" id="imageLightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightboxDirect()">&times;</button>
+    <img src="" alt="Enlarged Preview" id="lightboxImg" class="lightbox-img">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-brand">JK<span>.</span></div>
+  <div class="foot-meta">© 2025 Japhet Kundiman — All Rights Reserved</div>
+  <div class="available-dot">Available for Work</div>
+</footer>
+
+<script src="../assets/js/script.js"></script>
+<script>
+  function openLightbox(src, caption) {
+    const box = document.getElementById('imageLightbox');
+    const img = document.getElementById('lightboxImg');
+    const cap = document.getElementById('lightboxCaption');
+    if (box && img) {
+      img.src = src;
+      if (cap) cap.textContent = caption || '';
+      box.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeLightbox(e) {
+    if (e.target.id === 'imageLightbox') {
+      closeLightboxDirect();
+    }
+  }
+  function closeLightboxDirect() {
+    const box = document.getElementById('imageLightbox');
+    if (box) {
+      box.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightboxDirect();
+  });
+</script>
+</body>
+</html>

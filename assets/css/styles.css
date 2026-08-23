@@ -420,7 +420,7 @@
 
       /* ── PROJECTS ── */
       #projects { background: var(--ink); }
-      .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--divider); }
+      .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1px; background: var(--divider); }
       .project-item {
         background: var(--ink);
         padding: 2.5rem;
