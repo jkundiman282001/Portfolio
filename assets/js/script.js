@@ -57,7 +57,7 @@ function closeMobileMenu() {
 }
 
 // ── Typed Text ──
-const texts = ["IT Student & Developer", "Full-Stack Developer", "Problem Solver", "Tech Enthusiast"];
+const texts = ["Full-Stack Developer", "AI Engineer"];
 let textIndex = 0, charIndex = 0, isDeleting = false;
 function typeText() {
   const el = document.getElementById('typed-text');
